@@ -25,7 +25,7 @@ public class NuevaSolicitudActivity extends AppCompatActivity {
     Spinner spnServicio, spnComuna;
     Button btnPublicar;
     TextView txtComuna, txtCategoria, txtEmail;
-    AsyncHttpClient cliente;
+    AsyncHttpClient cliente1, cliente2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,9 +40,11 @@ public class NuevaSolicitudActivity extends AppCompatActivity {
         btnPublicar = (Button) findViewById(R.id.btnPublicar);
         txtCategoria = (TextView) findViewById(R.id.txtCategoria);
         txtComuna = (TextView) findViewById(R.id.txtComuna);
+        cliente1 = new AsyncHttpClient();
+        cliente2 = new AsyncHttpClient();
 
-        //llenarSpinnerComuna();
-        //llenarSpinnerServicio();
+        llenarSpinnerComuna();
+        llenarSpinnerServicio();
         //recibirDatos();
 
 
@@ -88,7 +90,7 @@ public class NuevaSolicitudActivity extends AppCompatActivity {
 
         //Ruta Diego
         //String url = "http://192.168.1.98/ServiScope/listar_comunas.php";
-        cliente.post(url, new AsyncHttpResponseHandler() {
+        cliente1.post(url, new AsyncHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 if(statusCode==200){
@@ -127,7 +129,7 @@ public class NuevaSolicitudActivity extends AppCompatActivity {
 
         //Ruta Diego
         //String url = "http://192.168.1.98/ServiScope/listar_servicios.php";
-        cliente.post(url, new AsyncHttpResponseHandler() {
+        cliente2.post(url, new AsyncHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 if(statusCode==200){

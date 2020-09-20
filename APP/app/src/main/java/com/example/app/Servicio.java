@@ -41,8 +41,6 @@ public class Servicio {
 
     @Override
     public String toString() {
-        return nombre + '\'' +
-                ", descripcion='" + descripcion + '\'' +
-                '}';
+        return nombre ;
     }
 }
