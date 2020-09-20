@@ -41,10 +41,11 @@ public class MainActivity extends AppCompatActivity {
         btnAgregar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               //Seba ruta
+                //Seba ruta
                 ejecutarServicio("http://192.168.64.2/ServiScope/insertar.php");
-               //Diego ruta
-                //ejecutarServicio("http://127.0.0.1/ServiScope/insertar.php");
+
+                //Diego ruta
+                //ejecutarServicio("http://192.168.1.98/ServiScope/insertar.php");
             }
         });
 
@@ -72,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
 
             }
 
-    }){
+        }){
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> parametros=new HashMap<String, String>();

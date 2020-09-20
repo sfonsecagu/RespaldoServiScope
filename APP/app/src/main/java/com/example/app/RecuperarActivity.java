@@ -87,10 +87,10 @@ public class RecuperarActivity extends AppCompatActivity {
                 rut=edtRut.getText().toString();
                 if(!rut.isEmpty()){
                     //Ruta Seba
-                   buscarUsuario("http://192.168.64.2/ServiScope/recuperar_contrasena.php?rut="+edtRut.getText()+"");
+                    buscarUsuario("http://192.168.64.2/ServiScope/recuperar_contrasena.php?rut="+edtRut.getText()+"");
 
                     //Ruta Diego
-                    //buscarUsuario("http://192.168.0.11/ServiScope/recuperar_contrasena.php?rut="+edtRut.getText()+"");
+                    //buscarUsuario("http://192.168.1.98/ServiScope/recuperar_contrasena.php?rut="+edtRut.getText()+"");
 
                 }else{
                     Toast.makeText(RecuperarActivity.this,"Favor de completar los datos", Toast.LENGTH_SHORT).show();
@@ -126,7 +126,7 @@ public class RecuperarActivity extends AppCompatActivity {
                             message.setRecipients(Message.RecipientType.TO,InternetAddress.parse(correo));
                             message.setContent("Estimado, <br>" +
                                     "<br>" +
-                                    "A continuación se le hace entrega del código para poder restablecer sus credenciales.<br>" +
+                                    "A continuación, se le hace entrega del código para poder restablecer sus credenciales.<br>" +
                                     "<br>" +
                                     "Usuario: "+correo+"<br>" +
                                     "Código: "+cod_contr+"<br>" +

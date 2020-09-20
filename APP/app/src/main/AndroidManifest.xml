@@ -30,6 +30,7 @@
         <activity android:name=".LoginActivity" />
         <activity android:name=".RecuperarActivity" />
         <activity android:name=".CambioContrasenaActivity"/>
+        <activity android:name=".NuevaSolicitudActivity"/>
     </application>
 
 </manifest>

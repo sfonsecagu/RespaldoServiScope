@@ -86,9 +86,9 @@ public class RegistrarActivity extends AppCompatActivity {
                         validarUsuario("http://192.168.64.2/ServiScope/validar_usuario_existente.php");
 
                         //Ruta Diego
-                        //validarUsuario("http://192.168.0.11/ServiScope/validar_usuario_existente.php");
+                        //validarUsuario("http://192.168.1.98/ServiScope/validar_usuario_existente.php");
 
-                       
+
                     }else {
                         Toast.makeText(RegistrarActivity.this,"Las contraseñas no coinciden", Toast.LENGTH_SHORT).show();
                     }
@@ -142,8 +142,10 @@ public class RegistrarActivity extends AppCompatActivity {
                 }else{
                     //Ruta Seba
                     registroUsuario("http://192.168.64.2/ServiScope/registro_usuario.php");
+
                     //Ruta Diego
-                    //registroUsuario("http://192.168.0.11/ServiScope/registro_usuario.php");
+                    //registroUsuario("http://192.168.1.98/ServiScope/registro_usuario.php");
+
                     Intent intent = new Intent(getApplicationContext(), RegistrarDosActivity.class);
                     startActivity(intent);
                     finish();
@@ -151,7 +153,7 @@ public class RegistrarActivity extends AppCompatActivity {
                     i.putExtra("nombre",nombres);
                     i.putExtra("email",email);
                     startActivity(i);
-                         }
+                }
 
             }
         }, new Response.ErrorListener() {
