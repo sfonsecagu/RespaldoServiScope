@@ -139,7 +139,28 @@
                     android:visibility="visible" />
 
                 <TextView
+                    android:id="@+id/txtCategoria2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="TextView"
+                    android:visibility="visible" />
+
+                <TextView
                     android:id="@+id/txtComuna"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="TextView"
+                    android:visibility="visible" />
+
+                <TextView
+                    android:id="@+id/txtComuna2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="TextView"
+                    android:visibility="visible" />
+
+                <TextView
+                    android:id="@+id/txtEmail2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="TextView"

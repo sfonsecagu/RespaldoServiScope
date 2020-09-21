@@ -193,8 +193,6 @@ public class RegistrarDosActivity extends AppCompatActivity {
         }
     }
 
-
-
     private void recibirDatos() {
         Bundle u = getIntent().getExtras();
         String d1 = u.getString("nombre");
@@ -205,8 +203,6 @@ public class RegistrarDosActivity extends AppCompatActivity {
         txtEmail.setText(d2);
 
     }
-
-
 
 
     private void buscarComuna(String URL){

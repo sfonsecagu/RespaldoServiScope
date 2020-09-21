@@ -102,6 +102,12 @@ public class LoginActivity extends AppCompatActivity {
                     Intent intent = new Intent(getApplicationContext(), NuevaSolicitudActivity.class);
                     startActivity(intent);
                     finish();
+
+                    Intent i = new Intent(LoginActivity.this, NuevaSolicitudActivity.class);
+                    i.putExtra("email",email);
+                    startActivity(i);
+
+
                 } else {
                     Toast.makeText(LoginActivity.this, "Usuario o contraseña incorrecto, reintente", Toast.LENGTH_SHORT).show();
                 }
