@@ -61,6 +61,7 @@ public class CambioContrasenaActivity extends AppCompatActivity {
                         validarUsuario("http://192.168.64.2/ServiScope/validar_codigo.php");
                         //Ruta Diego
                         //validarUsuario("http://192.168.1.98/ServiScope/validar_codigo.php");
+                        //validarUsuario("http://192.168.0.5/ServiScope/validar_codigo.php");
                     }else {
                         Toast.makeText(CambioContrasenaActivity.this,"Las contraseñas no coinciden", Toast.LENGTH_SHORT).show();
                     }
@@ -95,6 +96,8 @@ public class CambioContrasenaActivity extends AppCompatActivity {
 
                     //Ruta Diego
                     //cambiarContrasena("http://192.168.1.98/ServiScope/cambiar_contrasena.php");
+                    //cambiarContrasena("http//192.168.0.5/ServiScope/cambiar_constrasena.php");
+
                 }else{
                     Toast.makeText(CambioContrasenaActivity.this,"Código erróneo", Toast.LENGTH_SHORT).show();
 

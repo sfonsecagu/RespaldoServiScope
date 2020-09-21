@@ -87,6 +87,7 @@ public class RegistrarActivity extends AppCompatActivity {
 
                         //Ruta Diego
                         //validarUsuario("http://192.168.1.98/ServiScope/validar_usuario_existente.php");
+                        //validarUsuario("http://192.168.0.5/ServiScope/validar_usuario_existente.php");
 
 
                     }else {
@@ -145,6 +146,7 @@ public class RegistrarActivity extends AppCompatActivity {
 
                     //Ruta Diego
                     //registroUsuario("http://192.168.1.98/ServiScope/registro_usuario.php");
+                    //registroUsuario("http://192.168.0.5/ServiScope/registro_usuario.php");
 
                     Intent intent = new Intent(getApplicationContext(), RegistrarDosActivity.class);
                     startActivity(intent);

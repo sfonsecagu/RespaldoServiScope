@@ -9,6 +9,10 @@ $id_comuna=$_POST['id_comuna'];
 $direccion=$_POST['direccion'];
 $id_servicio=$_POST['id_servicio'];
 
+$titulo=utf8_decode($titulo);
+$descripcion=utf8_decode($descripcion);
+$direccion=utf8_decode($direccion);
+
 //$id_usuario=85;
 //$titulo='Prueba';
 //$descripcion='DePrueba';

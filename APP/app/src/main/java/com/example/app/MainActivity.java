@@ -46,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
 
                 //Diego ruta
                 //ejecutarServicio("http://192.168.1.98/ServiScope/insertar.php");
+                //ejecutarServicio("http://192.168.0.5/ServiScope/insertar.php");
             }
         });
 

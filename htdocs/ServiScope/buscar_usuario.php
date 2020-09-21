@@ -2,11 +2,12 @@
 
 include 'conexion.php';
 
-$usu_rut=$_GET['nombre'];
-$usu_rut=utf8_decode($usu_rut);
-//$usu_rut="Puente Alto";
+$usu_rut=$_GET['email'];
+//$usu_rut=100;
 
-$consulta=$conexion->prepare(" SELECT * FROM comunas WHERE nombre=? ");
+
+
+$consulta=$conexion->prepare(" SELECT * FROM usuario WHERE email=? ");
 $consulta->bind_param('s', $usu_rut);
 $consulta->execute();
 $resultado = $consulta->get_result();
@@ -16,6 +17,6 @@ while($fila=$resultado->fetch_array()){
 }
 
 echo json_encode($usuario);
-
 $resultado->close();
+
  ?>
