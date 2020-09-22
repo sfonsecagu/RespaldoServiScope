@@ -101,12 +101,9 @@ public class LoginActivity extends AppCompatActivity {
                 if (!response.isEmpty()) {
                     guardarPreferencias();
                     Intent intent = new Intent(getApplicationContext(), NuevaSolicitudActivity.class);
+                    intent.putExtra("email",email);
                     startActivity(intent);
                     finish();
-
-                    Intent i = new Intent(LoginActivity.this, NuevaSolicitudActivity.class);
-                    i.putExtra("email",email);
-                    startActivity(i);
 
 
                 } else {

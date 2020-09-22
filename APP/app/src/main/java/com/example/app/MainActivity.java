@@ -1,92 +1,101 @@
 package com.example.app;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.Toast;
+import android.view.MenuItem;
+import android.widget.TextView;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
+import com.example.app.Fragments.MainFragment;
+import com.example.app.Fragments.NuevaSolicitudFragment;
+import com.example.app.Fragments.PersonasFragment;
+import com.google.android.material.navigation.NavigationView;
 
-import java.util.HashMap;
-import java.util.Map;
-
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    EditText edtId, edtNombre, edtCorreo, edtContrasena;
-    Button btnAgregar, btnRegistrar;
+    DrawerLayout drawerLayout;
+    ActionBarDrawerToggle actionBarDrawerToggle;
+    Toolbar toolbar;
+    NavigationView navigationView;
+    TextView txtEmail, correo;
+
+    //Variables para cargar el fragment Principal
+    FragmentManager fragmentManager;
+    FragmentTransaction fragmentTransaction;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        drawerLayout = findViewById(R.id.drawer);
+        navigationView = findViewById(R.id.navigationView);
+        //Establecer evento onclick al navigationview
+        navigationView.setNavigationItemSelectedListener(this);
 
-        edtId=(EditText)findViewById(R.id.edtId);
-        edtNombre=(EditText)findViewById(R.id.edtNombre);
-        edtCorreo=(EditText)findViewById(R.id.edtEmail);
-        edtContrasena=(EditText)findViewById(R.id.edtTelefono);
-        btnAgregar=(Button) findViewById(R.id.btnAgregar);
+        actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.open, R.string.close);
+        drawerLayout.addDrawerListener(actionBarDrawerToggle);
+        actionBarDrawerToggle.setDrawerIndicatorEnabled(true);
+        actionBarDrawerToggle.syncState();
+        //Cargar fragment Principal
+        fragmentManager = getSupportFragmentManager();
+        fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.add(R.id.container, new MainFragment());
+        fragmentTransaction.commit();
 
-        btnRegistrar=(Button) findViewById(R.id.btnRegistrar);
+        txtEmail = (TextView) findViewById(R.id.txtEmail);
+        //recibirDatos();
 
-        btnAgregar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //Seba ruta
-                ejecutarServicio("http://192.168.64.2/ServiScope/insertar.php");
-
-                //Diego ruta
-                //ejecutarServicio("http://192.168.1.98/ServiScope/insertar.php");
-                //ejecutarServicio("http://192.168.0.5/ServiScope/insertar.php");
-            }
-        });
-
-        //Registrar
-        btnRegistrar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(MainActivity.this, LoginActivity.class);
-                startActivity(i);
-            }
-        });
 
     }
 
-    private void ejecutarServicio(String URL){
-        StringRequest stringRequest=new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                Toast.makeText(getApplicationContext(), "Operación Exitosa", Toast.LENGTH_SHORT).show();
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(getApplicationContext(),error.toString(),Toast.LENGTH_SHORT).show();
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+        drawerLayout.closeDrawer(GravityCompat.START);
+        if(menuItem.getItemId() == R.id.home){
+            fragmentManager = getSupportFragmentManager();
+            fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.container, new MainFragment());
+            fragmentTransaction.commit();
+        }
+        if(menuItem.getItemId() == R.id.perfil){
+            fragmentManager = getSupportFragmentManager();
+            fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.container, new PersonasFragment());
+            fragmentTransaction.commit();
+        }
+        if(menuItem.getItemId() == R.id.nueva_solicitud){
+            fragmentManager = getSupportFragmentManager();
+            fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.container, new MainFragment());
+            fragmentTransaction.commit();
+        }
+        if(menuItem.getItemId() == R.id.nueva_solicitud){
+            fragmentManager = getSupportFragmentManager();
+            fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.container, new NuevaSolicitudFragment());
+            fragmentTransaction.commit();
 
-            }
+        }
 
-        }){
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String, String> parametros=new HashMap<String, String>();
-                parametros.put("id", edtId.getText().toString());
-                parametros.put("nombre", edtNombre.getText().toString());
-                parametros.put("correo",edtCorreo.getText().toString());
-                parametros.put("contrasena",edtContrasena.getText().toString());
 
-                return parametros;
-            }
-        };
-        RequestQueue requestQueue=Volley.newRequestQueue(this);
-        requestQueue.add(stringRequest);
+        return false;
+    }
+
+
+    private void recibirDatos() {
+        Bundle u = getIntent().getExtras();
+        String d1 = u.getString("email");
+        txtEmail = (TextView) findViewById(R.id.txtEmail);
+        txtEmail.setText(d1);
+
     }
 }
