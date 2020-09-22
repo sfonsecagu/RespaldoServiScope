@@ -57,7 +57,6 @@ public class LoginActivity extends AppCompatActivity {
 
                     //Ruta Diego
                     //validarUsuario("http://192.168.0.11/ServiScope/validar_usuario.php");
-                    //validarUsuario("http://192.168.0.5/ServiScope/validar_usuario.php");
 
                 } else {
                     Toast.makeText(LoginActivity.this, "Favor de completar los datos", Toast.LENGTH_SHORT).show();

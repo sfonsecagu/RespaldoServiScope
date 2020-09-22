@@ -115,11 +115,7 @@ public class NuevaSolicitudActivity extends AppCompatActivity {
 
                 if (checkBox.isChecked()==true){
                     if(!lacomuna.isEmpty() && !direccion.isEmpty() &&!id_usuario.isEmpty()){
-                       //Ruta seba
                         crearSolicitud("http://192.168.64.2/ServiScope/crear_solicitud.php");
-                        //Ruta diego
-                        //crearSolicitud("http://192.168.0.5/ServiScope/crear_solicitud.php");
-
 
                     }else{
                         Toast.makeText(NuevaSolicitudActivity.this,"Favor complete los datos", Toast.LENGTH_SHORT).show();
@@ -136,21 +132,14 @@ public class NuevaSolicitudActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if(checkBox.isChecked()==true){
                     lacomuna=txtComuna.getText().toString();
-                   //Ruta seba
                     buscarComuna("http://192.168.64.2/ServiScope/buscaRegion.php?nombre="+txtComuna.getText()+"");
-
-                    //Ruta diego
                     //buscarComuna("http://192.168.0.11/ServiScope/buscaRegion.php?nombre="+txtComuna.getText()+"");
-                    //buscarComuna("http://192.168.0.5/ServiScope/buscaRegion.php?nombre="+txtComuna.getText()+"");
 
                     elservicio=txtCategoria.getText().toString();
-                    //Ruta seba
                     buscarServicio("http://192.168.64.2/ServiScope/buscaServicio.php?nombre="+txtCategoria.getText()+"");
-                    buscarUsuario("http://192.168.64.2/ServiScope/buscar_usuario.php?email="+txtEmail.getText()+"");
+                    //buscarComuna("http://192.168.0.11/ServiScope/buscaRegion.php?nombre="+txtComuna.getText()+"");
 
-                    //Ruta Diego
-                    //buscarComuna("http://192.168.0.5/ServiScope/buscaRegion.php?nombre="+txtComuna.getText()+"");
-                    //buscarUsuario("http://192.168.0.5/ServiScope/buscar_usuario.php?email="+txtEmail.getText()+"");
+                    buscarUsuario("http://192.168.64.2/ServiScope/buscar_usuario.php?email="+txtEmail.getText()+"");
 
                 }
             }
@@ -194,14 +183,9 @@ public class NuevaSolicitudActivity extends AppCompatActivity {
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                //Ruta seba
+
                 buscarSolicitud("http://192.168.64.2/ServiScope/buscar_solicitud.php?id_usuario="+txtEmail2.getText()+"");
-
                 actualizarHistorial("http://192.168.64.2/ServiScope/registro_historial.php");
-                //Ruta diego
-                //buscarSolicitud("http://192.168.0.5/ServiScope/buscar_solicitud.php?id_usuario="+txtEmail2.getText()+"");
-                //actualizarHistorial("http://192.168.0.5/ServiScope/registro_historial.php");
-
             }
         },milisegundos);
 }
@@ -216,7 +200,7 @@ public class NuevaSolicitudActivity extends AppCompatActivity {
                         jsonObject = response.getJSONObject(i);
                         id_solicitud = jsonObject.getString("id_solicitud");
 
-                        actualizarHistorial("http://192.168.64.2/ServiScope/registro_historial.php");
+                        esperayejecuta2(espera);
 
                     } catch (JSONException e) {
                         Toast.makeText(NuevaSolicitudActivity.this,"Error 1", Toast.LENGTH_SHORT).show();
@@ -236,7 +220,6 @@ public class NuevaSolicitudActivity extends AppCompatActivity {
         requestQueue.add(jsonArrayRequest);
     }
 
-
     private void esperayejecuta2(int milisegundos){
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
@@ -244,14 +227,9 @@ public class NuevaSolicitudActivity extends AppCompatActivity {
             public void run() {
 
                 actualizarHistorial("http://192.168.64.2/ServiScope/registro_historial.php");
-
-                //Ruta diego
-                //actualizarHistorial("http://192.168.0.5/ServiScope/registro_historial.php");
-
             }
         },milisegundos);
     }
-
 
     public void actualizarHistorial(String URL){
         StringRequest stringRequest=new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
@@ -287,8 +265,6 @@ public class NuevaSolicitudActivity extends AppCompatActivity {
 
         //Ruta Diego
         //String url = "http://192.168.1.98/ServiScope/listar_comunas.php";
-        //String url = "http://192.168.0.5/ServiScope/listar_comunas.php";
-
         cliente1.post(url, new AsyncHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
@@ -328,8 +304,6 @@ public class NuevaSolicitudActivity extends AppCompatActivity {
 
         //Ruta Diego
         //String url = "http://192.168.1.98/ServiScope/listar_servicios.php";
-        //String url = "http://192.168.0.5/ServiScope/listar_servicios.php";
-
         cliente2.post(url, new AsyncHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {

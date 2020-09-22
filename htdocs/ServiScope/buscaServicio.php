@@ -2,8 +2,8 @@
 
 include 'conexion.php';
 
+
 $usu_rut=$_GET['nombre'];
-$usu_rut=utf8_decode($usu_rut);
 //$usu_rut="Puente Alto";
 
 $consulta=$conexion->prepare(" SELECT * FROM servicio WHERE nombre=? ");
