@@ -89,6 +89,7 @@ public class RegistrarDosActivity extends AppCompatActivity {
                     if(!lacomuna.isEmpty() && !direccion.isEmpty()){
                         completarUsuario("http://192.168.64.2/ServiScope/completar_usuario.php");
                         //completarUsuario("http://192.168.0.11/ServiScope/completar_usuario.php");
+                        //completarUsuario("http://192.168.0.5/ServiScope/completar_usuario.php");
                     }else{
                         Toast.makeText(RegistrarDosActivity.this,"Favor complete los datos", Toast.LENGTH_SHORT).show();
                     }
@@ -107,6 +108,7 @@ public class RegistrarDosActivity extends AppCompatActivity {
                     lacomuna=txtComuna.getText().toString();
                     buscarComuna("http://192.168.64.2/ServiScope/buscaRegion.php?nombre="+txtComuna.getText()+"");
                     //buscarComuna("http://192.168.0.11/ServiScope/buscaRegion.php?nombre="+txtComuna.getText()+"");
+                    //buscarComuna("http://192.168.0.5/ServiScope/buscaRegion.php?nombre="+txtComuna.getText()+"");
                 }
             }
         });
@@ -122,6 +124,7 @@ public class RegistrarDosActivity extends AppCompatActivity {
 
         //Ruta Diego
         //String url = "http://192.168.0.11/ServiScope/listar_regiones.php";
+        //String url = "http://192.168.0.5/ServiScope/listar_regiones.php";
         cliente.post(url, new AsyncHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
@@ -160,6 +163,7 @@ public class RegistrarDosActivity extends AppCompatActivity {
         String url = "http://192.168.64.2/ServiScope/listar_comunas.php";
         //Ruta Diego
         //String url = "http://192.168.0.11/ServiScope/listar_comunas.php";
+        //String url = "http://192.168.0.5/ServiScope/listar_comunas.php";
         cliente.post(url, new AsyncHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {

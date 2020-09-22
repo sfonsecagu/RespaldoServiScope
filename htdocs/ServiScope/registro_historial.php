@@ -5,6 +5,7 @@ include 'conexion.php';
 $id_solicitud=$_POST['id_solicitud'];
 $id_usuario=$_POST['id_usuario'];
 $titulo=$_POST['titulo'];
+$titulo=utf8_decode($titulo);
 
 //$id_solicitud=1083;
 //$id_usuario=85;
