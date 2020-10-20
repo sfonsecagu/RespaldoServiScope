@@ -91,7 +91,7 @@ public class RecuperarActivity extends AppCompatActivity {
 
                     //Ruta Diego
                     //buscarUsuario("http://192.168.1.98/ServiScope/recuperar_contrasena.php?rut="+edtRut.getText()+"");
-                    //buscarUsuario("http://192.168.0.5/ServiScope/recuperar_contrasena.php?rut="+edtRut.getText()+"");
+
 
                 }else{
                     Toast.makeText(RecuperarActivity.this,"Favor de completar los datos", Toast.LENGTH_SHORT).show();
@@ -147,6 +147,7 @@ public class RecuperarActivity extends AppCompatActivity {
 
                     }catch (Exception e){
                         e.printStackTrace();
+                        Toast.makeText(RecuperarActivity.this,"No es posible envíar el correo", Toast.LENGTH_SHORT).show();
                     }
                 }else{
                     Toast.makeText(RecuperarActivity.this,"Favor de consultar rut", Toast.LENGTH_SHORT).show();

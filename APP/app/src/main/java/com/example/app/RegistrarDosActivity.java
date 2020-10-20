@@ -1,7 +1,17 @@
 package com.example.app;
 
+import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
+import android.text.SpannableString;
+import android.text.style.UnderlineSpan;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -20,6 +30,8 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.app.Entidades.Comuna;
+import com.example.app.Entidades.Region;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 
@@ -27,17 +39,23 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import cz.msebera.android.httpclient.Header;
 
 public class RegistrarDosActivity extends AppCompatActivity {
 
     EditText edtDireccion;
-    TextView txtNombre, txtRegion, txtComuna, txtEmail;
+    TextView txtNombre, txtRegion, txtComuna, txtEmail, txtGPS;
     Spinner spnRegion, spnComuna;
     AsyncHttpClient cliente;
     Button btnRegistrar;
@@ -59,8 +77,11 @@ public class RegistrarDosActivity extends AppCompatActivity {
         txtComuna = (TextView) findViewById(R.id.txtComuna);
         txtRegion = (TextView) findViewById(R.id.txtRegion);
         txtEmail = (TextView) findViewById(R.id.txtEmail);
+        txtGPS = (TextView) findViewById(R.id.txtGPS);
         checkBox = (CheckBox) findViewById(R.id.checkBox);
         cliente = new AsyncHttpClient();
+
+
         llenarSpinnerRegion();
         llenarSpinnerComuna();
 
@@ -87,9 +108,12 @@ public class RegistrarDosActivity extends AppCompatActivity {
                 email = txtEmail.getText().toString();
                 if (checkBox.isChecked()==true){
                     if(!lacomuna.isEmpty() && !direccion.isEmpty()){
+                        //Ruta seba
                         completarUsuario("http://192.168.64.2/ServiScope/completar_usuario.php");
-                        //completarUsuario("http://192.168.0.11/ServiScope/completar_usuario.php");
-                        //completarUsuario("http://192.168.0.5/ServiScope/completar_usuario.php");
+
+                        //Ruta diego
+                        //completarUsuario("http://192.168.1.98/ServiScope/completar_usuario.php");
+
                     }else{
                         Toast.makeText(RegistrarDosActivity.this,"Favor complete los datos", Toast.LENGTH_SHORT).show();
                     }
@@ -106,12 +130,73 @@ public class RegistrarDosActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if(checkBox.isChecked()==true){
                     lacomuna=txtComuna.getText().toString();
-                    buscarComuna("http://192.168.64.2/ServiScope/buscaRegion.php?nombre="+txtComuna.getText()+"");
-                    //buscarComuna("http://192.168.0.11/ServiScope/buscaRegion.php?nombre="+txtComuna.getText()+"");
-                    //buscarComuna("http://192.168.0.5/ServiScope/buscaRegion.php?nombre="+txtComuna.getText()+"");
+
+                    //Ruta seba
+                    buscarComuna("http://192.168.64.2/ServiScope/buscaComuna.php?nombre="+txtComuna.getText()+"");
+
+
+                    //Ruta diego
+                    //buscarComuna("http://192.168.1.98/ServiScope/buscaRegion.php?nombre="+txtComuna.getText()+"");
+
                 }
             }
         });
+
+
+        //Permisos Ubicación GPS
+        {
+            SpannableString content = new SpannableString(txtGPS.getText());
+            content.setSpan(new UnderlineSpan(), 0, txtGPS.length(), 0);
+            txtGPS.setText(content);
+            txtGPS.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    LocationManager locationManager = (LocationManager) RegistrarDosActivity.this.getSystemService(Context.LOCATION_SERVICE);
+
+                    LocationListener locationListener = new LocationListener() {
+                        @Override
+                        public void onLocationChanged(@NonNull Location location) {
+                            //edtUbicacion.setText("" + location.getLatitude() + " " + location.getLongitude());
+
+                            Geocoder geocoder = new Geocoder(getApplicationContext(), Locale.getDefault());
+                            try {
+                                List<Address> direccion = geocoder.getFromLocation(location.getLatitude(),location.getLongitude(),1);
+                                edtDireccion.setText(direccion.get(0).getAddressLine(0));
+
+
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+
+
+                        }
+
+                        public void onStatusChanged(String provider, int status, Bundle extras) {
+                        }
+
+                        public void onProviderEnabled(String provider) {
+                        }
+
+                        public void onProviderDisabled(String provider) {
+                            Toast.makeText(RegistrarDosActivity.this, "GPS no disponible, ingresar ubicación manual", Toast.LENGTH_SHORT).show();
+                            edtDireccion.setEnabled(true);
+                        }
+                    };
+                    int permissionCheck = ContextCompat.checkSelfPermission(RegistrarDosActivity.this, Manifest.permission.ACCESS_FINE_LOCATION);
+                    locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
+                }
+            });
+
+            int permissionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION);
+            if (permissionCheck == PackageManager.PERMISSION_DENIED) {
+                if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_FINE_LOCATION)) {
+
+                } else {
+                    ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+                }
+
+            }
+        }
 
 
 
@@ -122,9 +207,10 @@ public class RegistrarDosActivity extends AppCompatActivity {
         //Ruta Seba
         String url = "http://192.168.64.2/ServiScope/listar_regiones.php";
 
+
         //Ruta Diego
-        //String url = "http://192.168.0.11/ServiScope/listar_regiones.php";
-        //String url = "http://192.168.0.5/ServiScope/listar_regiones.php";
+        //String url = "http://192.168.1.98/ServiScope/listar_regiones.php";
+
         cliente.post(url, new AsyncHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
@@ -161,9 +247,11 @@ public class RegistrarDosActivity extends AppCompatActivity {
     private void llenarSpinnerComuna(){
         //Ruta Seba
         String url = "http://192.168.64.2/ServiScope/listar_comunas.php";
+
+
         //Ruta Diego
-        //String url = "http://192.168.0.11/ServiScope/listar_comunas.php";
-        //String url = "http://192.168.0.5/ServiScope/listar_comunas.php";
+        //String url = "http://192.168.1.98/ServiScope/listar_comunas.php";
+
         cliente.post(url, new AsyncHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
@@ -220,7 +308,7 @@ public class RegistrarDosActivity extends AppCompatActivity {
                         text = jsonObject.getString("nombre");
                         txtRegion.setText(jsonObject.getString("id_comuna"));
                     } catch (JSONException e) {
-                        Toast.makeText(RegistrarDosActivity.this,"No se encuentran registros con su rut", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(RegistrarDosActivity.this,"Error", Toast.LENGTH_SHORT).show();
                     }
                 }
             }
@@ -239,7 +327,7 @@ public class RegistrarDosActivity extends AppCompatActivity {
         StringRequest stringRequest=new StringRequest(Request.Method.POST, URL, new Response.Listener<String>(){
             public void onResponse(String response) {
                 Toast.makeText(getApplicationContext(), "Registro completo", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
                 startActivity(intent);
                 finish();
             }

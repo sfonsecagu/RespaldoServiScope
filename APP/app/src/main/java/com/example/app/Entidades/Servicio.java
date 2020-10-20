@@ -1,4 +1,4 @@
-package com.example.app;
+package com.example.app.Entidades;
 
 public class Servicio {
     private int id_servicio;

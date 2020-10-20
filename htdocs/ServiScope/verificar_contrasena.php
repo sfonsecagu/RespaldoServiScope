@@ -6,12 +6,15 @@ include 'conexion.php';
 $usu_email=$_POST['email'];
 $usu_contrasena=$_POST['contrasena'];
 
-//$usu_email='encriptado.com';
-//$usu_contrasena='Contrasena';
-//echo MD5($usu_contrasena);
+//$usu_email='email';
+//$usu_contrasena='contrasena';
+
+//$usu_email='s.fonsecagutierrez@gmail.com';
+//$usu_rut=6713;
+//$usu_telefono=4926;
 
 
-$consulta=$conexion->prepare(" SELECT * FROM usuario WHERE email=? AND contrasena=MD5(?) AND eliminado =0 AND tipo_usuario !=4");
+$consulta=$conexion->prepare(" SELECT * FROM usuario WHERE email=? and contrasena = MD5(?) ");
 $consulta->bind_param('ss', $usu_email, $usu_contrasena);
 $consulta->execute();
 

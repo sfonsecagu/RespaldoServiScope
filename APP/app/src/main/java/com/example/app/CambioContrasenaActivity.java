@@ -34,7 +34,7 @@ public class CambioContrasenaActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_cambiocontrasena);
+        setContentView(R.layout.activity_recuperarcontrasena);
         edtCodigo=(EditText)findViewById(R.id.edtCodigo);
         edtContrasena=(EditText)findViewById(R.id.edtContrasena);
         edtContrasena2=(EditText)findViewById(R.id.edtContrasena2);
@@ -42,7 +42,7 @@ public class CambioContrasenaActivity extends AppCompatActivity {
 
         recibirDatos();
 
-        //Limitar a 9 caracteres el código
+        //Limitar a 4 caracteres el código
         EditText resrut = (EditText) findViewById(R.id.edtCodigo);
         InputFilter[] filters = new InputFilter[1];
         filters[0] = new InputFilter.LengthFilter(4);
@@ -59,9 +59,10 @@ public class CambioContrasenaActivity extends AppCompatActivity {
                     if (contrasena.equals(contrasena2)) {
                         //Ruta seba
                         validarUsuario("http://192.168.64.2/ServiScope/validar_codigo.php");
+
+
                         //Ruta Diego
                         //validarUsuario("http://192.168.1.98/ServiScope/validar_codigo.php");
-                        //validarUsuario("http://192.168.0.5/ServiScope/validar_codigo.php");
                     }else {
                         Toast.makeText(CambioContrasenaActivity.this,"Las contraseñas no coinciden", Toast.LENGTH_SHORT).show();
                     }
@@ -94,9 +95,9 @@ public class CambioContrasenaActivity extends AppCompatActivity {
                     //Ruta seba
                     cambiarContrasena("http://192.168.64.2/ServiScope/cambiar_contrasena.php");
 
+
                     //Ruta Diego
                     //cambiarContrasena("http://192.168.1.98/ServiScope/cambiar_contrasena.php");
-                    //cambiarContrasena("http//192.168.0.5/ServiScope/cambiar_constrasena.php");
 
                 }else{
                     Toast.makeText(CambioContrasenaActivity.this,"Código erróneo", Toast.LENGTH_SHORT).show();

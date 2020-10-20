@@ -21,6 +21,8 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.app.Entidades.Comuna;
+import com.example.app.Entidades.Servicio;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 
@@ -39,7 +41,7 @@ public class NuevaSolicitudActivity extends AppCompatActivity {
 
     EditText edtTitulo, edtDescripcion, edtDireccion;
     Spinner spnServicio, spnComuna;
-    Button btnPublicar;
+    Button btnPublicar, btnInicio;
     TextView txtComuna, txtCategoria, txtEmail, txtComuna2, txtCategoria2, txtEmail2;
     CheckBox checkBox;
     AsyncHttpClient cliente1, cliente2;
@@ -59,6 +61,7 @@ public class NuevaSolicitudActivity extends AppCompatActivity {
         spnServicio = (Spinner) findViewById(R.id.spnServicio);
         spnComuna = (Spinner) findViewById(R.id.spnComuna);
         btnPublicar = (Button) findViewById(R.id.btnPublicar);
+        btnInicio = (Button) findViewById(R.id.btnInicio);
         txtCategoria = (TextView) findViewById(R.id.txtCategoria);
         txtCategoria2 = (TextView) findViewById(R.id.txtCategoria2);
         txtComuna = (TextView) findViewById(R.id.txtComuna);
@@ -68,7 +71,6 @@ public class NuevaSolicitudActivity extends AppCompatActivity {
         checkBox = (CheckBox) findViewById(R.id.checkBox);
         cliente1 = new AsyncHttpClient();
         cliente2 = new AsyncHttpClient();
-
 
 
         llenarSpinnerComuna();
@@ -101,6 +103,15 @@ public class NuevaSolicitudActivity extends AppCompatActivity {
 
             }
         });
+        btnInicio.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
+                intent.putExtra("email",email);
+                startActivity(intent);
+                finish();
+            }
+        });
 
         btnPublicar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -117,8 +128,10 @@ public class NuevaSolicitudActivity extends AppCompatActivity {
                     if(!lacomuna.isEmpty() && !direccion.isEmpty() &&!id_usuario.isEmpty()){
                        //Ruta seba
                         crearSolicitud("http://192.168.64.2/ServiScope/crear_solicitud.php");
+
+
                         //Ruta diego
-                        //crearSolicitud("http://192.168.0.5/ServiScope/crear_solicitud.php");
+                        //crearSolicitud("http://192.168.1.98/ServiScope/crear_solicitud.php");
 
 
                     }else{
@@ -136,21 +149,18 @@ public class NuevaSolicitudActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if(checkBox.isChecked()==true){
                     lacomuna=txtComuna.getText().toString();
+                    elservicio=txtCategoria.getText().toString();
                    //Ruta seba
                     buscarComuna("http://192.168.64.2/ServiScope/buscaRegion.php?nombre="+txtComuna.getText()+"");
-
-                    //Ruta diego
-                    //buscarComuna("http://192.168.0.11/ServiScope/buscaRegion.php?nombre="+txtComuna.getText()+"");
-                    //buscarComuna("http://192.168.0.5/ServiScope/buscaRegion.php?nombre="+txtComuna.getText()+"");
-
-                    elservicio=txtCategoria.getText().toString();
-                    //Ruta seba
                     buscarServicio("http://192.168.64.2/ServiScope/buscaServicio.php?nombre="+txtCategoria.getText()+"");
                     buscarUsuario("http://192.168.64.2/ServiScope/buscar_usuario.php?email="+txtEmail.getText()+"");
 
+
+                    //Ruta diego
+                    //buscarComuna("http://192.168.1.98/ServiScope/buscaRegion.php?nombre="+txtComuna.getText()+"");
                     //Ruta Diego
-                    //buscarComuna("http://192.168.0.5/ServiScope/buscaRegion.php?nombre="+txtComuna.getText()+"");
-                    //buscarUsuario("http://192.168.0.5/ServiScope/buscar_usuario.php?email="+txtEmail.getText()+"");
+                    //buscarComuna("http://192.168.1.98/ServiScope/buscaRegion.php?nombre="+txtComuna.getText()+"");
+                    //buscarUsuario("http://192.168.1.98/ServiScope/buscar_usuario.php?email="+txtEmail.getText()+"");
 
                 }
             }
@@ -197,10 +207,9 @@ public class NuevaSolicitudActivity extends AppCompatActivity {
                 //Ruta seba
                 buscarSolicitud("http://192.168.64.2/ServiScope/buscar_solicitud.php?id_usuario="+txtEmail2.getText()+"");
 
-                actualizarHistorial("http://192.168.64.2/ServiScope/registro_historial.php");
                 //Ruta diego
-                //buscarSolicitud("http://192.168.0.5/ServiScope/buscar_solicitud.php?id_usuario="+txtEmail2.getText()+"");
-                //actualizarHistorial("http://192.168.0.5/ServiScope/registro_historial.php");
+                //buscarSolicitud("http://192.168.1.98/ServiScope/buscar_solicitud.php?id_usuario="+txtEmail2.getText()+"");
+                //actualizarHistorial("http://192.168.1,98/ServiScope/registro_historial.php");
 
             }
         },milisegundos);
@@ -216,7 +225,11 @@ public class NuevaSolicitudActivity extends AppCompatActivity {
                         jsonObject = response.getJSONObject(i);
                         id_solicitud = jsonObject.getString("id_solicitud");
 
+                        //Ruta seba
                         actualizarHistorial("http://192.168.64.2/ServiScope/registro_historial.php");
+
+                        //Ruta diego
+                        //actualizarHistorial("http://192.168.1,98/ServiScope/registro_historial.php");
 
                     } catch (JSONException e) {
                         Toast.makeText(NuevaSolicitudActivity.this,"Error 1", Toast.LENGTH_SHORT).show();
@@ -237,34 +250,20 @@ public class NuevaSolicitudActivity extends AppCompatActivity {
     }
 
 
-    private void esperayejecuta2(int milisegundos){
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-
-                actualizarHistorial("http://192.168.64.2/ServiScope/registro_historial.php");
-
-                //Ruta diego
-                //actualizarHistorial("http://192.168.0.5/ServiScope/registro_historial.php");
-
-            }
-        },milisegundos);
-    }
-
-
     public void actualizarHistorial(String URL){
         StringRequest stringRequest=new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
             public void onResponse(String response) {
                 Toast.makeText(getApplicationContext(), "Su solicitud "+id_solicitud+" ha sido creada", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                email = txtEmail.getText().toString();
+                Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
+                intent.putExtra("email",email);
                 startActivity(intent);
                 finish();
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-
+                Toast.makeText(getApplicationContext(),error.toString(),Toast.LENGTH_SHORT).show();
             }
         }){
             @Override
@@ -285,9 +284,10 @@ public class NuevaSolicitudActivity extends AppCompatActivity {
         //Ruta Seba
         String url = "http://192.168.64.2/ServiScope/listar_comunas.php";
 
+
         //Ruta Diego
         //String url = "http://192.168.1.98/ServiScope/listar_comunas.php";
-        //String url = "http://192.168.0.5/ServiScope/listar_comunas.php";
+
 
         cliente1.post(url, new AsyncHttpResponseHandler() {
             @Override
@@ -326,9 +326,9 @@ public class NuevaSolicitudActivity extends AppCompatActivity {
         //Ruta Seba
         String url = "http://192.168.64.2/ServiScope/listar_servicios.php";
 
+
         //Ruta Diego
         //String url = "http://192.168.1.98/ServiScope/listar_servicios.php";
-        //String url = "http://192.168.0.5/ServiScope/listar_servicios.php";
 
         cliente2.post(url, new AsyncHttpResponseHandler() {
             @Override
@@ -365,8 +365,9 @@ public class NuevaSolicitudActivity extends AppCompatActivity {
 
     private void recibirDatos() {
         Bundle u = getIntent().getExtras();
-        String d1 = u.getString("email");
+        String d1 = u.getString("correo");
         txtEmail = (TextView) findViewById(R.id.txtEmail);
+        email = d1;
         txtEmail.setText(d1);
 
     }

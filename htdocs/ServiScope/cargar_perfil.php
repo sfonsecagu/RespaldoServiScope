@@ -2,13 +2,12 @@
 
 include 'conexion.php';
 
-$usu_rut=$_GET['email'];
-//$usu_rut=100;
-
-
+$d=mt_rand(1000,9999);
+$usu_email=$_GET['email'];
+//$usu_rut=198562440;
 
 $consulta=$conexion->prepare(" SELECT * FROM usuario WHERE email=? ");
-$consulta->bind_param('s', $usu_rut);
+$consulta->bind_param('s', $usu_email);
 $consulta->execute();
 $resultado = $consulta->get_result();
 

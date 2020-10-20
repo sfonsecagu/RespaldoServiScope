@@ -55,9 +55,10 @@ public class LoginActivity extends AppCompatActivity {
                     //Ruta Seba
                     validarUsuario("http://192.168.64.2/ServiScope/validar_usuario.php");
 
+
                     //Ruta Diego
-                    //validarUsuario("http://192.168.0.11/ServiScope/validar_usuario.php");
-                    //validarUsuario("http://192.168.0.5/ServiScope/validar_usuario.php");
+                    //validarUsuario("http://192.168.1.98/ServiScope/validar_usuario.php");
+
 
                 } else {
                     Toast.makeText(LoginActivity.this, "Favor de completar los datos", Toast.LENGTH_SHORT).show();
@@ -88,7 +89,6 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), RegistrarActivity.class);
                 startActivity(intent);
-                finish();
             }
         });
 
@@ -100,7 +100,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onResponse(String response) {
                 if (!response.isEmpty()) {
                     guardarPreferencias();
-                    Intent intent = new Intent(getApplicationContext(), NuevaSolicitudActivity.class);
+                    Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
                     intent.putExtra("email",email);
                     startActivity(intent);
                     finish();

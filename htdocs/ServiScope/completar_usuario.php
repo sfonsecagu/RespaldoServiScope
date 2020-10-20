@@ -7,7 +7,7 @@ $direccion=$_POST['direccion'];
 $email=$_POST['email'];
 
 
-$consulta="UPDATE usuario SET region = 7, comuna = '".$comuna."', direccion = '".$direccion."' where email = '".$email."'";
+$consulta="UPDATE usuario SET region = 7, comuna = '".$comuna."', direccion = '".$direccion."', tipo_usuario = 1 where email = '".$email."'";
 
 
 mysqli_query($conexion,$consulta) or die (mysqli_error());

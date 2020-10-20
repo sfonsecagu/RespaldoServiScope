@@ -4,11 +4,6 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.TextView;
 
-import com.example.app.Fragments.MainFragment;
-import com.example.app.Fragments.NuevaSolicitudFragment;
-import com.example.app.Fragments.PersonasFragment;
-import com.google.android.material.navigation.NavigationView;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,7 +13,14 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+import com.example.app.Fragments.DetalleSolicitudFragment;
+import com.example.app.Fragments.MainFragment;
+import com.example.app.Fragments.NuevaSolicitudFragment;
+import com.example.app.Fragments.PersonasFragment;
+import com.example.app.Fragments.SolicitudesFragment;
+import com.google.android.material.navigation.NavigationView;
+
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
     DrawerLayout drawerLayout;
     ActionBarDrawerToggle actionBarDrawerToggle;
@@ -29,6 +31,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     //Variables para cargar el fragment Principal
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
+
+    //variable del fram
+    DetalleSolicitudFragment detallerSolicitudFrafment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,11 +76,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             fragmentTransaction = fragmentManager.beginTransaction();
             fragmentTransaction.replace(R.id.container, new PersonasFragment());
             fragmentTransaction.commit();
+
         }
-        if(menuItem.getItemId() == R.id.nueva_solicitud){
+        if(menuItem.getItemId() == R.id.solicitudes){
             fragmentManager = getSupportFragmentManager();
             fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.replace(R.id.container, new MainFragment());
+            fragmentTransaction.replace(R.id.container, new SolicitudesFragment());
             fragmentTransaction.commit();
         }
         if(menuItem.getItemId() == R.id.nueva_solicitud){
@@ -98,4 +104,23 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         txtEmail.setText(d1);
 
     }
+/*
+    @Override
+    public void traspasarSolicitud(Solicitud solicitud) {
+        //realizar el envio
+        detallerSolicitudFrafment = new DetalleSolicitudFragment();
+        //Bundle para transportar info
+        Bundle bundleEnvio = new Bundle();
+        //Enviar
+        bundleEnvio.putSerializable("objeto", solicitud);
+        detallerSolicitudFrafment.setArguments(bundleEnvio);
+        //abrir
+        fragmentManager = getSupportFragmentManager();
+        fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.container, detallerSolicitudFrafment);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
+    }
+
+ */
 }
