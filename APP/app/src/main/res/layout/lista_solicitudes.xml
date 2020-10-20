@@ -51,6 +51,20 @@
         </TextView>
 
         <TextView
+            android:id="@+id/txtDescripcion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textView41"
+            android:layout_marginLeft="11dp"
+            android:layout_marginStart="11dp"
+            android:layout_marginTop="21dp"
+            android:layout_toEndOf="@id/imagen_solicitud"
+            android:layout_toRightOf="@+id/imagen_solicitud"
+            android:text="Descripción">
+
+        </TextView>
+
+        <TextView
             android:id="@+id/textView41"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -72,7 +86,7 @@
 
         <Button
             android:id="@+id/btnVer"
-            android:layout_width="57dp"
+            android:layout_width="50dp"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_alignParentTop="true"

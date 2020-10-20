@@ -16,7 +16,6 @@ public class ConfiguracionCuentaActivity extends AppCompatActivity {
     Button btnInicio;
 
 
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

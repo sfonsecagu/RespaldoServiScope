@@ -257,6 +257,8 @@ public class RegistrarEspecialistaDos extends AppCompatActivity {
         llenarSpinnerCategoria();
         llenarSpinnerComuna();
         llenarSpinnerRegion();
+
+        //Ruta seba
         buscarUsuario("http://192.168.64.2/ServiScope/cargar_perfil.php?email="+correo+"");
 
 
@@ -510,6 +512,8 @@ public class RegistrarEspecialistaDos extends AppCompatActivity {
         requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(jsonArrayRequest);
     }
+
+
 }
 
 

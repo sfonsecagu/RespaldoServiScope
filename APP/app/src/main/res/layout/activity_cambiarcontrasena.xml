@@ -10,10 +10,10 @@
         android:id="@+id/btnInicio"
         android:layout_width="wrap_content"
         android:layout_height="30dp"
-        android:text="Login"
+        android:text="Volver"
+        android:textSize="10dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:textSize="10dp"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
         android:id="@+id/linearLayout2"

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.android.volley.toolbox.ImageLoader;
@@ -15,64 +16,90 @@ import java.util.List;
 import androidx.recyclerview.widget.RecyclerView;
 
 
-public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
+public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> implements View.OnClickListener {
 
-    //Imageloader to load image
+
     private ImageLoader imageLoader;
     private Context context;
 
-    //List to store all superheroes
-    List<Solicitud> superHeroes;
+    List<Solicitud> solicitudes;
+    private View.OnClickListener listener;
+    Button btnVer;
+    String Titulo;
 
-    //Constructor of this class
-    public CardAdapter(List<Solicitud> superHeroes, Context context){
+    public CardAdapter(List<Solicitud> solicitud, Context context){
         super();
-        //Getting all superheroes
-        this.superHeroes = superHeroes;
+        this.solicitudes = solicitud;
         this.context = context;
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext())
+        View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.lista_solicitudes, parent, false);
-        ViewHolder viewHolder = new ViewHolder(v);
+
+        ViewHolder viewHolder = new ViewHolder(view);
+        view.setOnClickListener(this);
         return viewHolder;
+
+
+
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
 
-        //Getting the particular item from the list
-        Solicitud superHero =  superHeroes.get(position);
-
-
-
-        //Showing data on the views
-        holder.textViewName.setText(superHero.getTitulo());
-        holder.textViewPublisher.setText(superHero.getDescripcion());
-        holder.textViewId_solicitud.setText(superHero.getDireccion());
-
+        Solicitud solicitud =  solicitudes.get(position);
+        //holder.txtId_solicitud.setText(solicitud.getId_solicitud());
+        holder.txtTitulo.setText(solicitud.getTitulo());
+        holder.txtDescripcion.setText(solicitud.getDescripcion());
+        holder.txtDireccion.setText(solicitud.getDireccion());
 
     }
 
     @Override
     public int getItemCount() {
-        return superHeroes.size();
+        return solicitudes.size();
+    }
+
+
+
+    public void setOnClickListener(View.OnClickListener listener){
+        this.listener = listener;
+    }
+    @Override
+    public void onClick(View view) {
+        if (listener !=null){
+            listener.onClick(view);
+        }
     }
 
     class ViewHolder extends RecyclerView.ViewHolder{
         //Views
-        public TextView textViewName;
-        public TextView textViewPublisher;
-        public TextView textViewId_solicitud;
+
+        public TextView txtId_solicitud;
+        public TextView txtTitulo;
+        public TextView txtDescripcion;
+        public TextView txtDireccion;
 
         //Initializing Views
         public ViewHolder(View itemView) {
             super(itemView);
-            textViewName = (TextView) itemView.findViewById(R.id.txtTitulo);
-            textViewPublisher = (TextView) itemView.findViewById(R.id.txtFecha);
-            textViewId_solicitud = (TextView) itemView.findViewById(R.id.txtId_solicitud);
+
+            txtId_solicitud = (TextView) itemView.findViewById(R.id.txtId_solicitud);
+            txtTitulo = (TextView) itemView.findViewById(R.id.txtTitulo);
+            txtDescripcion = (TextView) itemView.findViewById(R.id.txtDescripcion);
+            txtDireccion = (TextView) itemView.findViewById(R.id.txtFecha);
+            btnVer = (Button) itemView.findViewById(R.id.btnVer);
+
+            /*btnVer.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Titulo = txtTitulo.getText().toString();
+                }
+            });
+
+             */
 
         }
     }

@@ -40,7 +40,7 @@ public class MenuActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), SolicitudesActivity.class);
-                //intent.putExtra("email",email);
+                intent.putExtra("email",email);
                 startActivity(intent);
                 finish();
             }

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost
--- Tiempo de generación: 19-09-2020 a las 23:25:24
+-- Tiempo de generación: 20-10-2020 a las 17:35:19
 -- Versión del servidor: 10.1.32-MariaDB
 -- Versión de PHP: 7.2.5
 
@@ -36,13 +36,6 @@ CREATE TABLE `certificaciones` (
   `descripcion` text NOT NULL,
   `fecha_ingreso` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Volcado de datos para la tabla `certificaciones`
---
-
-INSERT INTO `certificaciones` (`id_certificacion`, `id_tecnico`, `descripcion`, `fecha_ingreso`) VALUES
-(1, 1, 'Certificación CEC', '2020-08-30 22:14:17');
 
 -- --------------------------------------------------------
 
@@ -438,7 +431,7 @@ CREATE TABLE `historial` (
   `id_historial` int(11) NOT NULL,
   `id_solicitud` int(11) NOT NULL,
   `id_usuario` int(11) NOT NULL,
-  `id_tecnico` int(11) NOT NULL,
+  `id_tecnico` int(11) DEFAULT NULL,
   `titulo` varchar(100) NOT NULL,
   `fecha_modificacion` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `comentarios` text NOT NULL
@@ -449,7 +442,9 @@ CREATE TABLE `historial` (
 --
 
 INSERT INTO `historial` (`id_historial`, `id_solicitud`, `id_usuario`, `id_tecnico`, `titulo`, `fecha_modificacion`, `comentarios`) VALUES
-(1, 1001, 1, 1, 'qwerfdas', '2020-08-26 14:57:44', 'ngfredwq');
+(1, 2, 1, 1, 'qwerfdas', '2020-10-20 14:52:46', 'ngfredwq'),
+(2, 3, 1, NULL, 'Prueba', '2020-10-20 14:52:49', 'Solicitud creada'),
+(73, 1145, 104, NULL, 'Nueva solicitud', '2020-10-20 15:32:34', 'Solicitud creada');
 
 -- --------------------------------------------------------
 
@@ -492,11 +487,7 @@ CREATE TABLE `pruebas` (
 INSERT INTO `pruebas` (`id`, `nombre`, `correo`, `contrasena`) VALUES
 (0, 'Hola', 'Prueba', 'Otra peura'),
 (1, 'primero', 'primero@gmail.com', '123321'),
-(2, 'segundo', 'segundo@segundo', 'contrsenasegundo'),
-(6, '2', '3', '4'),
-(1313, 'Estos es una Prueba', 'De Conexion', 'Espero funcione'),
-(10000, 'Hola', 'Prueba', 'Otra peura'),
-(1212121212, 'Name', 'Name', 'Name');
+(2, 'Name', 'Name', 'Name');
 
 -- --------------------------------------------------------
 
@@ -515,7 +506,6 @@ CREATE TABLE `regiones` (
 --
 
 INSERT INTO `regiones` (`id_region`, `nombre`, `ordinal`) VALUES
-(0, 'SELECCIONE UNA REGIÓN', '0'),
 (1, 'Arica y Parinacota', 'XV'),
 (2, 'Tarapacá', 'I'),
 (3, 'Antofagasta', 'II'),
@@ -530,7 +520,8 @@ INSERT INTO `regiones` (`id_region`, `nombre`, `ordinal`) VALUES
 (12, 'Los Ríos', 'XIV'),
 (13, 'Los Lagos', 'X'),
 (14, 'Aisén del General Carlos Ibáñez del Campo', 'XI'),
-(15, 'Magallanes y de la Antártica Chilena', 'XII');
+(15, 'Magallanes y de la Antártica Chilena', 'XII'),
+(16, 'SELECCIONE UNA REGIÓN', '0');
 
 -- --------------------------------------------------------
 
@@ -548,9 +539,10 @@ CREATE TABLE `rol` (
 --
 
 INSERT INTO `rol` (`id_rol`, `nombre`) VALUES
-(0, 'Visita'),
 (1, 'Cliente'),
-(2, 'Especialista');
+(2, 'Especialista'),
+(4, 'En Creación'),
+(5, 'Visita');
 
 -- --------------------------------------------------------
 
@@ -606,7 +598,7 @@ CREATE TABLE `solicitud` (
   `id_solicitud` int(11) NOT NULL,
   `id_usuario` int(11) NOT NULL,
   `id_tecnico` int(11) DEFAULT NULL,
-  `fecha` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `fecha` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
   `titulo` varchar(100) NOT NULL,
   `descripcion` text NOT NULL,
   `id_region` int(11) NOT NULL,
@@ -615,18 +607,18 @@ CREATE TABLE `solicitud` (
   `valor` int(100) NOT NULL DEFAULT '0',
   `id_servicio` int(11) NOT NULL,
   `estado_solicitud` int(1) NOT NULL DEFAULT '0',
-  `valoracion` int(1) NOT NULL DEFAULT '0',
-  `id_historial` int(11) NOT NULL
+  `valoracion` int(1) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Volcado de datos para la tabla `solicitud`
 --
 
-INSERT INTO `solicitud` (`id_solicitud`, `id_usuario`, `id_tecnico`, `fecha`, `titulo`, `descripcion`, `id_region`, `id_comuna`, `direccion`, `valor`, `id_servicio`, `estado_solicitud`, `valoracion`, `id_historial`) VALUES
-(1, 1, 1, '2020-08-30 22:34:23', 'Solicitud 1', 'Prueba de solicitud 1', 1, 43, 'En Mi casa', 0, 1, 0, 0, 1),
-(1000, 1, 1, '2020-08-30 22:34:24', 'Solicitud servicios 1', 'Prueba 1', 1, 34, 'mi casa', 0, 1, 1, 0, 1),
-(1001, 2, 1, '2020-08-30 22:34:28', 'Arreglar mi cocina', 'Mi cocina presenta problemas', 1, 12, 'Saba ELtiti 850', 0, 2, 2, 5, 1);
+INSERT INTO `solicitud` (`id_solicitud`, `id_usuario`, `id_tecnico`, `fecha`, `titulo`, `descripcion`, `id_region`, `id_comuna`, `direccion`, `valor`, `id_servicio`, `estado_solicitud`, `valoracion`) VALUES
+(2, 1, 1, '2020-10-20 14:51:09', 'Solicitud servicios 2', 'Prueba 1', 7, 34, 'mi casa', 0, 1, 1, 0),
+(3, 1, 1, '2020-10-20 14:52:08', 'Arreglar mi cocina', 'Mi cocina presenta problemas', 7, 12, 'Saba ELtiti 850', 0, 2, 2, 0),
+(4, 1, NULL, '2020-10-20 14:52:11', 'nueva solicitud', 'prueba', 7, 92, 'miksa', 0, 4, 3, 0),
+(1145, 104, NULL, '2020-10-20 15:32:33', 'Nueva solicitud', 'Solicitud de Prueba', 7, 97, 'miksa', 0, 11, 3, 0);
 
 -- --------------------------------------------------------
 
@@ -637,22 +629,25 @@ INSERT INTO `solicitud` (`id_solicitud`, `id_usuario`, `id_tecnico`, `fecha`, `t
 CREATE TABLE `tecnico` (
   `id_tecnico` int(11) NOT NULL,
   `id_usuario` int(11) NOT NULL,
+  `id_region` int(11) NOT NULL,
+  `id_comuna` int(11) NOT NULL,
   `direccion` varchar(100) NOT NULL,
   `lugar_trabajo` int(11) DEFAULT NULL,
   `id_servicio` int(11) NOT NULL,
   `descripcion` text NOT NULL,
-  `valoracion` int(1) NOT NULL DEFAULT '0',
-  `certifiacion` tinyint(1) NOT NULL,
+  `valoracion` int(1) DEFAULT '0',
+  `certifiacion` tinyint(1) DEFAULT NULL,
   `eliminado` tinyint(1) NOT NULL,
-  `fecha_eliminado` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP
+  `fecha_eliminado` timestamp NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Volcado de datos para la tabla `tecnico`
 --
 
-INSERT INTO `tecnico` (`id_tecnico`, `id_usuario`, `direccion`, `lugar_trabajo`, `id_servicio`, `descripcion`, `valoracion`, `certifiacion`, `eliminado`, `fecha_eliminado`) VALUES
-(1, 2, 'Rio Maihue 01444', 1, 2, 'Carpinteria', 0, 0, 0, '2020-08-30 21:35:40');
+INSERT INTO `tecnico` (`id_tecnico`, `id_usuario`, `id_region`, `id_comuna`, `direccion`, `lugar_trabajo`, `id_servicio`, `descripcion`, `valoracion`, `certifiacion`, `eliminado`, `fecha_eliminado`) VALUES
+(1, 1, 7, 89, 'miksa', 0, 4, 'Santiago', 1, 0, 0, '2020-09-19 01:03:33'),
+(12, 104, 7, 100, 'los nogales 3348', NULL, 4, '4 años en el oficio', NULL, NULL, 0, '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -662,21 +657,21 @@ INSERT INTO `tecnico` (`id_tecnico`, `id_usuario`, `direccion`, `lugar_trabajo`,
 
 CREATE TABLE `usuario` (
   `id_usuario` int(11) NOT NULL,
-  `nombres` varchar(100) NOT NULL,
-  `apellidos` varchar(100) NOT NULL,
+  `nombres` varchar(100) CHARACTER SET latin1 NOT NULL,
+  `apellidos` varchar(100) CHARACTER SET latin1 NOT NULL,
   `rut` int(9) NOT NULL,
-  `email` varchar(100) NOT NULL,
+  `email` varchar(100) CHARACTER SET latin1 NOT NULL,
   `region` int(11) NOT NULL,
   `comuna` int(11) NOT NULL,
-  `direccion` varchar(100) NOT NULL,
+  `direccion` varchar(100) CHARACTER SET latin1 NOT NULL,
   `telefono` int(50) NOT NULL,
-  `contrasena` varchar(100) NOT NULL,
+  `contrasena` varchar(100) CHARACTER SET latin1 NOT NULL,
   `cod_contr` int(4) DEFAULT NULL,
   `fecha_registro` datetime NOT NULL,
   `tipo_usuario` int(1) NOT NULL,
   `eliminado` tinyint(1) NOT NULL,
   `fecha_eliminado` date DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `usuario`
@@ -684,79 +679,7 @@ CREATE TABLE `usuario` (
 
 INSERT INTO `usuario` (`id_usuario`, `nombres`, `apellidos`, `rut`, `email`, `region`, `comuna`, `direccion`, `telefono`, `contrasena`, `cod_contr`, `fecha_registro`, `tipo_usuario`, `eliminado`, `fecha_eliminado`) VALUES
 (1, 'Cliente', 'Tipo', 1, '1', 10, 1, 'Santiago', 1, '!Ul3CGlauV7J', NULL, '2020-09-19 01:03:33', 1, 0, '0000-00-00'),
-(2, 'Especialista', 'Tipo', 2, '2', 10, 1, 'Santiago', 2, 'Ce$V2mOZTgwU', NULL, '2020-09-19 01:03:45', 2, 0, '0000-00-00'),
-(3, 'Antonio', 'Lopez', 3, '3', 1, 109, 'Avi siemrpe viva', 3, 'contrasena', NULL, '2020-09-19 01:03:57', 1, 0, '2020-08-26'),
-(4, 'Jose', 'Gutierrez', 400, '4', 7, 7, '7', 400, 'contrasena', NULL, '2020-09-19 01:04:54', 1, 0, '2020-08-26'),
-(5, 'Francisco', 'Chawan', 5, '5', 1, 109, 'Av. providencia', 5, 'contrasena', NULL, '2020-09-19 01:05:07', 1, 0, '2020-08-26'),
-(6, 'Manuel', 'Figueroa', 6, '6', 1, 109, 'bajo un puente', 6, 'contrasena', NULL, '2020-09-19 01:05:18', 1, 0, NULL),
-(9, 'Susana', 'Baeza', 900, '900', 10, 1, 'Santiago', 900, 'BoZAtCj0od', 3833, '2020-09-19 01:06:00', 2, 0, '0000-00-00'),
-(10, 'Fernando', 'Vargas', 10, '10', 10, 1, 'Santiago', 10, 'Contraena2019', NULL, '2020-09-19 01:06:10', 2, 0, '0000-00-00'),
-(11, 'José Leonardo', 'Davila Diaz', 110, '110', 1, 89, '65432', 110, 'nthbrgvefsd', NULL, '2020-09-19 01:10:14', 1, 0, NULL),
-(12, 'Jose Andrez', 'Perez Suazo', 12, '12', 10, 109, '76543', 12, 'trfed', NULL, '2020-09-19 01:10:10', 1, 0, NULL),
-(15, 'samuel', 'eto', 15, '15', 10, 109, '123321123321', 15, '123', NULL, '2020-09-19 01:09:12', 1, 0, NULL),
-(16, 'Sebastian', 'Fonseca', 16, '16', 10, 109, '123321123321', 16, '123', NULL, '2020-09-19 01:09:15', 1, 0, NULL),
-(17, 'Sebastian Ignacio', 'Fonseca Gutierrez', 17, '17', 10, 109, '123321123321', 17, 'Inicio01', NULL, '2020-09-19 01:09:18', 1, 0, NULL),
-(18, 'Gonzalo', 'Espinoza', 18, '18', 10, 109, '123321123321', 18, 'ddddd', NULL, '2020-09-19 01:09:21', 1, 0, NULL),
-(19, 'tgrfedws', 'gfred', 19, '19', 10, 109, '123321123321', 19, '111', NULL, '2020-09-19 01:09:23', 1, 0, NULL),
-(20, 'Sebastian Ignacion', 'Fonseca Gutierrez', 20, '20', 10, 48, '123321123321', 20, '12', NULL, '2020-09-19 01:09:26', 1, 0, NULL),
-(21, 'Matias', 'Carrasco', 21, '21', 10, 109, '123321123321', 21, '123', NULL, '2020-09-19 01:09:30', 1, 0, NULL),
-(22, 'trfedws', 'bvredws', 22, '22', 10, 109, '123321123321', 22, '123', NULL, '2020-09-19 01:09:32', 1, 0, NULL),
-(23, 'tbrverw', 'g fgds', 23, '23', 10, 109, '123321123321', 23, '123', NULL, '2020-09-19 01:09:35', 1, 0, NULL),
-(24, 'Nombredelculero', '65432', 24, '24', 10, 109, '123321123321', 24, '123', NULL, '2020-09-19 01:09:38', 1, 0, NULL),
-(25, 'tnbrewqq', 'htbgrvfecdwsq', 25, '25', 10, 109, '123321123321', 25, 'qw', NULL, '2020-09-19 01:09:41', 1, 0, NULL),
-(26, 'tgrfe', 'fdfcs', 26, '26', 10, 109, '123321123321', 26, '123', NULL, '2020-09-19 01:09:44', 1, 0, NULL),
-(27, 'dfrgrew', 'frgrfed', 27, '27', 10, 109, '123321123321', 27, '123', NULL, '2020-09-19 01:09:52', 1, 0, NULL),
-(28, 'tbgrvfecdw', 'tbgvfd', 28, '28', 10, 109, '123321123321', 28, 'qwe', NULL, '2020-09-19 01:09:54', 1, 0, NULL),
-(29, 'thbgrvf', 'hgvrfcd', 29, '29', 10, 109, '123321123321', 29, 'qw', NULL, '2020-09-19 01:09:57', 1, 0, NULL),
-(30, 'rfedw', 'rfedw', 30, '432wds', 10, 109, '123321123321', 30, '12', NULL, '2020-09-19 01:15:29', 1, 0, NULL),
-(31, '543rfewd', 'wefd32', 31, 'ntbre4rfve23', 10, 109, '123321123321', 31, '12', NULL, '2020-09-19 01:15:26', 1, 0, NULL),
-(32, 'dcwe', 'evrvewed', 320, 'wdtrtecx', 10, 109, '123321123321', 32, '12', NULL, '2020-09-19 01:15:24', 1, 0, NULL),
-(33, 'brvee', 'verfd', 33, '4534t3dreweqd', 10, 109, '123321123321', 33, '12', NULL, '2020-09-19 01:15:22', 1, 0, NULL),
-(34, 'wviecb', 'wievbnjck', 34, '12nsn', 10, 7, '123321123321', 34, '12', NULL, '2020-09-19 01:15:19', 1, 0, NULL),
-(35, '434', 'v3q', 35, '23454321', 10, 109, '123321123321', 35, 'qw', NULL, '2020-09-19 01:15:17', 1, 0, NULL),
-(36, 'erwe', 'dsas', 36, '32wed', 10, 109, '123321123321', 36, '12', NULL, '2020-09-19 01:15:14', 1, 0, NULL),
-(37, 'recwdx', 'bgrvfecdw', 37, 'qw', 10, 109, '123321123321', 37, 'qw', NULL, '2020-09-19 01:15:12', 1, 0, NULL),
-(38, 'brvec', ' fdfdc', 38, '11', 10, 109, '123321123321', 38, '11', NULL, '2020-09-19 01:15:09', 1, 0, NULL),
-(39, 'vewi', 'ficsbnl', 39, '23318', 10, 109, '123321123321', 39, '12', NULL, '2020-09-19 01:15:06', 1, 0, NULL),
-(40, '423', '32', 40, 'dwd77', 10, 109, '123321123321', 40, '23', NULL, '2020-09-19 01:15:03', 1, 0, NULL),
-(41, '433232', '1234', 41, 'wdcw', 10, 109, '123321123321', 41, '21', NULL, '2020-09-19 01:15:00', 1, 0, NULL),
-(42, 'vecw', ' fd', 42, 'evcwa', 10, 109, '123321123321', 42, '21', NULL, '2020-09-19 01:14:56', 1, 0, NULL),
-(43, 'brew', 'rvefcw', 43, '2e3xew', 10, 109, '123321123321', 43, '12', NULL, '2020-09-19 01:14:53', 1, 0, NULL),
-(44, 'vd', 'gvfdc', 44, 'ewrw', 10, 109, '123321123321', 44, '12', NULL, '2020-09-19 01:14:50', 1, 0, NULL),
-(45, 'dfdf', 'sd', 45, 'xq32', 10, 109, '123321123321', 455, '12', NULL, '2020-09-19 01:14:48', 1, 0, NULL),
-(46, 'fgbvfd', 'fdq', 46, '092', 10, 109, '123321123321', 46, '092', NULL, '2020-09-19 01:14:41', 1, 0, NULL),
-(47, 'qw', 'qw', 47, '091', 10, 109, '123321123321', 47, '091', NULL, '2020-09-19 01:14:38', 1, 0, NULL),
-(48, '732', '732', 48, '732', 10, 109, '123321123321', 48, '732', NULL, '2020-09-19 01:14:34', 1, 0, NULL),
-(49, '3056', '3056', 49, '3056', 10, 109, '123321123321', 49, '3056', NULL, '2020-09-19 01:14:31', 1, 0, NULL),
-(50, '3030', '3030', 50, '3030', 10, 109, '123321123321', 50, '3030', NULL, '2020-09-19 01:14:28', 1, 0, NULL),
-(51, '4423', '4423', 51, '4423', 10, 109, '123321123321', 51, '4423', NULL, '2020-09-19 01:14:25', 1, 0, NULL),
-(52, '8090', '8090', 52, '8090', 10, 109, '123321123321', 52, '8090', NULL, '2020-09-19 01:14:21', 1, 0, NULL),
-(53, '6909', '6909', 53, '6909', 10, 109, '123321123321', 53, '6909', NULL, '2020-09-19 01:14:18', 1, 0, NULL),
-(57, '7', '7', 54, '7', 10, 109, '123321123321', 54, '7', NULL, '2020-09-19 01:14:12', 1, 0, NULL),
-(58, '67', '67', 55, '67', 10, 109, '123321123321', 55, '67', NULL, '2020-09-19 01:14:09', 1, 0, NULL),
-(59, '45', '45', 56, '459', 7, 8, 'mikasa', 56, '45', NULL, '2020-09-19 01:14:06', 1, 0, NULL),
-(60, '09', '09', 57, '09', 3, 9, '09', 57, '09', NULL, '2020-09-19 01:14:04', 1, 0, NULL),
-(61, '90', '90', 61, '90', 9, 90, '90', 61, '90', NULL, '2020-09-19 01:13:57', 1, 0, NULL),
-(62, '99', '99', 62, '99', 10, 109, '123321123321', 62, '99', NULL, '2020-09-19 01:13:53', 1, 0, NULL),
-(63, 'Rodrigo Andrez', 'Vergara MuÃ±oz', 63, 'rodrigo.vergarara@correo.com', 7, 8, 'con las vacas', 63, '12', NULL, '2020-09-19 01:13:50', 1, 0, NULL),
-(64, 'sergio', 'martinez', 64, 'sergio.martinez@duocuc.co', 10, 109, '123321123321', 64, '12', NULL, '2020-09-19 01:13:45', 1, 0, NULL),
-(65, '89', '89', 65, '89', 10, 109, '123321123321', 65, '89', NULL, '2020-09-19 01:13:43', 1, 0, NULL),
-(66, '77', '77', 66, '77', 10, 109, '123321123321', 66, '77', NULL, '2020-09-19 01:13:39', 1, 0, NULL),
-(67, '67', '67', 67, '677', 7, 88, '89', 677, '67', NULL, '2020-09-19 01:12:27', 1, 0, NULL),
-(68, 'Javier', 'Mondaca', 68, 'javier.mondaca@gmail.com', 7, 102, 'las torres 24', 68, '12', NULL, '2020-09-19 01:13:25', 1, 0, NULL),
-(69, 'qwqw', 'qwqw', 69, 'cncow', 7, 89, '322', 69, '82', NULL, '2020-09-19 01:13:22', 1, 0, NULL),
-(70, 'Messi', 'Suarez', 70, 'correodelle@correo.com', 7, 129, 'Las ovejas 1313', 70, '12', NULL, '2020-09-19 01:13:19', 1, 0, NULL),
-(71, 'prueba', 'prueba', 71, 'dwodnwzs', 2, 3, 'eozwsm', 71, 'weowmdm93e', NULL, '2020-09-19 01:13:16', 1, 0, NULL),
-(72, 'prueba', 'prueba', 72, 'dw34frwdnwzs', 2, 3, 'eozwsm', 72, '000e0ab7f8f39f112877bd69fa3dd2b1', NULL, '2020-09-19 01:13:12', 1, 0, NULL),
-(73, 'Sebastian', 'Fonseca', 73, 'encripdrtado.com', 2, 4, 'xewml', 73, 'Contrasena', NULL, '2020-09-19 01:13:08', 0, 0, NULL),
-(75, 'Sebastian', 'Fonseca', 74, 'encriptado.com', 2, 4, 'xewml', 74, '267f871dd7a510749222a62d52294410', 4438, '2020-09-19 01:13:05', 0, 0, NULL),
-(76, 'Sebastian', 'fonseca', 1001, 's.fonsecagutierre3232@gmail.co', 7, 88, 'miksa', 1001, 'aa56fdadda73c9d42e64881596006a5c', 5586, '2020-09-19 18:28:16', 1, 0, NULL),
-(77, 'kj', 'kj', 100110, '100110', 7, 89, 'rioma', 100110, 'c097dd6de04c016a247b324a2c1c1a49', NULL, '2020-09-19 17:53:44', 1, 0, NULL),
-(78, 'Lorena', 'Gutierrez', 133988513, 'loreguti76@gmail.com', 7, 89, 'riomaihue 02332', 971234013, '202cb962ac59075b964b07152d234b70', 1811, '2020-09-19 19:28:24', 1, 0, NULL),
-(79, 'Sebastian', 'Fonseca Gutierrez', 198562440, 's.fonsecagutierrezdfd@gmail.com', 7, 86, 'Rio maihue 01444', 968510518, '30fe21e6124af58a3cecf1ccb83e5f88', 1811, '2020-09-19 19:33:36', 1, 0, NULL),
-(80, 'Javier', 'Perez', 90, 's.fonsecagutierrez@gmail.com', 7, 89, 'miksa', 90, 'f185b61a3ed74e562744863baa4957e8', 3497, '2020-09-19 21:12:24', 1, 0, NULL),
-(81, 'kj', 'kj', 91, '91', 10, 109, '123321123321', 91, '54229abfcfa5649e7003b83dd4755294', NULL, '2020-09-19 21:16:27', 1, 0, NULL),
-(82, '92', '92', 92, '92', 7, 131, '92', 92, '92cc227532d17e56e07902b254dfad10', NULL, '2020-09-19 21:17:58', 1, 0, NULL);
+(104, 'Sebastian', 'Fonseca', 198562440, 's.fonsecagutierrez@gmail.com', 7, 89, 'Puente Alto', 968510518, 'c20ad4d76fe97759aa27a0c99bff6710', NULL, '2020-10-20 15:01:16', 1, 0, NULL);
 
 --
 -- Índices para tablas volcadas
@@ -837,14 +760,13 @@ ALTER TABLE `servicio`
 ALTER TABLE `solicitud`
   ADD PRIMARY KEY (`id_solicitud`),
   ADD UNIQUE KEY `id_solicitud` (`id_solicitud`),
-  ADD KEY `FK_id_usuario` (`id_usuario`),
   ADD KEY `FK_id_tecnico` (`id_tecnico`),
   ADD KEY `FK_id_servicio` (`id_servicio`) USING BTREE,
   ADD KEY `FK_estado_solicitud` (`estado_solicitud`),
   ADD KEY `FK_valoracion` (`valoracion`) USING BTREE,
-  ADD KEY `FK_id_historial` (`id_historial`),
   ADD KEY `FK_id_region` (`id_region`),
-  ADD KEY `FK_id_comuna` (`id_comuna`);
+  ADD KEY `FK_id_comuna` (`id_comuna`),
+  ADD KEY `FK_id_usuario` (`id_usuario`) USING BTREE;
 
 --
 -- Indices de la tabla `tecnico`
@@ -852,9 +774,9 @@ ALTER TABLE `solicitud`
 ALTER TABLE `tecnico`
   ADD PRIMARY KEY (`id_tecnico`),
   ADD UNIQUE KEY `id_tecnico` (`id_tecnico`),
-  ADD UNIQUE KEY `id_usuario` (`id_usuario`),
   ADD KEY `FK_id_servicio` (`id_servicio`) USING BTREE,
-  ADD KEY `FK_id_usuario` (`id_usuario`);
+  ADD KEY `FK_id_usuario` (`id_usuario`),
+  ADD KEY `id_usuario` (`id_usuario`) USING BTREE;
 
 --
 -- Indices de la tabla `usuario`
@@ -889,7 +811,7 @@ ALTER TABLE `comunas`
 -- AUTO_INCREMENT de la tabla `historial`
 --
 ALTER TABLE `historial`
-  MODIFY `id_historial` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_historial` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=74;
 
 --
 -- AUTO_INCREMENT de la tabla `lugar_trabajo`
@@ -901,13 +823,13 @@ ALTER TABLE `lugar_trabajo`
 -- AUTO_INCREMENT de la tabla `regiones`
 --
 ALTER TABLE `regiones`
-  MODIFY `id_region` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id_region` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
 -- AUTO_INCREMENT de la tabla `rol`
 --
 ALTER TABLE `rol`
-  MODIFY `id_rol` int(1) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_rol` int(1) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT de la tabla `servicio`
@@ -919,19 +841,19 @@ ALTER TABLE `servicio`
 -- AUTO_INCREMENT de la tabla `solicitud`
 --
 ALTER TABLE `solicitud`
-  MODIFY `id_solicitud` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1002;
+  MODIFY `id_solicitud` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1146;
 
 --
 -- AUTO_INCREMENT de la tabla `tecnico`
 --
 ALTER TABLE `tecnico`
-  MODIFY `id_tecnico` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_tecnico` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT de la tabla `usuario`
 --
 ALTER TABLE `usuario`
-  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=83;
+  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=105;
 
 --
 -- Restricciones para tablas volcadas
@@ -967,7 +889,6 @@ ALTER TABLE `solicitud`
   ADD CONSTRAINT `solicitud_ibfk_2` FOREIGN KEY (`id_tecnico`) REFERENCES `tecnico` (`id_tecnico`) ON DELETE NO ACTION ON UPDATE CASCADE,
   ADD CONSTRAINT `solicitud_ibfk_3` FOREIGN KEY (`id_servicio`) REFERENCES `servicio` (`id_servicio`) ON DELETE NO ACTION ON UPDATE CASCADE,
   ADD CONSTRAINT `solicitud_ibfk_4` FOREIGN KEY (`estado_solicitud`) REFERENCES `estado_solicitud` (`id_estado_solicitud`) ON UPDATE CASCADE,
-  ADD CONSTRAINT `solicitud_ibfk_5` FOREIGN KEY (`id_historial`) REFERENCES `historial` (`id_historial`),
   ADD CONSTRAINT `solicitud_ibfk_6` FOREIGN KEY (`id_region`) REFERENCES `regiones` (`id_region`),
   ADD CONSTRAINT `solicitud_ibfk_7` FOREIGN KEY (`id_comuna`) REFERENCES `comunas` (`id_comuna`);
 

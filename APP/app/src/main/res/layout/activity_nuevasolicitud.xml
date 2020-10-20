@@ -63,7 +63,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
-                    android:layout_marginTop="50dp"
+                    android:layout_marginTop="30dp"
                     android:text="Título" />
 
                 <EditText
@@ -80,7 +80,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="10dp"
                     android:text="Descripción" />
 
                 <EditText
@@ -98,7 +98,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
-                    android:layout_marginTop="30dp"
+                    android:layout_marginTop="20dp"
                     android:text="Categoría" />
 
                 <Spinner
@@ -113,7 +113,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
-                    android:layout_marginTop="30dp"
+                    android:layout_marginTop="20dp"
                     android:text="Comuna" />
 
                 <Spinner
@@ -128,7 +128,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
-                    android:layout_marginTop="30dp"
+                    android:layout_marginTop="20dp"
                     android:text="Dirección" />
 
                 <EditText
@@ -139,6 +139,24 @@
                     android:layout_marginStart="20dp"
                     android:ems="10"
                     android:inputType="textPersonName" />
+
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:text="Selecciona imagen"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:background="@color/colorAccent"
+                    android:id="@+id/btnCargarImg"
+                    android:onClick="onclickfoto"/>
+                <ImageView
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:src="@drawable/ic_add"
+                    android:id="@+id/imagenId"
+                    />
+
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -196,6 +214,7 @@
                         android:layout_marginStart="80dp"
                         android:layout_marginTop="5dp" />
 
+
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -215,7 +234,7 @@
 
                     </LinearLayout>
 
-                </LinearLayout>
+                    </LinearLayout>
 
                 <Button
                     android:id="@+id/btnPublicar"

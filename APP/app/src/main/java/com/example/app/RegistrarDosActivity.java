@@ -134,7 +134,6 @@ public class RegistrarDosActivity extends AppCompatActivity {
                     //Ruta seba
                     buscarComuna("http://192.168.64.2/ServiScope/buscaComuna.php?nombre="+txtComuna.getText()+"");
 
-
                     //Ruta diego
                     //buscarComuna("http://192.168.1.98/ServiScope/buscaRegion.php?nombre="+txtComuna.getText()+"");
 

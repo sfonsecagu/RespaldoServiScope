@@ -5,7 +5,8 @@ public class Config {
     public static final String DATA_URL = "http://192.168.64.2/ServiScope/listar_solicitudesotravez.php?page=";
 
     //JSON TAGS
-    public static final String TAG_ID_SOLICITUD = ("id_solicitud");
+    public static final String TAG_ID_SOLICITUD = "id_solicitud";
+    public static final String TAG_ID_USUARIO = "id_usuario";
     public static final String TAG_ID_TECNICO = "id_tecnico";
     public static final String TAG_FECHA = "fecha";
     public static final String TAG_TITULO = "titulo";

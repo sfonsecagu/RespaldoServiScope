@@ -2,6 +2,7 @@ package com.example.app;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -24,10 +25,11 @@ import androidx.appcompat.app.AppCompatActivity;
 public class PerfilActivity extends AppCompatActivity {
     TextView txtEmail, txtNombre, txtApellido;
     EditText edtMiembrodesde, edtCorreo, edtContrasena, edtTelefono, edtTipo_usuario;
-    String correo, nombres, apellidos, telefono, registro, tipo;
+    String correo, nombres, apellidos, telefono, registro, tipo, id_usuario_tecnico, id_usuario;
     RequestQueue requestQueue;
     Button btnInicio, btnCambiarContrasena, btnConfiguracion;
     ImageButton btnEspecialista;
+    public static int espera=2000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,18 +90,19 @@ public class PerfilActivity extends AppCompatActivity {
 
         recibirDatos();
 
-
-
         //Ruta seba
         buscarUsuario("http://192.168.64.2/ServiScope/cargar_perfil.php?email="+correo+"");
 
         //Ruta diego
         //buscarUsuario("http://192.168.1.98/ServiScope/cargar_perfil.php?email="+txtEmail.getText()+"");
 
+
+
     }
 
 
     private void buscarUsuario(String URL){
+        esperayejecuta(espera);
         JsonArrayRequest jsonArrayRequest=new JsonArrayRequest(URL, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
@@ -113,6 +116,7 @@ public class PerfilActivity extends AppCompatActivity {
                         telefono = jsonObject.getString("telefono");
                         registro = jsonObject.getString("fecha_registro");
                         tipo = jsonObject.getString("tipo_usuario");
+                        id_usuario = jsonObject.getString("id_usuario");
 
                         txtNombre.setText(nombres+" ");
                         txtApellido.setText(apellidos);
@@ -141,7 +145,49 @@ public class PerfilActivity extends AppCompatActivity {
         requestQueue.add(jsonArrayRequest);
     }
 
+    private void esperayejecuta(int milisegundos){
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                //Ruta seba
+                buscarTecnico("http://192.168.64.2/ServiScope/cargar_perfil_tecnico.php?id_usuario="+id_usuario+"");
 
+            }
+        },milisegundos);
+    }
+
+    private void buscarTecnico(String URL){
+        JsonArrayRequest jsonArrayRequest=new JsonArrayRequest(URL, new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+                JSONObject jsonObject=null;
+                for(int i=0;i<response.length();i++){
+                    try {
+                        jsonObject = response.getJSONObject(i);
+                        id_usuario_tecnico = jsonObject.getString("id_usuario");
+
+                        Toast.makeText(PerfilActivity.this,"Tecnico", Toast.LENGTH_SHORT).show();
+
+                        edtTipo_usuario.setText("Cliente - Técnico");
+
+
+
+                    } catch (JSONException e) {
+                        Toast.makeText(PerfilActivity.this,"Usuario no tecnico", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(PerfilActivity.this,"Usuario no Tecnico", Toast.LENGTH_SHORT).show();
+            }
+        }
+        );
+        requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(jsonArrayRequest);
+    }
 
     private void recibirDatos() {
         Bundle u;
