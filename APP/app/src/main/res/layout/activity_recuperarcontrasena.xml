@@ -4,7 +4,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:foreground="@drawable/image">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -90,7 +91,10 @@
                 android:layout_marginEnd="15dp"
                 android:layout_marginStart="15dp"
                 android:ems="10"
-                android:inputType="textEmailAddress" />
+                android:inputType="text|number"
+                android:textAlignment="center"
+                android:textSize="25dp"
+                android:textStyle="bold" />
 
             <EditText
                 android:id="@+id/edtContrasena"
@@ -101,6 +105,7 @@
                 android:layout_marginTop="24dp"
                 android:layout_weight="1"
                 android:ems="10"
+                android:hint="Nueva contraseña"
                 android:inputType="textPassword" />
 
             <TextView
@@ -122,6 +127,7 @@
                 android:layout_marginEnd="15dp"
                 android:layout_marginStart="15dp"
                 android:layout_marginTop="24dp"
+                android:hint="Repetir contraseña"
                 android:layout_weight="1"
                 android:ems="10"
                 android:inputType="textPassword" />
@@ -144,10 +150,12 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="100dp"
                 android:layout_marginStart="100dp"
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="50dp"
                 android:layout_weight="1"
                 android:text="Cambiar Contraseña"
                 android:layout_gravity="center"
+                android:backgroundTint="#FFFFFF"
+                android:textColor="#000000"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="parent" />

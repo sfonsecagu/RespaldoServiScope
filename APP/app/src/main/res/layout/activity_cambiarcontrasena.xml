@@ -4,16 +4,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:foreground="@drawable/image"
     android:layout_height="match_parent">
 
-    <Button
-        android:id="@+id/btnInicio"
-        android:layout_width="wrap_content"
-        android:layout_height="30dp"
-        android:text="Volver"
-        android:textSize="10dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+
 
     <LinearLayout
         android:id="@+id/linearLayout2"
@@ -27,49 +21,56 @@
             android:id="@+id/textView47"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Contraseña Actual" />
+            android:text="Contraseña Actual"
+            android:layout_marginTop="20dp"/>
 
         <EditText
             android:id="@+id/edtContrasenaA"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:inputType="textPersonName" />
+            android:hint="Contraseña Actual"
+            android:inputType="textPassword" />
 
         <TextView
             android:id="@+id/textView49"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Nueva Contraseña" />
+            android:text="Nueva Contraseña"
+            android:layout_marginTop="20dp"/>
 
         <EditText
             android:id="@+id/edtContrasena1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:inputType="textPersonName" />
+            android:inputType="textPassword"
+            android:hint="Contraseña nueva"/>
 
         <TextView
             android:id="@+id/textView50"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Repetir Nueva Contraseña" />
+            android:text="Repetir Nueva Contraseña"
+            android:layout_marginTop="20dp"/>
 
         <EditText
             android:id="@+id/edtContrasena2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:inputType="textPersonName" />
+            android:inputType="textPassword"
+            android:hint="Repita Contraseña"/>
 
         <Button
             android:id="@+id/btnCambiarcontrasena"
             android:layout_width="wrap_content"
-            android:layout_height="30dp"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="30dp"
             android:text="Cambiar Contraseña"
-            android:textSize="10dp"
+            android:backgroundTint="#FFFFFF"
+            android:textColor="#000000"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -80,6 +81,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="TextView"
+        android:visibility="invisible"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

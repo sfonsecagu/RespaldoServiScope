@@ -11,9 +11,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class ConfiguracionCuentaActivity extends AppCompatActivity {
 
-    String correo;
+    String correo, id_usuario;
     TextView txtEmail;
-    Button btnInicio;
+    Button btnCContrasena, btnSerEspecialista, btnEliminarCuenta;
 
 
     @Override
@@ -22,17 +22,46 @@ public class ConfiguracionCuentaActivity extends AppCompatActivity {
         setContentView(R.layout.activity_configuraciondecuenta);
 
         txtEmail = (TextView) findViewById(R.id.txtCorreo);
-        btnInicio = (Button) findViewById(R.id.btnInicio);
+        btnCContrasena = (Button) findViewById(R.id.btnCContrasena);
+        btnSerEspecialista = (Button) findViewById(R.id.btnSerEspecialista);
+        btnEliminarCuenta = (Button) findViewById(R.id.btnEliminarCuenta);
 
-        btnInicio.setOnClickListener(new View.OnClickListener() {
+        btnCContrasena.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
+                Intent intent = new Intent(getApplicationContext(), MenuCambiarContrasenaActivity.class);
                 intent.putExtra("email",correo);
                 startActivity(intent);
                 finish();
+
             }
         });
+
+        btnSerEspecialista.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), RegistrarEspecialista.class);
+                intent.putExtra("email",correo);
+                startActivity(intent);
+                finish();
+
+            }
+        });
+
+        btnEliminarCuenta.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), EliminarCuentaActivity.class);
+                intent.putExtra("email",correo);
+                intent.putExtra("id_usuario",id_usuario);
+                startActivity(intent);
+                finish();
+
+            }
+        });
+
+
+
 
 
         recibirDatos();
@@ -43,6 +72,17 @@ public class ConfiguracionCuentaActivity extends AppCompatActivity {
         u = getIntent().getExtras();
         correo = u.getString("email");
         txtEmail.setText(correo);
+        id_usuario= u.getString("id_usuario");
+
         //Toast.makeText(PerfilActivity.this,"Recibiendo usuario "+correo, Toast.LENGTH_SHORT).show();
     }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(getApplicationContext(), MenuUsuarioActivity.class);
+        intent.putExtra("email",correo);
+        startActivity(intent);
+        finish();
+    }
+
 }

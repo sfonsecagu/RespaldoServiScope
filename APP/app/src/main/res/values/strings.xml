@@ -21,4 +21,16 @@
     <string name="open">open</string>
     <string name="close">close</string>
 
+
+    <!-- Url usados para listar solicitudes  -->
+    <!-- Rutas seba  -->
+    <string name="URL_SOLICITUDES">http://192.168.64.2/ServiScope/listar_prueba_solicitudes.php</string>
+    <string name="URL_SOLICITUDESDOS">http://192.168.64.2/ServiScope/listar_prueba_solicitudes_DOS.php</string>
+    <string name="URL_MISSOLICITUDES">http://192.168.64.2/ServiScope/listar_prueba_missolicitudes.php</string>
+    <string name="URL_MISSOLICITUDESESPECIALISTA">http://192.168.64.2/ServiScope/listar_prueba_missolicitudes_especialista.php</string>
+    <string name="URL_MISSOLICITUDES_METRICAS">http://192.168.64.2/ServiScope/listar_missolicitudes_metricas.php</string>
+    <string name="URL_HISTORIAL">http://192.168.64.2/ServiScope/listar_prueba_historial.php</string>
+    <string name="URL_MISSERVICIOS">http://192.168.64.2/ServiScope/listar_misservicios.php</string>
+
+
 </resources>

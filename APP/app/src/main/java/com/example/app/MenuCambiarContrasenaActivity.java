@@ -23,17 +23,15 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class MenuCambiarContrasenaActivity extends AppCompatActivity {
 
-    Button btnInicio, btnCambiar;
+    Button btnCambiar;
     TextView txtEmail;
     EditText edtContrasenaA, edtContrasena1, edtContrasena2;
-    String correo, contrasenaA, contrasena1, contrasena2, contrasenaDB;
-    RequestQueue requestQueue;
+    String correo, contrasenaA, contrasena1, contrasena2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cambiarcontrasena);
-        btnInicio = (Button) findViewById(R.id.btnInicio);
         btnCambiar = (Button) findViewById(R.id.btnCambiarcontrasena);
         txtEmail = (TextView) findViewById(R.id.txtCorreo);
         edtContrasenaA = (EditText) findViewById(R.id.edtContrasenaA);
@@ -41,15 +39,7 @@ public class MenuCambiarContrasenaActivity extends AppCompatActivity {
         edtContrasena2 = (EditText) findViewById(R.id.edtContrasena2);
 
 
-        btnInicio.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), PerfilActivity.class);
-                intent.putExtra("email",correo);
-                startActivity(intent);
-                finish();
-            }
-        });
+
 
         btnCambiar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -59,17 +49,23 @@ public class MenuCambiarContrasenaActivity extends AppCompatActivity {
                 contrasena2 = edtContrasena2.getText().toString();
 
                 if(!contrasenaA.isEmpty() && !contrasena1.isEmpty() && !contrasena2.isEmpty()){
-                    if (contrasena1.equals(contrasena2)) {
-                        //Ruta seba
+                    if (contrasenaA.equals(contrasena1)){
 
-                        validarContrasena("http://192.168.64.2/ServiScope/verificar_contrasena.php");
+                        Toast.makeText(getApplicationContext(),"Nueva contraseña debe ser distinta a la anterior", Toast.LENGTH_SHORT).show();
 
-                        //Ruta diego
-                        //validarContrasena("http://192.168.1,98/ServiScope/verificar_contrasena.php");
+                    }else{
+                        if (contrasena1.equals(contrasena2)) {
+                            //Ruta seba
+                            validarContrasena("http://192.168.64.2/ServiScope/verificar_contrasena.php");
 
-                    }else {
-                        Toast.makeText(MenuCambiarContrasenaActivity.this,"Las contraseñas no coinciden", Toast.LENGTH_SHORT).show();
+                            //Ruta diego
+                            //validarContrasena("http://192.168.1,98/ServiScope/verificar_contrasena.php");
+                            //validarContrasena("http://192.168.0,10/ServiScope/verificar_contrasena.php");
+                        }else {
+                            Toast.makeText(MenuCambiarContrasenaActivity.this,"Las contraseñas no coinciden", Toast.LENGTH_SHORT).show();
+                        }
                     }
+
                 }else{
                     Toast.makeText(MenuCambiarContrasenaActivity.this,"Favor de completar los datos", Toast.LENGTH_SHORT).show();
                 }
@@ -92,12 +88,12 @@ public class MenuCambiarContrasenaActivity extends AppCompatActivity {
                     //Ruta seba
                     cambiarContrasena("http://192.168.64.2/ServiScope/actualizar_contrasena.php");
 
-
                         //Ruta diego
                     //cambiarContrasena("http://192.168.1.98/ServiScope/actualizar_contrasena.php");
+                    //cambiarContrasena("http://192.168.0.10/ServiScope/actualizar_contrasena.php");
 
                 }else{
-                    Toast.makeText(getApplicationContext(), "Contraseña Incorrecta", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Contraseña Incorrecta, reintente", Toast.LENGTH_SHORT).show();
                 }
 
             }
@@ -151,21 +147,19 @@ public class MenuCambiarContrasenaActivity extends AppCompatActivity {
     }
 
 
-
-
-
-
-
-
-
-
-
-
     private void recibirDatos() {
         Bundle u;
         u = getIntent().getExtras();
         correo = u.getString("email");
         txtEmail = (TextView) findViewById(R.id.txtCorreo);
         txtEmail.setText(correo);
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(getApplicationContext(), PerfilActivity.class);
+        intent.putExtra("email",correo);
+        startActivity(intent);
+        finish();
     }
 }

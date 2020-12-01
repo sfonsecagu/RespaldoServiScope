@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -20,20 +21,6 @@
             android:src="@drawable/ic_business_cente">
 
         </ImageView>
-
-        <TextView
-            android:id="@+id/txtTitulo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginStart="10dp"
-            android:layout_toEndOf="@id/imagen_solicitud"
-            android:layout_toRightOf="@+id/imagen_solicitud"
-            android:text="Nombre de Solicitud"
-            android:textSize="20sp"
-            android:textStyle="bold">
-
-        </TextView>
 
 
         <TextView
@@ -84,17 +71,29 @@
             android:layout_toEndOf="@+id/textView41"
             android:text="TextView" />
 
-        <Button
-            android:id="@+id/btnVer"
-            android:layout_width="50dp"
+        <TextView
+            android:id="@+id/txtTitulo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_toEndOf="@id/imagen_solicitud"
+            android:layout_toRightOf="@+id/imagen_solicitud"
+            android:text="Nombre de Solicitud"
+            android:textSize="20sp"
+            android:textStyle="bold">
+
+        </TextView>
+
+        <TextView
+            android:id="@+id/txtEstado"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_alignParentTop="true"
-            android:layout_marginEnd="25dp"
-            android:layout_marginStart="150dp"
-            android:layout_marginTop="70dp"
-            android:layout_toEndOf="@+id/imagen_solicitud"
-            android:text="Ver" />
+            android:layout_marginEnd="15dp"
+            android:layout_marginTop="40dp"
+            android:text="TextView" />
 
     </RelativeLayout>
 

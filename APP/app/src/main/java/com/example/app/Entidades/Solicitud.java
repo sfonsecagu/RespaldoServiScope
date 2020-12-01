@@ -16,8 +16,15 @@ public class Solicitud implements Serializable {
     private int id_servicio;
     private int estado_solicitud;
     private int valoracion;
+    private String imagen;
+    private int id_estado_solicitud;
+    private String descripcion_estado;
 
-    public Solicitud(int id_solicitud, int id_usuario, int id_tecnico, String fecha, String titulo, String descripcion, int id_region, int id_comuna, String direccion, int valor, int id_servicio, int estado_solicitud, int valoracion) {
+    public Solicitud() {
+
+    }
+
+    public Solicitud(int id_solicitud, int id_usuario, int id_tecnico, String fecha, String titulo, String descripcion, int id_region, int id_comuna, String direccion, int valor, int id_servicio, int estado_solicitud, int valoracion, String imagen, int id_estado_solicitud, String descripcion_estado) {
         this.id_solicitud = id_solicitud;
         this.id_usuario = id_usuario;
         this.id_tecnico = id_tecnico;
@@ -31,10 +38,9 @@ public class Solicitud implements Serializable {
         this.id_servicio = id_servicio;
         this.estado_solicitud = estado_solicitud;
         this.valoracion = valoracion;
-    }
-
-    public Solicitud() {
-
+        this.imagen = imagen;
+        this.id_estado_solicitud = id_estado_solicitud;
+        this.descripcion_estado = descripcion_estado;
     }
 
     public int getId_solicitud() {
@@ -139,5 +145,29 @@ public class Solicitud implements Serializable {
 
     public void setValoracion(int valoracion) {
         this.valoracion = valoracion;
+    }
+
+    public String getImagen() {
+        return imagen;
+    }
+
+    public void setImagen(String imagen) {
+        this.imagen = imagen;
+    }
+
+    public int getId_estado_solicitud() {
+        return id_estado_solicitud;
+    }
+
+    public void setId_estado_solicitud(int id_estado_solicitud) {
+        this.id_estado_solicitud = id_estado_solicitud;
+    }
+
+    public String getDescripcion_estado() {
+        return descripcion_estado;
+    }
+
+    public void setDescripcion_estado(String descripcion_estado) {
+        this.descripcion_estado = descripcion_estado;
     }
 }

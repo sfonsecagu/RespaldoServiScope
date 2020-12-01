@@ -4,29 +4,21 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:foreground="@drawable/image">
 
-    <Button
-        android:id="@+id/btnInicio2"
-        android:layout_width="wrap_content"
-        android:layout_height="30dp"
-        android:text="Inicio"
-        android:textSize="10dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center">
 
-    <TextView
-        android:id="@+id/txtCorreo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="TextView"
-        android:visibility="visible"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.467"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.022" />
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/LinearLayout"
@@ -39,36 +31,26 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtCorreo"
-        app:layout_constraintVertical_bias="0.0">
-
-        <TextView
-            android:id="@+id/textView46"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Hola " />
-
-        <TextView
-            android:id="@+id/txtNombre"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="TextView" />
-
-    </LinearLayout>
+        app:layout_constraintVertical_bias="0.0"/>
 
     <TextView
-        android:id="@+id/textView54"
-        android:layout_width="match_parent"
+        android:id="@+id/txtCorreo"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:text="Favor completar sus datos:"
-        app:layout_constraintTop_toBottomOf="@+id/LinearLayout"
-        tools:layout_editor_absoluteX="20dp" />
+        android:text="TextView"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.467"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.022" />
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="120dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/LinearLayout">
 
@@ -76,6 +58,13 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textView54"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="Favor completar sus datos:" />
 
             <TextView
                 android:id="@+id/textView55"
@@ -93,6 +82,7 @@
                 android:layout_marginEnd="20dp"
                 android:layout_marginStart="20dp"
                 android:ems="10"
+                android:hint="Organización"
                 android:inputType="textPersonName" />
 
             <TextView
@@ -125,6 +115,7 @@
                 android:layout_marginEnd="20dp"
                 android:layout_marginStart="20dp"
                 android:ems="10"
+                android:hint="5 años en el rubro"
                 android:inputType="textPersonName" />
 
             <LinearLayout
@@ -141,7 +132,7 @@
                     android:text="Ubicación" />
 
                 <TextView
-                    android:id="@+id/txtGPS"
+                    android:id="@+id/txtGPS2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
 
@@ -150,30 +141,32 @@
                     android:text="(Utilizar ubicación actual)"
                     android:textAlignment="center" />
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:visibility="invisible">
-
-                    <TextView
-                        android:id="@+id/txtComuna"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
-
-                    <TextView
-                        android:id="@+id/txtEspecialidad"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-                </LinearLayout>
             </LinearLayout>
+
+            <TextView
+                android:id="@+id/textoDireccion"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="10dp"
+                android:text="Dirección (Si no es correcta favor corregir)" />
+
+            <EditText
+                android:id="@+id/edtUbicacion"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="20dp"
+                android:layout_marginStart="20dp"
+                android:ems="10"
+                android:hint="Dirección"
+                android:inputType="textPersonName" />
 
             <TextView
                 android:id="@+id/textoRegion"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="20dp"
                 android:text="Región" />
 
             <Spinner
@@ -197,23 +190,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="20dp"
                 android:layout_marginStart="20dp" />
-
-            <TextView
-                android:id="@+id/textoDireccion"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="30dp"
-                android:text="Dirección" />
-
-            <EditText
-                android:id="@+id/edtUbicacion"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="20dp"
-                android:layout_marginStart="20dp"
-                android:ems="10"
-                android:inputType="textPersonName" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -248,6 +224,7 @@
                 </LinearLayout>
             </LinearLayout>
 
+
             <Button
                 android:id="@+id/btnRegistrar"
                 android:layout_width="match_parent"
@@ -257,6 +234,8 @@
                 android:layout_marginTop="20dp"
                 android:text="Registrar Especialidad"
                 android:textAlignment="center"
+                android:backgroundTint="#FFFFFF"
+                android:textColor="#000000"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="parent" />
@@ -267,38 +246,45 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/txtPrueba4"
+                    android:id="@+id/txtCategoria"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="16dp"
                     android:layout_marginTop="28dp"
-                    android:text="TextView" />
+                    android:text="TextView"
+                    android:visibility="invisible" />
 
                 <TextView
-                    android:id="@+id/txtPrueba5"
+                    android:id="@+id/txtCategoriaid"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="TextView"
+                    android:visibility="invisible" />
+
+                <TextView
+                    android:id="@+id/txtRegion"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="112dp"
-                    android:text="TextView" />
+                    android:text="TextView"
+                    android:visibility="invisible" />
 
                 <TextView
-                    android:id="@+id/txtPrueba3"
+                    android:id="@+id/txtComuna"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="56dp"
-                    android:text="TextView" />
+                    android:text="TextView"
+                    android:visibility="invisible" />
 
                 <TextView
-                    android:id="@+id/txtPrueba"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/txtComunaid"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="TextView" />
+                    android:layout_marginEnd="56dp"
+                    android:text="TextView"
+                    android:visibility="invisible" />
 
-                <TextView
-                    android:id="@+id/txtPrueba2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="TextView" />
             </LinearLayout>
 
         </LinearLayout>

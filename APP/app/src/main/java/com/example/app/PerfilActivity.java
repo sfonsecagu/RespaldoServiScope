@@ -27,8 +27,8 @@ public class PerfilActivity extends AppCompatActivity {
     EditText edtMiembrodesde, edtCorreo, edtContrasena, edtTelefono, edtTipo_usuario;
     String correo, nombres, apellidos, telefono, registro, tipo, id_usuario_tecnico, id_usuario;
     RequestQueue requestQueue;
-    Button btnInicio, btnCambiarContrasena, btnConfiguracion;
-    ImageButton btnEspecialista;
+    Button btnMenuEspecialista;
+    ImageButton  btnConfiguracion;
     public static int espera=2000;
 
     @Override
@@ -38,50 +38,30 @@ public class PerfilActivity extends AppCompatActivity {
 
         txtEmail = (TextView) findViewById(R.id.txtCorreo2);
         txtNombre = (TextView) findViewById(R.id.txtNombre);
-        txtApellido = (TextView) findViewById(R.id.txtApellido);
         edtMiembrodesde = (EditText) findViewById(R.id.edtMiembrodesde);
         edtCorreo = (EditText) findViewById(R.id.edtCorreo);
         edtContrasena = (EditText) findViewById(R.id.edtContrasena);
         edtTelefono= (EditText) findViewById(R.id.edtTelefono);
         edtTipo_usuario= (EditText) findViewById(R.id.edtTipo_usuario);
-        btnInicio = (Button) findViewById(R.id.btnInicio);
-        btnCambiarContrasena = (Button) findViewById(R.id.btnCambiarContrasena);
-        btnEspecialista = (ImageButton) findViewById(R.id.btnEspecialista);
-        btnConfiguracion = (Button) findViewById(R.id.btnConfiguracion);
+        btnConfiguracion = (ImageButton) findViewById(R.id.btnConfiguracion);
+        btnMenuEspecialista = (Button) findViewById(R.id.btnMenuEspecialista);
+        btnMenuEspecialista.setVisibility(View.INVISIBLE);
 
-        btnInicio.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
-                intent.putExtra("email",correo);
-                startActivity(intent);
-                finish();
-            }
-        });
-
-        btnCambiarContrasena.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), MenuCambiarContrasenaActivity.class);
-                intent.putExtra("email",correo);
-                startActivity(intent);
-                finish();
-            }
-        });
-
-        btnEspecialista.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), RegistrarEspecialista.class);
-                intent.putExtra("email",correo);
-                startActivity(intent);
-                finish();
-            }
-        });
         btnConfiguracion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), ConfiguracionCuentaActivity.class);
+                intent.putExtra("email",correo);
+                intent.putExtra("id_usuario",id_usuario);
+                startActivity(intent);
+                finish();
+            }
+        });
+
+        btnMenuEspecialista.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), MenuEspecialistaActivity.class);
                 intent.putExtra("email",correo);
                 startActivity(intent);
                 finish();
@@ -89,15 +69,6 @@ public class PerfilActivity extends AppCompatActivity {
         });
 
         recibirDatos();
-
-        //Ruta seba
-        buscarUsuario("http://192.168.64.2/ServiScope/cargar_perfil.php?email="+correo+"");
-
-        //Ruta diego
-        //buscarUsuario("http://192.168.1.98/ServiScope/cargar_perfil.php?email="+txtEmail.getText()+"");
-
-
-
     }
 
 
@@ -118,8 +89,8 @@ public class PerfilActivity extends AppCompatActivity {
                         tipo = jsonObject.getString("tipo_usuario");
                         id_usuario = jsonObject.getString("id_usuario");
 
-                        txtNombre.setText(nombres+" ");
-                        txtApellido.setText(apellidos);
+
+                        txtNombre.setText(nombres+" "+ apellidos);
                         edtMiembrodesde.setText(registro);
                         edtCorreo.setText(correo);
                         edtTelefono.setText(telefono);
@@ -150,8 +121,13 @@ public class PerfilActivity extends AppCompatActivity {
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
+
                 //Ruta seba
                 buscarTecnico("http://192.168.64.2/ServiScope/cargar_perfil_tecnico.php?id_usuario="+id_usuario+"");
+
+                //Ruta diego
+                // buscarTecnico("http://192.168.1.98/ServiScope/cargar_perfil_tecnico.php?id_usuario="+id_usuario+"");
+                //buscarTecnico("http://192.168.0.10/ServiScope/cargar_perfil_tecnico.php?id_usuario="+id_usuario+"");
 
             }
         },milisegundos);
@@ -167,11 +143,10 @@ public class PerfilActivity extends AppCompatActivity {
                         jsonObject = response.getJSONObject(i);
                         id_usuario_tecnico = jsonObject.getString("id_usuario");
 
-                        Toast.makeText(PerfilActivity.this,"Tecnico", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(PerfilActivity.this,"Tecnico", Toast.LENGTH_SHORT).show();
 
-                        edtTipo_usuario.setText("Cliente - Técnico");
-
-
+                        edtTipo_usuario.setText("Cliente - Especialista");
+                        btnMenuEspecialista.setVisibility(View.VISIBLE);
 
                     } catch (JSONException e) {
                         Toast.makeText(PerfilActivity.this,"Usuario no tecnico", Toast.LENGTH_SHORT).show();
@@ -181,7 +156,7 @@ public class PerfilActivity extends AppCompatActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(PerfilActivity.this,"Usuario no Tecnico", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(PerfilActivity.this,"Usuario no Tecnico", Toast.LENGTH_SHORT).show();
             }
         }
         );
@@ -194,9 +169,22 @@ public class PerfilActivity extends AppCompatActivity {
         u = getIntent().getExtras();
         correo = u.getString("email");
         txtEmail.setText(correo);
-        //Toast.makeText(PerfilActivity.this,"Recibiendo usuario "+correo, Toast.LENGTH_SHORT).show();
+
+        //Ruta seba
+        buscarUsuario("http://192.168.64.2/ServiScope/cargar_perfil.php?email="+correo+"");
+
+        //Ruta diego
+        // buscarUsuario("http://192.168.1.98/ServiScope/cargar_perfil.php?email="+txtEmail.getText()+"");
+        //buscarUsuario("http://192.168.0.10/ServiScope/cargar_perfil.php?email="+txtEmail.getText()+"");
     }
 
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(getApplicationContext(), MenuUsuarioActivity.class);
+        intent.putExtra("email",correo);
+        startActivity(intent);
+        finish();
+    }
 
 
 }

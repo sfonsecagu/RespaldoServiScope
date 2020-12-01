@@ -31,6 +31,9 @@ public class RegistrarActivity extends AppCompatActivity {
     Button btnAgregar;
     TextView txtLogin;
 
+    String format, format2, format3;
+    String dvR,dvT;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,26 +83,208 @@ public class RegistrarActivity extends AppCompatActivity {
                 contrasena=edtContrasena.getText().toString();
                 contrasena2=edtContrasena2.getText().toString();
 
-                if(!nombres.isEmpty() && !apellidos.isEmpty() && !rut.isEmpty() && !telefono.isEmpty() && !contrasena.isEmpty() && !contrasena2.isEmpty()){
-                    if (contrasena.equals(contrasena2)) {
-                        //Ruta Seba
-                        validarUsuario("http://192.168.64.2/ServiScope/validar_usuario_existente.php");
+                if(!rut.isEmpty()){
+                    formatear(rut);
+                    validar(format);
 
-                        //Ruta Diego
-                        //validarUsuario("http://192.168.1.98/ServiScope/validar_usuario_existente.php");
+                    char ultimo = edtRut.getText().toString().charAt(edtRut.getText().toString().length() - 1);
+
+                    if (ultimo == '0') {
+                        EditText resrut = (EditText) findViewById(R.id.edtRut);
+                        InputFilter[] filters = new InputFilter[1];
+                        filters[0] = new InputFilter.LengthFilter(12);
+                        resrut.setFilters(filters);
+                        format2 = format.substring(0, format.length() - 1);
+
+                        if (dvT.equals("K")) {
+                            edtRut.setText(format2 + "K");
+                            format3 = edtRut.getText().toString();
+                            if(!nombres.isEmpty() && !apellidos.isEmpty() && !rut.isEmpty() && !telefono.isEmpty() && !contrasena.isEmpty() && !contrasena2.isEmpty()){
+                                if (contrasena.equals(contrasena2)) {
+                                    //Ruta Seba
+
+                                    validarUsuario("http://192.168.64.2/ServiScope/validar_usuario_existente.php");
+
+                                    //Ruta Diego
+                                    // validarUsuario("http://192.168.1.98/ServiScope/validar_usuario_existente.php");
+                                    //validarUsuario("http://192.168.0.10/ServiScope/validar_usuario_existente.php");
+
+                                }else {
+                                    Toast.makeText(RegistrarActivity.this,"Las contraseñas no coinciden", Toast.LENGTH_SHORT).show();
+                                }
+                            }else{
+                                Toast.makeText(RegistrarActivity.this,"Favor de completar los datos", Toast.LENGTH_SHORT).show();
+                            }
+
+                        }else if (dvR.equals(dvT)) {
+                            edtRut.setText(format);
+                            format3 = edtRut.getText().toString();
+                            if(!nombres.isEmpty() && !apellidos.isEmpty() && !rut.isEmpty() && !telefono.isEmpty() && !contrasena.isEmpty() && !contrasena2.isEmpty()){
+                                if (contrasena.equals(contrasena2)) {
+                                    //Ruta Seba
+
+                                    validarUsuario("http://192.168.64.2/ServiScope/validar_usuario_existente.php");
+
+                                    //Ruta Diego
+                                    // validarUsuario("http://192.168.1.98/ServiScope/validar_usuario_existente.php");
+                                    //validarUsuario("http://192.168.0.10/ServiScope/validar_usuario_existente.php");
+
+                                }else {
+                                    Toast.makeText(RegistrarActivity.this,"Las contraseñas no coinciden", Toast.LENGTH_SHORT).show();
+                                }
+                            }else{
+                                Toast.makeText(RegistrarActivity.this,"Favor de completar los datos", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+
+                        else{
+                            Toast.makeText(getApplicationContext(),"Rut no es correcto, favor verificar", Toast.LENGTH_SHORT).show();
+
+                        }
 
 
+                    }else if (dvR.equals(dvT)) {
+                        EditText resrut = (EditText) findViewById(R.id.edtRut);
+                        InputFilter[] filters = new InputFilter[1];
+                        filters[0] = new InputFilter.LengthFilter(12);
+                        resrut.setFilters(filters);
+                        edtRut.setText(format);
+                        format3 = edtRut.getText().toString();
+                        if(!nombres.isEmpty() && !apellidos.isEmpty() && !rut.isEmpty() && !telefono.isEmpty() && !contrasena.isEmpty() && !contrasena2.isEmpty()){
+                            if (contrasena.equals(contrasena2)) {
+                                //Ruta Seba
 
-                    }else {
-                        Toast.makeText(RegistrarActivity.this,"Las contraseñas no coinciden", Toast.LENGTH_SHORT).show();
+                                validarUsuario("http://192.168.64.2/ServiScope/validar_usuario_existente.php");
+
+                                //Ruta Diego
+                                // validarUsuario("http://192.168.1.98/ServiScope/validar_usuario_existente.php");
+                                //validarUsuario("http://192.168.0.10/ServiScope/validar_usuario_existente.php");
+
+                            }else {
+                                Toast.makeText(RegistrarActivity.this,"Las contraseñas no coinciden", Toast.LENGTH_SHORT).show();
+                            }
+                        }else{
+                            Toast.makeText(RegistrarActivity.this,"Favor de completar los datos", Toast.LENGTH_SHORT).show();
+                        }
+
                     }
+                    else{
+                        Toast.makeText(getApplicationContext(),"Rut no es correcto, favor verificar", Toast.LENGTH_SHORT).show();
+                    }
+
                 }else{
-                    Toast.makeText(RegistrarActivity.this,"Favor de completar los datos", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(),"Favor ingresar Rut", Toast.LENGTH_SHORT).show();
                 }
+
+
+
+
+
 
 
             }
         });
+
+    }
+
+    public String formatear(String rut){
+        int cont=0;
+        if(rut.length() == 0){
+            return "";
+        }else{
+            rut = rut.replace(".", "");
+            rut = rut.replace("-", "");
+            format = "-"+rut.substring(rut.length()-1);
+            for(int i = rut.length()-2;i>=0;i--){
+                format = rut.substring(i, i+1)+format;
+                cont++;
+                if(cont == 3 && i != 0){
+                    format = "."+format;
+                    cont = 0;
+                }
+            }
+            return format;
+        }
+    }
+
+    public boolean validar(String rut){
+        int suma=0;
+        int[] serie = {2,3,4,5,6,7};
+        rut = rut.replace(".", "");
+        rut = rut.replace("-", "");
+        dvR = rut.substring(rut.length()-1);
+        for(int i = rut.length()-2;i>=0; i--){
+            suma +=  Integer.valueOf(rut.substring(i, i+1))
+                    *serie[(rut.length()-2-i)%6];
+        }
+        dvT=String.valueOf(11-suma%11);
+        if(dvT.compareToIgnoreCase("10") == 0){
+            dvT = "K";
+        }
+        if(dvT.compareToIgnoreCase("11") == 0){
+            dvT = "0";
+        }
+
+        if(dvT.compareToIgnoreCase(dvR) == 0){
+            return true;
+
+        } else {
+            return false;
+        }
+    }
+
+
+    private void validarUsuario(String URL){
+        StringRequest stringRequest=new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                if (!response.isEmpty()){
+                    edtRut.setText(rut);
+                    EditText resrut = (EditText) findViewById(R.id.edtRut);
+                    InputFilter[] filters = new InputFilter[1];
+                    filters[0] = new InputFilter.LengthFilter(9);
+                    resrut.setFilters(filters);
+                    Toast.makeText(RegistrarActivity.this,"Usuario presente en los registros, inicie sesión o recupere su contraseña", Toast.LENGTH_SHORT).show();
+
+                }else{
+                    //Ruta Seba
+                    registroUsuario("http://192.168.64.2/ServiScope/registro_usuario.php");
+                    edtRut.setEnabled(false);
+
+                    //Ruta Diego
+                    // registroUsuario("http://192.168.1.98/ServiScope/registro_usuario.php");
+                    //registroUsuario("http://192.168.0.10/ServiScope/registro_usuario.php");
+
+
+                    Intent intent = new Intent(getApplicationContext(), RegistrarDosActivity.class);
+                    startActivity(intent);
+                    finish();
+                    Intent i = new Intent(RegistrarActivity.this, RegistrarDosActivity.class);
+                    i.putExtra("nombre",nombres);
+                    i.putExtra("email",email);
+
+                    startActivity(i);
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(RegistrarActivity.this, error.toString(), Toast.LENGTH_SHORT).show();
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> parametros = new HashMap<String, String>();
+                parametros.put("email", email);
+                parametros.put("rut", format3);
+                parametros.put("telefono", telefono);
+                return parametros;
+            }
+        };
+
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest);
 
     }
 
@@ -133,53 +318,12 @@ public class RegistrarActivity extends AppCompatActivity {
         requestQueue.add(stringRequest);
     }
 
-    private void validarUsuario(String URL){
-        StringRequest stringRequest=new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                if (!response.isEmpty()){
-                    Toast.makeText(RegistrarActivity.this,"Usuario presente en los registros, inicie sesión o recupere su contraseña", Toast.LENGTH_SHORT).show();
-
-                }else{
-                    //Ruta Seba
-                    registroUsuario("http://192.168.64.2/ServiScope/registro_usuario.php");
-
-                    //Ruta Diego
-                    //registroUsuario("http://192.168.1.98/ServiScope/registro_usuario.php");
-
-
-                    Intent intent = new Intent(getApplicationContext(), RegistrarDosActivity.class);
-                    startActivity(intent);
-                    finish();
-                    Intent i = new Intent(RegistrarActivity.this, RegistrarDosActivity.class);
-                    i.putExtra("nombre",nombres);
-                    i.putExtra("email",email);
-                    startActivity(i);
-                }
-
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(RegistrarActivity.this, error.toString(), Toast.LENGTH_SHORT).show();
-            }
-        }){
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String, String> parametros = new HashMap<String, String>();
-                parametros.put("email", email);
-                parametros.put("rut", rut);
-                parametros.put("telefono", telefono);
-                return parametros;
-            }
-        };
-
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
-        requestQueue.add(stringRequest);
-
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+        startActivity(intent);
+        finish();
     }
-
-
 
 
 }

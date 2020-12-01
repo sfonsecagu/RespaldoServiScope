@@ -4,7 +4,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:foreground="@drawable/image">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -17,10 +18,11 @@
 
         <TextView
             android:id="@+id/textView15"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_marginStart="15dp"
-            android:layout_marginTop="15dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="32dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="50dp"
             android:text="Recuperar contraseña"
             android:textSize="24sp"
             android:textStyle="bold" />
@@ -29,18 +31,20 @@
             android:id="@+id/textView16"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="50dp"
-            android:text="Ingrese su RUT" />
+            android:layout_marginStart="50dp"
+            android:layout_marginTop="150dp"
+            android:text="Ingrese su RUT, si termina en K reemplacela por un 0" />
 
         <EditText
             android:id="@+id/edtRut"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="15dp"
-            android:layout_marginStart="15dp"
+            android:layout_marginEnd="25dp"
+            android:layout_marginStart="25dp"
+            android:layout_marginTop="10dp"
             android:ems="10"
-            android:inputType="textEmailAddress" />
+            android:hint="111111111"
+            android:inputType="text|number" />
 
         <TextView
             android:id="@+id/txtCorreo"
@@ -55,8 +59,10 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="40dp"
             android:layout_marginStart="40dp"
-            android:layout_marginTop="40dp"
-            android:text="Consultar" />
+            android:layout_marginTop="45dp"
+            android:text="Consultar"
+            android:backgroundTint="#FFFFFF"
+            android:textColor="#000000"/>
 
         <Button
             android:id="@+id/btnCorreo"
@@ -64,58 +70,85 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="40dp"
             android:layout_marginStart="40dp"
-            android:text="Enviar Código" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/textView14"
-                android:layout_width="150dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="85dp"
-                android:text="¿Ya tienes una cuenta?" />
-
-            <TextView
-                android:id="@+id/txtLogin"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Iniciar sesión" />
-        </LinearLayout>
+            android:layout_marginTop="-45dp"
+            android:text="Enviar Código"
+            android:backgroundTint="#FFFFFF"
+            android:textColor="#000000"/>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="horizontal">
+            android:layout_marginBottom="30dp"
+            android:gravity="bottom"
+            android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/textView27"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="5dp"
-                android:layout_weight="1"
-                android:text="¿No se encuentran registros con su rut?"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/txtOlvido" />
+                android:layout_marginTop="30dp"
+                android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/txtRegistro"
-                android:layout_width="wrap_content"
+                <TextView
+                    android:id="@+id/textView14"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="85dp"
+                    android:text="¿Ya tienes una cuenta?" />
+
+                <TextView
+                    android:id="@+id/txtLogin"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Iniciar sesión" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="10dp"
-                android:layout_marginTop="5dp"
-                android:layout_weight="1"
-                android:text="Regístrese aquí"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toEndOf="@+id/textView6"
-                app:layout_constraintTop_toBottomOf="@+id/txtOlvido" />
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/textView27"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_weight="1"
+                    android:text="¿No se encuentran registros con su rut?"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/txtOlvido" />
+
+                <TextView
+                    android:id="@+id/txtRegistro"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_weight="1"
+                    android:text="Regístrese aquí"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toEndOf="@+id/textView6"
+                    app:layout_constraintTop_toBottomOf="@+id/txtOlvido" />
+            </LinearLayout>
+
         </LinearLayout>
 
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        tools:layout_editor_absoluteY="731dp">
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="invisible" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

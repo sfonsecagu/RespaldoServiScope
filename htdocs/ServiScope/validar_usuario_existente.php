@@ -13,7 +13,7 @@ $usu_telefono=$_POST['telefono'];
 
 
 $consulta=$conexion->prepare(" SELECT * FROM usuario WHERE email=? or rut=? or telefono=?");
-$consulta->bind_param('sii', $usu_email, $usu_rut, $usu_telefono);
+$consulta->bind_param('ssi', $usu_email, $usu_rut, $usu_telefono);
 $consulta->execute();
 
 $resultado = $consulta->get_result();

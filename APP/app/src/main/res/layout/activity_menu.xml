@@ -4,66 +4,138 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MenuActivity">
+    android:background="#FFFFFF"
+    tools:context=".MenuUsuarioActivity">
 
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
+        android:foreground="@drawable/image"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
+        <TextView
+            android:id="@+id/textView63"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="40dp"
+            android:layout_marginTop="30dp"
+            android:text="ServiScope"
+            android:textAlignment="center"
+            android:textSize="40dp"
+            android:textStyle="bold"
+/>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/textView91"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Bienvenido "
+                android:textSize="20dp" />
+
+            <TextView
+                android:id="@+id/txtNombre"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="TextView"
+                android:textSize="20dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="35dp"
+            android:background="@drawable/borde"
             android:orientation="horizontal">
 
             <Button
-                android:id="@+id/btnMenu"
-                android:layout_width="54dp"
+                android:id="@+id/btnNuevaSolicitud"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="60dp"
+                android:backgroundTint="#FFFFFF"
+                android:text="Nueva Solicitud"
+                android:textColor="#000000"/>
+
+            <ImageView
+                android:id="@+id/imageView4"
+                android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:text="m" />
-
-            <SearchView
-                android:id="@+id/searchView"
-                android:layout_width="300dp"
-                android:layout_height="50dp">
-
-            </SearchView>
+                android:layout_marginStart="-60dp"
+                app:srcCompat="@drawable/ic_agregar" />
         </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/borde"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btnMisSolicitudes"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="60dp"
+                android:backgroundTint="#FFFFFF"
+                android:text="Mis Solicitudes"
+                android:textColor="#000000"/>
+
+            <ImageView
+                android:id="@+id/imageView3"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginStart="-60dp"
+                app:srcCompat="@drawable/ic_solicitudes" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/borde"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btnPerfil"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="60dp"
+                android:text="Mi Perfil"
+                android:backgroundTint="#FFFFFF"
+                android:textColor="#000000"/>
+
+            <ImageView
+                android:id="@+id/imageView2"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginStart="-60dp"
+                app:srcCompat="@drawable/ic_usr" />
+        </LinearLayout>
+
 
         <TextView
             android:id="@+id/txtCorreo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="visible"
+            android:visibility="invisible"
             tools:visibility="visible" />
 
-        <Button
-            android:id="@+id/btnNuevaSolicitud"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Nueva Solicitud" />
-
-        <Button
-            android:id="@+id/btnSolicitudes"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Solicitudes" />
-
-        <Button
-            android:id="@+id/btnMisSolicitudes"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Mis Solicitudes" />
-
-        <Button
-            android:id="@+id/btnPerfil"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Mi Perfil" />
 
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -12,6 +12,7 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
     <uses-feature android:name="android.hardware.location.gps"/>
 
     <application
@@ -20,10 +21,10 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme"
+        android:theme="@style/Theme.AppCompat.Light.NoActionBar"
         android:usesCleartextTraffic="true">
 
-        <activity android:name=".MenuActivity" android:label="Menú"></activity>
+        <activity android:name=".MenuUsuarioActivity" android:label="Menú"></activity>
         <activity android:name=".Splashscreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -36,15 +37,33 @@
         <activity android:name=".RegistrarActivity" />
         <activity android:name=".RegistrarDosActivity" />
         <activity android:name=".LoginActivity" />
-        <activity android:name=".RecuperarActivity" />
+        <activity android:name=".RecuperarContrasenaActivity" />
         <activity android:name=".CambioContrasenaActivity"/>
-        <activity android:name=".NuevaSolicitudActivity"/>
-        <activity android:name=".SolicitudesActivity"/>
+        <activity android:name=".CrearNuevaSolicitudActivity"/>
         <activity android:name=".PerfilActivity"/>
         <activity android:name=".MenuCambiarContrasenaActivity"/>
         <activity android:name=".RegistrarEspecialista"/>
         <activity android:name=".RegistrarEspecialistaDos"/>
         <activity android:name=".ConfiguracionCuentaActivity"/>
+        <activity android:name=".SolicitudesActivityDOS"/>
+        <activity android:name=".VerSolicitudesActivity"/>
+        <activity android:name=".VerSolicitudes2Activity"/>
+        <activity android:name=".MisSolicitudesActivity"/>
+        <activity android:name=".MenuEspecialistaActivity"/>
+        <activity android:name=".PostularASolicitud"/>
+        <activity android:name=".ChatActivity" />
+        <activity android:name=".EliminarCuentaActivity"/>
+        <activity android:name=".MetricasEspecialistaActivity"/>
+        <activity android:name=".MisServiciosActivity"/>
+        <activity android:name=".PerfilServiciosActivity"/>
+        <activity android:name=".MisSolicitudesEspecialistaActivity"/>
+        <activity android:name=".ChatMisServiciosActivity"/>
+        <activity android:name=".SolicitudesActivityDOSDOS"/>
+        <activity android:name=".PerfilUsuarios"/>
+
+
+
+
     </application>
 
 </manifest>

@@ -27,7 +27,7 @@ public class CambioContrasenaActivity extends AppCompatActivity {
 
     EditText edtCodigo, edtContrasena, edtContrasena2;
     Button btnCambiar;
-    String nombres, apellidos, contrasena, contrasena2, codigo, rut;
+    String nombres, apellidos, contrasena, contrasena2, codigo;
     TextView txtNombres, txtCorreo;
 
 
@@ -63,6 +63,7 @@ public class CambioContrasenaActivity extends AppCompatActivity {
 
                         //Ruta Diego
                         //validarUsuario("http://192.168.1.98/ServiScope/validar_codigo.php");
+                        //validarUsuario("http://192.168.0.10/ServiScope/validar_codigo.php");
                     }else {
                         Toast.makeText(CambioContrasenaActivity.this,"Las contraseñas no coinciden", Toast.LENGTH_SHORT).show();
                     }
@@ -98,6 +99,7 @@ public class CambioContrasenaActivity extends AppCompatActivity {
 
                     //Ruta Diego
                     //cambiarContrasena("http://192.168.1.98/ServiScope/cambiar_contrasena.php");
+                    //cambiarContrasena("http://192.168.0.10/ServiScope/cambiar_contrasena.php");
 
                 }else{
                     Toast.makeText(CambioContrasenaActivity.this,"Código erróneo", Toast.LENGTH_SHORT).show();
@@ -151,6 +153,15 @@ public class CambioContrasenaActivity extends AppCompatActivity {
 
         RequestQueue requestQueue= Volley.newRequestQueue(this);
         requestQueue.add(stringRequest);
+    }
+
+    @Override
+    public void onBackPressed() {
+
+        Intent intent = new Intent(getApplicationContext(), RecuperarContrasenaActivity.class);
+        startActivity(intent);
+        finish();
+
     }
 
 

@@ -2,16 +2,16 @@ package com.example.app.Entidades;
 
 public class Servicio {
     private int id_servicio;
-    private String nombre;
+    private String servicio_nombre;
     private String descripcion;
 
     public Servicio(){
 
     }
 
-    public Servicio(int id_servicio, String nombre, String descripcion) {
+    public Servicio(int id_servicio, String servicio_nombre, String descripcion) {
         this.id_servicio = id_servicio;
-        this.nombre = nombre;
+        this.servicio_nombre = servicio_nombre;
         this.descripcion = descripcion;
     }
 
@@ -23,12 +23,12 @@ public class Servicio {
         this.id_servicio = id_servicio;
     }
 
-    public String getNombre() {
-        return nombre;
+    public String getServicio_nombre() {
+        return servicio_nombre;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public void setServicio_nombre(String servicio_nombre) {
+        this.servicio_nombre = servicio_nombre;
     }
 
     public String getDescripcion() {
@@ -37,10 +37,5 @@ public class Servicio {
 
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
-    }
-
-    @Override
-    public String toString() {
-        return nombre ;
     }
 }

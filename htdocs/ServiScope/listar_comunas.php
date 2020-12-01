@@ -2,15 +2,18 @@
 
 include 'conexion.php';
 
-$consulta=$conexion->prepare("SELECT *  FROM `comunas` WHERE `id_region` = 7 ORDER by nombre ASC");
+$id=$_GET['id_region'];
+
+$consulta=$conexion->prepare("SELECT *  FROM `comunas` where id_region = ? ORDER by comuna_nombre ASC");
+$consulta->bind_param('i', $id);
 $consulta->execute();
 
 $resultado= $consulta->get_result();
 
-while($fila = $resultado->fetch_array()){
-	$nombre[]=array_map('utf8_encode', $fila);
+while($fila = $resultado->fetch_assoc()){
+	$nombre[]=$fila;
 }
 
-echo json_encode($nombre);
+echo json_encode($nombre, JSON_UNESCAPED_UNICODE);
 $resultado->close();
  ?>

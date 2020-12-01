@@ -1,14 +1,8 @@
 package com.example.app;
 
 import android.Manifest;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.location.Address;
-import android.location.Geocoder;
-import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
 import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.style.UnderlineSpan;
@@ -18,6 +12,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -39,14 +34,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -54,14 +45,15 @@ import cz.msebera.android.httpclient.Header;
 
 public class RegistrarEspecialistaDos extends AppCompatActivity {
 
-    String correo, nombrecomuna, direccion, text, nombreespecialidad, id_comuna, id_especialidad, id_usuario, certificacion;
-    EditText edtUbicacion, edtExperiencia;
-    TextView txtEmail, txtGPS, textoRegion, textoComuna, txtEspecialidadinvisible, txtComunainvisible, txtPrueba, txtPrueba2, txtPrueba3, txtPrueba4, txtPrueba5;
-    Button btnInicio, btnRegistrar;
+    String correo, nombrecomuna, direccion, nombreespecialidad, Organizacion, id_usuario;
+    EditText edtOrganizacion, edtExperiencia, edtUbicacion;
+    TextView txtComuna, txtComunaid, txtCategoria, txtCategoriaid, txtRegion, txtEmail, txtNombre, txtGPS, textoRegion, textoComuna, textoDireccion;
+    Button btnRegistrar;
     Spinner spnCategoria, spnRegion, spnComuna;
     AsyncHttpClient cliente;
     CheckBox checkBox;
     RequestQueue requestQueue;
+    ProgressBar progressBar;
 
 
     @Override
@@ -69,35 +61,45 @@ public class RegistrarEspecialistaDos extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registrarespecialistados);
         txtEmail = (TextView) findViewById(R.id.txtCorreo);
-        txtGPS = (TextView) findViewById(R.id.txtGPS);
-        textoRegion = (TextView) findViewById(R.id.textoRegion);
-        textoComuna = (TextView) findViewById(R.id.textoComuna);
-        edtUbicacion = (EditText) findViewById(R.id.edtUbicacion);
-        edtExperiencia = (EditText) findViewById(R.id.edtExperiencia);
-        btnInicio = (Button) findViewById(R.id.btnInicio2);
-        btnRegistrar = (Button) findViewById(R.id.btnRegistrar);
-
+        txtNombre = (TextView) findViewById(R.id.txtNombre);
+        txtGPS = (TextView) findViewById(R.id.txtGPS2);
         spnCategoria = (Spinner) findViewById(R.id.spnCategoria);
-        txtEspecialidadinvisible = (TextView) findViewById(R.id.txtEspecialidad);
+        edtExperiencia = (EditText) findViewById(R.id.edtExperiencia);
+        edtUbicacion = (EditText) findViewById(R.id.edtUbicacion);
+        edtOrganizacion = (EditText) findViewById(R.id.edtOrganizacion);
         spnRegion = (Spinner) findViewById(R.id.spnRegion);
         spnComuna = (Spinner) findViewById(R.id.spnComuna);
-        txtComunainvisible = (TextView) findViewById(R.id.txtComuna);
+
+        txtCategoria = (TextView) findViewById(R.id.txtCategoria);
+        txtCategoriaid = (TextView) findViewById(R.id.txtCategoriaid);
+        txtRegion = (TextView) findViewById(R.id.txtRegion);
+        txtComuna = (TextView) findViewById(R.id.txtComuna);
+        txtComunaid = (TextView) findViewById(R.id.txtComunaid);
+
+        textoRegion = (TextView) findViewById(R.id.textoRegion);
+        textoComuna = (TextView) findViewById(R.id.textoComuna);
+        textoDireccion = (TextView) findViewById(R.id.textoDireccion);
+
+        btnRegistrar = (Button) findViewById(R.id.btnRegistrar);
         checkBox = (CheckBox) findViewById(R.id.checkBox);
+        progressBar = findViewById(R.id.progressBar);
         cliente = new AsyncHttpClient();
 
         edtUbicacion.setEnabled(false);
+
         edtUbicacion.setVisibility(View.INVISIBLE);
         spnComuna.setVisibility(View.INVISIBLE);
         spnRegion.setVisibility(View.INVISIBLE);
         textoRegion.setVisibility(View.INVISIBLE);
         textoComuna.setVisibility(View.INVISIBLE);
+        textoDireccion.setVisibility(View.INVISIBLE);
+        progressBar.setVisibility(View.INVISIBLE);
 
 
-        txtPrueba = (TextView) findViewById(R.id.txtPrueba);
-        txtPrueba2 = (TextView) findViewById(R.id.txtPrueba2);
-        txtPrueba3 = (TextView) findViewById(R.id.txtPrueba3);
-        txtPrueba4 = (TextView) findViewById(R.id.txtPrueba4);
-        txtPrueba5 = (TextView) findViewById(R.id.txtPrueba5);
+        txtComuna.setVisibility(View.VISIBLE);
+        txtCategoria.setVisibility(View.VISIBLE);
+
+
 
 
         //Permisos Ubicación GPS
@@ -108,22 +110,45 @@ public class RegistrarEspecialistaDos extends AppCompatActivity {
             txtGPS.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    LocationManager locationManager = (LocationManager) RegistrarEspecialistaDos.this.getSystemService(Context.LOCATION_SERVICE);
+                    edtUbicacion.setVisibility(View.VISIBLE);
+                    edtUbicacion.setEnabled(true);
+                    textoDireccion.setVisibility(View.VISIBLE);
+                    spnComuna.setVisibility(View.VISIBLE);
+                    spnRegion.setVisibility(View.VISIBLE);
+                    textoRegion.setVisibility(View.VISIBLE);
+                    textoComuna.setVisibility(View.VISIBLE);
+                    Toast.makeText(getApplicationContext(), "La ubicación no es exacta, favor corregir", Toast.LENGTH_SHORT).show();
+                    /*
+
+                    LocationManager locationManager = (LocationManager) getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
 
                     LocationListener locationListener = new LocationListener() {
+
                         @Override
                         public void onLocationChanged(@NonNull Location location) {
-                            //edtUbicacion.setText("" + location.getLatitude() + " " + location.getLongitude());
+                            edtUbicacion.setVisibility(View.VISIBLE);
+                            edtUbicacion.setEnabled(true);
+                            textoDireccion.setVisibility(View.VISIBLE);
+                            spnComuna.setVisibility(View.VISIBLE);
+                            spnRegion.setVisibility(View.VISIBLE);
+                            textoRegion.setVisibility(View.VISIBLE);
+                            textoComuna.setVisibility(View.VISIBLE);
+                            //Toast.makeText(getApplicationContext(),location.getLatitude() +"/"+ location.getLongitude(),Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(), "La ubicación no es exacta, favor corregir", Toast.LENGTH_SHORT).show();
+                            progressBar.setVisibility(View.INVISIBLE);
 
                             Geocoder geocoder = new Geocoder(getApplicationContext(), Locale.getDefault());
                             try {
-                                List<Address> direccion = geocoder.getFromLocation(location.getLatitude(),location.getLongitude(),1);
+
+                                List<Address> direccion = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
                                 edtUbicacion.setText(direccion.get(0).getAddressLine(0));
 
 
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }
+
+
 
 
                         }
@@ -142,11 +167,17 @@ public class RegistrarEspecialistaDos extends AppCompatActivity {
                             spnRegion.setVisibility(View.VISIBLE);
                             textoRegion.setVisibility(View.VISIBLE);
                             textoComuna.setVisibility(View.VISIBLE);
+                            textoDireccion.setVisibility(View.VISIBLE);
+                            progressBar.setVisibility(View.INVISIBLE);
                         }
                     };
+
                     int permissionCheck = ContextCompat.checkSelfPermission(RegistrarEspecialistaDos.this, Manifest.permission.ACCESS_FINE_LOCATION);
                     locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
+                   */
+
                 }
+
             });
 
             int permissionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION);
@@ -161,21 +192,32 @@ public class RegistrarEspecialistaDos extends AppCompatActivity {
         }
 
 
-        btnInicio.setOnClickListener(new View.OnClickListener() {
+
+        spnRegion.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
-                intent.putExtra("email",correo);
-                startActivity(intent);
-                finish();
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long id) {
+                long region = spnRegion.getItemIdAtPosition((int) spnRegion.getSelectedItemId());
+
+                txtRegion.setText(region + "");
+                if (region != 0) {
+                    llenarSpinnerComuna();
+                } else {
+                    // Toast.makeText(getApplicationContext(),"Seleccione una región", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
             }
         });
 
         spnComuna.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int i, long id) {
-                String comunaid = spnComuna.getItemAtPosition(spnComuna.getSelectedItemPosition()).toString();
-                txtComunainvisible.setText(comunaid);
+                String comuna = spnComuna.getItemAtPosition(spnComuna.getSelectedItemPosition()).toString();
+                txtComuna.setText(comuna);
             }
 
             @Override
@@ -187,8 +229,8 @@ public class RegistrarEspecialistaDos extends AppCompatActivity {
         spnCategoria.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int i, long id) {
-                String especialidadid = spnCategoria.getItemAtPosition(spnCategoria.getSelectedItemPosition()).toString();
-                txtEspecialidadinvisible.setText(especialidadid);
+                String categoria = spnCategoria.getItemAtPosition(spnCategoria.getSelectedItemPosition()).toString();
+                txtCategoria.setText(categoria);
             }
 
             @Override
@@ -197,32 +239,34 @@ public class RegistrarEspecialistaDos extends AppCompatActivity {
             }
         });
 
-
         checkBox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                if(checkBox.isChecked()==true){
-                    direccion= edtUbicacion.getText().toString();
-                    nombrecomuna = txtComunainvisible.getText().toString();
-                    nombreespecialidad = txtEspecialidadinvisible.getText().toString();
+                if (checkBox.isChecked() == true) {
+                    direccion = edtUbicacion.getText().toString();
+                    nombrecomuna = txtComuna.getText().toString();
+                    nombreespecialidad = txtCategoria.getText().toString();
+                    Organizacion = edtOrganizacion.getText().toString();
+
 
                     //especialidad=txtidEspecialidad.getText().toString();
 
                     //Ruta seba
-                    buscarComuna("http://192.168.64.2/ServiScope/buscaComuna.php?nombre="+txtComunainvisible.getText().toString()+"");
-                    buscarEspecialidad("http://192.168.64.2/ServiScope/buscaServicio.php?nombre="+txtEspecialidadinvisible.getText().toString()+"");
+                    buscarComuna("http://192.168.64.2/ServiScope/buscaComuna.php?nombre=" + nombrecomuna + "");
+                    buscarEspecialidad("http://192.168.64.2/ServiScope/buscaServicio.php?nombre=" + nombreespecialidad + "");
 
 
                     //Ruta diego
-                    //buscarComuna("http://192.168.1.98/ServiScope/buscaRegion.php?nombre="+txtComuna.getText()+"");
+                    // buscarComuna("http://192.168.1.98/ServiScope/buscaRegion.php?nombre="+txtComunainvisible.getText()+"");
+                    // buscarEspecialidad("http://192.168.1.98/ServiScope/buscaServicio.php?nombre="+txtEspecialidadinvisible.getText().toString()+"");
+
+                    //buscarComuna("http://192.168.0.10/ServiScope/buscaRegion.php?nombre="+txtComunainvisible.getText()+"");
+                    //buscarEspecialidad("http://192.168.0.10/ServiScope/buscaServicio.php?nombre="+txtEspecialidadinvisible.getText().toString()+"");
+                } else {
+                    Toast.makeText(getApplicationContext(), "Favor complete los datos", Toast.LENGTH_SHORT).show();
                 }
 
-                txtPrueba.setText("usuario"+id_usuario);
-
-                txtPrueba3.setText("direccion"+direccion);
-
-                txtPrueba5.setText("Experencia"+edtExperiencia.getText().toString());
 
             }
         });
@@ -232,42 +276,154 @@ public class RegistrarEspecialistaDos extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                if (checkBox.isChecked()==true){
-                    if(!nombrecomuna.isEmpty() && !direccion.isEmpty() && !nombreespecialidad.isEmpty()){
-                        //Ruta seba
-                        //Registra Especialista
-                         registrarEspecialista("http://192.168.64.2/ServiScope/registrar_especialidad.php");
+                if (checkBox.isChecked() == true) {
+                    if (!nombrecomuna.isEmpty() && !direccion.isEmpty() && !nombreespecialidad.isEmpty() && !Organizacion.isEmpty()) {
+                        validarNombreOrganizacion("http://192.168.64.2/ServiScope/validar_organizacion_existente.php");
 
-                        //Ruta diego
-                        //completarUsuario("http://192.168.1.98/ServiScope/completar_usuario.php");
-
-                    }else{
-                        Toast.makeText(RegistrarEspecialistaDos.this,"Favor complete los datos", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(getApplicationContext(), "Favor complete los datos", Toast.LENGTH_SHORT).show();
                     }
-                }else{
-                    Toast.makeText(RegistrarEspecialistaDos.this,"Favor confirmar los datos", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getApplicationContext(), "Favor confirmar los datos", Toast.LENGTH_SHORT).show();
                 }
 
             }
         });
 
 
-
         recibirDatos();
-        llenarSpinnerCategoria();
-        llenarSpinnerComuna();
         llenarSpinnerRegion();
-
-        //Ruta seba
-        buscarUsuario("http://192.168.64.2/ServiScope/cargar_perfil.php?email="+correo+"");
+        llenarSpinnerComuna();
+        llenarSpinnerCategoria();
 
 
     }
 
+    private void recibirDatos() {
+        Bundle u;
+        u = getIntent().getExtras();
+        correo = u.getString("email");
+        txtEmail = (TextView) findViewById(R.id.txtCorreo);
+        txtEmail.setText(correo);
+        //Ruta seba
+        buscarUsuario("http://192.168.64.2/ServiScope/cargar_perfil.php?email=" + correo + "");
+
+        //Ruta diego
+        // buscarUsuario("http://192.168.1.98/ServiScope/cargar_perfil.php?email="+correo+"");
+        //buscarUsuario("http://192.168.0.10/ServiScope/cargar_perfil.php?email="+correo+"");
 
 
+    }
+
+    private void buscarUsuario(String URL) {
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(URL, new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+                JSONObject jsonObject = null;
+                for (int i = 0; i < response.length(); i++) {
+                    try {
+                        jsonObject = response.getJSONObject(i);
+                        correo = jsonObject.getString("email");
+                        id_usuario = jsonObject.getString("id_usuario");
+                        llenarSpinnerCategoria();
+                        llenarSpinnerRegion();
+
+                    } catch (JSONException e) {
+                        Toast.makeText(getApplicationContext(), "No se encuentran registros con su rut", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(getApplicationContext(), "No se encuentran registros con su rut", Toast.LENGTH_SHORT).show();
+            }
+        }
+        );
+        requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(jsonArrayRequest);
+    }
+
+    private void validarNombreOrganizacion(String URL){
+        StringRequest stringRequest=new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                if (!response.isEmpty()){
+                    Toast.makeText(getApplicationContext(),"Nombre de organización presente en los registros", Toast.LENGTH_SHORT).show();
+                    checkBox.setChecked(false);
+                }else{
+                    //Ruta seba
+                    //Registra Especialista
+                    validarRegionTecnico("http://192.168.64.2/ServiScope/validar_tecnicoEnRegion.php");
+
+                    //Ruta diego
+                    // registrarEspecialista("http://192.168.1.98/ServiScope/registrar_especialidad.php");
+                    //registrarEspecialista("http://192.168.0.10/ServiScope/registrar_especialidad.php");
+
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(getApplicationContext(), error.toString(), Toast.LENGTH_SHORT).show();
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> parametros = new HashMap<String, String>();
+                parametros.put("organizacion",edtOrganizacion.getText().toString());
+                return parametros;
+            }
+        };
+
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest);
+
+    }
+
+    private void validarRegionTecnico(String URL){
+        StringRequest stringRequest=new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                if (!response.isEmpty()){
+                    Toast.makeText(getApplicationContext(),"Ya posees aquél servicio en la comuna", Toast.LENGTH_SHORT).show();
+                    checkBox.setChecked(false);
+                }else{
+                    //Ruta seba
+                    //Registra Especialista
+                    registrarEspecialista("http://192.168.64.2/ServiScope/registrar_especialidad.php");
+
+                    //Ruta diego
+                    // registrarEspecialista("http://192.168.1.98/ServiScope/registrar_especialidad.php");
+                    //registrarEspecialista("http://192.168.0.10/ServiScope/registrar_especialidad.php");
+
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(getApplicationContext(), error.toString(), Toast.LENGTH_SHORT).show();
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> parametros = new HashMap<String, String>();
+                parametros.put("id_usuario",id_usuario);
+                parametros.put("id_comuna",txtComunaid.getText().toString());
+                parametros.put("id_servicio_tecnico",txtCategoriaid.getText().toString());
+                return parametros;
+            }
+        };
+
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest);
+
+    }
 
 
+    //Spiners
     private void llenarSpinnerCategoria(){
         //Ruta Seba
         String url = "http://192.168.64.2/ServiScope/listar_servicios.php";
@@ -297,7 +453,7 @@ public class RegistrarEspecialistaDos extends AppCompatActivity {
             JSONArray jsonArreglo = new JSONArray(respuesta);
             for (int i=0; i<jsonArreglo.length();i++){
                 Region r = new Region();
-                r.setNombre(jsonArreglo.getJSONObject(i). getString("nombre"));
+                r.setNombre(jsonArreglo.getJSONObject(i). getString("servicio_nombre"));
                 lista.add(r);
             }
             ArrayAdapter<Region> a = new ArrayAdapter<Region>(this, android.R.layout.simple_dropdown_item_1line, lista);
@@ -309,19 +465,19 @@ public class RegistrarEspecialistaDos extends AppCompatActivity {
 
     }
 
-
-    private void llenarSpinnerRegion(){
+    private void llenarSpinnerRegion() {
         //Ruta Seba
         String url = "http://192.168.64.2/ServiScope/listar_regiones.php";
 
 
         //Ruta Diego
-        //String url = "http://192.168.1.98/ServiScope/listar_regiones.php";
+        // String url = "http://192.168.1.98/ServiScope/listar_regiones.php";
+        //String url = "http://192.168.0.10/ServiScope/listar_regiones.php";
 
         cliente.post(url, new AsyncHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-                if(statusCode==200){
+                if (statusCode == 200) {
                     cargarSpinnerR(new String(responseBody));
                 }
             }
@@ -333,36 +489,36 @@ public class RegistrarEspecialistaDos extends AppCompatActivity {
         });
     }
 
-    private void cargarSpinnerR(String respuesta){
-        ArrayList <Region> lista = new ArrayList<Region>();
+    private void cargarSpinnerR(String respuesta) {
+        ArrayList<Region> lista = new ArrayList<Region>();
         try {
             JSONArray jsonArreglo = new JSONArray(respuesta);
-            for (int i=0; i<jsonArreglo.length();i++){
+            for (int i = 0; i < jsonArreglo.length(); i++) {
                 Region r = new Region();
-                r.setNombre(jsonArreglo.getJSONObject(i). getString("nombre"));
+                r.setNombre(jsonArreglo.getJSONObject(i).getString("region_nombre"));
                 lista.add(r);
             }
-            ArrayAdapter <Region> a = new ArrayAdapter<Region>(this, android.R.layout.simple_dropdown_item_1line, lista);
+            ArrayAdapter<Region> a = new ArrayAdapter<Region>(this, android.R.layout.simple_dropdown_item_1line, lista);
             spnRegion.setAdapter(a);
 
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
     }
 
-    private void llenarSpinnerComuna(){
+    private void llenarSpinnerComuna() {
         //Ruta Seba
-        String url = "http://192.168.64.2/ServiScope/listar_comunas.php";
-
+        String url = "http://192.168.64.2/ServiScope/listar_comunas.php?id_region=" + txtRegion.getText();
 
         //Ruta Diego
-        //String url = "http://192.168.1.98/ServiScope/listar_comunas.php";
+        // String url = "http://192.168.1.98/ServiScope/listar_comunas.php";
+        //String url = "http://192.168.0.10/ServiScope/listar_comunas.php";
 
         cliente.post(url, new AsyncHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-                if(statusCode==200){
+                if (statusCode == 200) {
                     cargarSpinnerCo(new String(responseBody));
                 }
             }
@@ -374,20 +530,20 @@ public class RegistrarEspecialistaDos extends AppCompatActivity {
         });
     }
 
-    public void cargarSpinnerCo(String respuesta){
-        ArrayList <Comuna> lista = new ArrayList<Comuna>();
+    public void cargarSpinnerCo(String respuesta) {
+        ArrayList<Comuna> lista = new ArrayList<Comuna>();
         try {
             JSONArray jsonArreglo = new JSONArray(respuesta);
-            for (int i=0; i<jsonArreglo.length();i++){
+            for (int i = 0; i < jsonArreglo.length(); i++) {
                 Comuna c = new Comuna();
-                c.setNombre(jsonArreglo.getJSONObject(i). getString("nombre"));
+                c.setNombre(jsonArreglo.getJSONObject(i).getString("comuna_nombre"));
                 c.setId_comuna(jsonArreglo.getJSONObject(i).getInt("id_comuna"));
                 lista.add(c);
             }
-            ArrayAdapter <Comuna> a = new ArrayAdapter<Comuna>(this, android.R.layout.simple_dropdown_item_1line, lista);
+            ArrayAdapter<Comuna> a = new ArrayAdapter<Comuna>(this, android.R.layout.simple_dropdown_item_1line, lista);
             spnComuna.setAdapter(a);
 
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -400,18 +556,17 @@ public class RegistrarEspecialistaDos extends AppCompatActivity {
                 for(int i=0;i<response.length();i++){
                     try {
                         jsonObject = response.getJSONObject(i);
-                        nombrecomuna = jsonObject.getString("nombre");
-                        id_comuna =jsonObject.getString("id_comuna");
-                        txtPrueba2.setText("comuna"+id_comuna);
+                        nombrecomuna = jsonObject.getString("comuna_nombre");
+                        txtComunaid.setText(jsonObject.getString("id_comuna"));
                     } catch (JSONException e) {
-                        Toast.makeText(RegistrarEspecialistaDos.this,"No se encuentran registros con su rut", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(),"Error en comuna ", Toast.LENGTH_SHORT).show();
                     }
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(RegistrarEspecialistaDos.this, error.toString(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), error.toString(), Toast.LENGTH_SHORT).show();
             }
         }
         );
@@ -427,18 +582,17 @@ public class RegistrarEspecialistaDos extends AppCompatActivity {
                 for(int i=0;i<response.length();i++){
                     try {
                         jsonObject = response.getJSONObject(i);
-                        nombreespecialidad = jsonObject.getString("nombre");
-                        id_especialidad =jsonObject.getString("id_servicio");
-                        txtPrueba4.setText("especialidad"+id_especialidad);
+                        nombreespecialidad = jsonObject.getString("servicio_nombre");
+                        txtCategoriaid.setText(jsonObject.getString("id_servicio"));
                     } catch (JSONException e) {
-                        Toast.makeText(RegistrarEspecialistaDos.this,"No se encuentran registros con su rut", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(),"Error especialdiad ", Toast.LENGTH_SHORT).show();
                     }
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(RegistrarEspecialistaDos.this, error.toString(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), error.toString(), Toast.LENGTH_SHORT).show();
             }
         }
         );
@@ -446,23 +600,18 @@ public class RegistrarEspecialistaDos extends AppCompatActivity {
         requestQueue.add(jsonArrayRequest);
     }
 
-    private void recibirDatos() {
-        Bundle u;
-        u = getIntent().getExtras();
-        correo = u.getString("email");
-        txtEmail = (TextView) findViewById(R.id.txtCorreo);
-        txtEmail.setText(correo);
-    }
 
     private void registrarEspecialista(String URL){
         StringRequest stringRequest=new StringRequest(Request.Method.POST, URL, new Response.Listener<String>(){
+
             public void onResponse(String response) {
                 Toast.makeText(getApplicationContext(), "Registro completo", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
+                Intent intent = new Intent(getApplicationContext(), MenuEspecialistaActivity.class);
                 intent.putExtra("email",correo);
                 startActivity(intent);
                 finish();
             }
+
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
@@ -474,9 +623,11 @@ public class RegistrarEspecialistaDos extends AppCompatActivity {
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> datos_usuario=new HashMap<>();
                 datos_usuario.put("id_usuario",id_usuario);
-                datos_usuario.put("id_comuna",id_comuna);
+                datos_usuario.put("id_region",txtRegion.getText().toString());
+                datos_usuario.put("id_comuna",txtComunaid.getText().toString());
+                datos_usuario.put("organizacion",edtOrganizacion.getText().toString());
                 datos_usuario.put("direccion", direccion);
-                datos_usuario.put("id_servicio", id_especialidad);
+                datos_usuario.put("id_servicio", txtCategoriaid.getText().toString());
                 datos_usuario.put("descripcion", edtExperiencia.getText().toString());
                 return datos_usuario;
             }
@@ -486,33 +637,13 @@ public class RegistrarEspecialistaDos extends AppCompatActivity {
         requestQueue.add(stringRequest);
     }
 
-    private void buscarUsuario(String URL){
-        JsonArrayRequest jsonArrayRequest=new JsonArrayRequest(URL, new Response.Listener<JSONArray>() {
-            @Override
-            public void onResponse(JSONArray response) {
-                JSONObject jsonObject=null;
-                for(int i=0;i<response.length();i++){
-                    try {
-                        jsonObject = response.getJSONObject(i);
-                        correo = jsonObject.getString("email");
-                        id_usuario = jsonObject.getString("id_usuario");
-
-                    } catch (JSONException e) {
-                        Toast.makeText(RegistrarEspecialistaDos.this,"No se encuentran registros con su rut", Toast.LENGTH_SHORT).show();
-                    }
-                }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(RegistrarEspecialistaDos.this, "No se encuentran registros con su rut", Toast.LENGTH_SHORT).show();
-            }
-        }
-        );
-        requestQueue = Volley.newRequestQueue(this);
-        requestQueue.add(jsonArrayRequest);
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(getApplicationContext(), MenuUsuarioActivity.class);
+        intent.putExtra("email", correo);
+        startActivity(intent);
+        finish();
     }
-
 
 }
 

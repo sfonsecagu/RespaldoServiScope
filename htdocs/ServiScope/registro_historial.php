@@ -12,7 +12,7 @@ $titulo=utf8_decode($titulo);
 //$titulo='Prueba';
 
 
-$consulta="INSERT INTO `historial` (`id_solicitud`, `id_usuario`, `titulo`, `fecha_modificacion`, `comentarios`) VALUES ('".$id_solicitud."', '".$id_usuario."', '".$titulo."', CURRENT_TIMESTAMP, 'Solicitud creada')";
+$consulta="INSERT INTO `historial` (`id_solicitud`, `id_usuario`, `id_tecnico`, `titulo`, `fecha_modificacion`, `comentarios`) VALUES ('".$id_solicitud."', '".$id_usuario."','1', '".$titulo."', CURRENT_TIMESTAMP, 'Solicitud creada')";
 
 mysqli_query($conexion,$consulta) or die (mysqli_error());
 mysqli_close($conexion);

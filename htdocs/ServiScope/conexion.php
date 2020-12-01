@@ -9,6 +9,7 @@ $conexion=new mysqli($hostname,$username,$password,$database);
 if($conexion -> connect_errno){
 	echo "El sitio está presentando intermitencia, lo sentimos";
 }
+mysqli_set_charset($conexion,"utf8");
 
 
  ?>
