@@ -60,6 +60,7 @@
         <activity android:name=".ChatMisServiciosActivity"/>
         <activity android:name=".SolicitudesActivityDOSDOS"/>
         <activity android:name=".PerfilUsuarios"/>
+        <activity android:name=".EncuestaActivity"/>
 
 
 

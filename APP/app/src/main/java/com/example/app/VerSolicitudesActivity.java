@@ -30,13 +30,15 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class VerSolicitudesActivity extends AppCompatActivity {
 
+
     TextView txtPropietario, txtId_solicitud, txtTitulo, txtDescripcion, txtCategoria, txtEstado, txtFecha, txtRegion, txtComuna, txtOTRO;
     String email, titulo, id_solicitud, id_usuario, id_tecnico, fecha, descripcion, id_region, id_comuna, direccion, valor, id_servicio, estado_solicitud, valoracion, imagen;
     String categoria, nombres, apellidos, nombres_usuarioCorreo,apellidos_usuarioCorreo, descripcion_estado, ccid_usuario, id_usuario_consulta;
-    Button btnPostular, btnChat, btnEliminar;
+    Button btnPostular, btnChat, btnEliminarSol, btnConcluir;
+
+
     RequestQueue requestQueue;
 
-    public static int espera = 1000;
 
     String dato;
 
@@ -50,8 +52,9 @@ public class VerSolicitudesActivity extends AppCompatActivity {
         txtTitulo = (TextView) findViewById(R.id.txtTitulo);
         txtDescripcion = (TextView) findViewById(R.id.txtDescripcion);
         btnPostular = (Button) findViewById(R.id.btnPostular);
-        btnEliminar = (Button) findViewById(R.id.btnEliminar);
+        btnConcluir = (Button) findViewById(R.id.btnConcluir);
         btnChat = findViewById(R.id.btnChat);
+        btnEliminarSol= findViewById(R.id.btnEliminarSol);
         txtCategoria = (TextView) findViewById(R.id.txtCategoria);
         txtEstado = (TextView) findViewById(R.id.txtEstadoSol);
         txtFecha = findViewById(R.id.txtFecha);
@@ -59,16 +62,12 @@ public class VerSolicitudesActivity extends AppCompatActivity {
         txtComuna = (TextView) findViewById(R.id.txtComuna);
         txtOTRO = findViewById(R.id.txtOTRO);
 
-        btnPostular.setVisibility(View.INVISIBLE);
-        btnEliminar.setVisibility(View.VISIBLE);
-
-
 
         btnChat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), ChatActivity.class);
-                Toast.makeText(getApplicationContext(),"usuario consultor"+ccid_usuario+"- usuario solicitud "+id_usuario+"solicitud "+id_solicitud,Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getApplicationContext(),"usuario consultor"+ccid_usuario+"- usuario solicitud "+id_usuario+"solicitud "+id_solicitud,Toast.LENGTH_SHORT).show();
                 intent.putExtra("email",email);
                 intent.putExtra("id_solicitud", id_solicitud);
                 intent.putExtra("ccid_usuario", ccid_usuario+"");
@@ -93,7 +92,21 @@ public class VerSolicitudesActivity extends AppCompatActivity {
             }
         });
 
-        btnEliminar.setOnClickListener(new View.OnClickListener() {
+
+
+        btnConcluir.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(),EncuestaActivity.class);
+                intent.putExtra("email",email);
+                intent.putExtra("id_solicitud", id_solicitud);
+                intent.putExtra("dato", dato);
+                startActivity(intent);
+                finish();
+            }
+        });
+
+        btnEliminarSol.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 mostrarDialogOpciones();
@@ -102,9 +115,8 @@ public class VerSolicitudesActivity extends AppCompatActivity {
 
         recibirDatos();
 
-
-
     }
+
 
 
 
@@ -159,6 +171,7 @@ public class VerSolicitudesActivity extends AppCompatActivity {
 
 
 
+
     private void buscarUsuario(String URL){
         JsonArrayRequest jsonArrayRequest=new JsonArrayRequest(URL, new Response.Listener<JSONArray>() {
             @Override
@@ -172,6 +185,7 @@ public class VerSolicitudesActivity extends AppCompatActivity {
                         apellidos_usuarioCorreo = jsonObject.getString("apellidos");
                         ccid_usuario = jsonObject.getString("id_usuario");
                         //Toast.makeText(getApplicationContext(),"id usuario consultor "+ccid_usuario,Toast.LENGTH_SHORT).show();
+
 
                     } catch (JSONException e) {
                         Toast.makeText(getApplicationContext(),"No se encuentran registros con su rut", Toast.LENGTH_SHORT).show();
@@ -221,17 +235,40 @@ public class VerSolicitudesActivity extends AppCompatActivity {
 
                         if (!id_tecnico.equals(1)){
                             btnPostular.setVisibility(View.INVISIBLE);
-                        }else{
-                            btnPostular.setVisibility(View.VISIBLE);
+                            btnConcluir.setVisibility(View.VISIBLE);
+                            btnEliminarSol.setVisibility(View.VISIBLE);
+
+
+                        buscarCategoria("http://192.168.64.2/ServiScope/buscaServicioDosDos.php?id_servicio="+id_solicitud+"");
+
                         }
+                        if (txtEstado.getText().toString().equals("Resuelto")){
+                            btnPostular.setVisibility(View.INVISIBLE);
+                            btnConcluir.setVisibility(View.INVISIBLE);
+                            btnEliminarSol.setVisibility(View.INVISIBLE);
+                            //Toast.makeText(getApplicationContext(),txtEstado.getText().toString(),Toast.LENGTH_SHORT).show();
 
 
+                        }if (txtEstado.getText().toString().equals("Cancelado")){
+                            btnPostular.setVisibility(View.INVISIBLE);
+                            btnConcluir.setVisibility(View.INVISIBLE);
+                            btnEliminarSol.setVisibility(View.INVISIBLE);
+                            //Toast.makeText(getApplicationContext(),txtEstado.getText().toString(),Toast.LENGTH_SHORT).show();
+
+
+                        }else{
+                            btnPostular.setVisibility(View.INVISIBLE);
+
+
+
+
+                        }
                         buscarCategoria("http://192.168.64.2/ServiScope/buscaServicioDosDos.php?id_servicio="+id_solicitud+"");
 
 
 
                     } catch (JSONException e) {
-                        Toast.makeText(VerSolicitudesActivity.this,"No se encuentra comuna", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(VerSolicitudesActivity.this,"No se encuentra comuna 1", Toast.LENGTH_SHORT).show();
                     }
 
                 }
@@ -239,7 +276,7 @@ public class VerSolicitudesActivity extends AppCompatActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(VerSolicitudesActivity.this,"No se encuentra comuna", Toast.LENGTH_SHORT).show();
+                Toast.makeText(VerSolicitudesActivity.this,"No se encuentra comuna 2", Toast.LENGTH_SHORT).show();
             }
         }
         );
@@ -262,14 +299,14 @@ public class VerSolicitudesActivity extends AppCompatActivity {
 
 
                     } catch (JSONException e) {
-                        Toast.makeText(VerSolicitudesActivity.this,"No se encuentra comuna", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(VerSolicitudesActivity.this," 3", Toast.LENGTH_SHORT).show();
                     }
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(VerSolicitudesActivity.this,"No se encuentra comuna", Toast.LENGTH_SHORT).show();
+                Toast.makeText(VerSolicitudesActivity.this,"No se encuentra comuna 4", Toast.LENGTH_SHORT).show();
             }
         }
         );

@@ -104,7 +104,8 @@ public class SolicitudesActivityDOS extends AppCompatActivity {
                                 jsonObject1.getInt("id_comuna"),
                                 jsonObject1.getInt("id_servicio"),
                                 jsonObject1.getInt("estado_solicitud"),
-                                jsonObject1.getString("descripcion_estado")));
+                                jsonObject1.getString("descripcion_estado"),
+                                jsonObject1.getString("servicio_nombre")));
                     }
 
                     adaptador = new AdaptadorTodasSolicitudes(SolicitudesActivityDOS.this, listaTodasSolicitudes);

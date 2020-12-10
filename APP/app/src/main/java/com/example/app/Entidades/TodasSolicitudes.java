@@ -11,11 +11,12 @@ public class TodasSolicitudes {
     Integer id_servicio;
     Integer estado_solicitud;
     String descripcion_estado;
+    String servicio_nombre;
 
     public TodasSolicitudes() {
     }
 
-    public TodasSolicitudes(Integer id_solicitud, String fecha, String titulo, String descripcion, Integer id_region, Integer id_comuna, Integer id_servicio, Integer estado_solicitud, String descripcion_estado) {
+    public TodasSolicitudes(Integer id_solicitud, String fecha, String titulo, String descripcion, Integer id_region, Integer id_comuna, Integer id_servicio, Integer estado_solicitud, String descripcion_estado, String servicio_nombre) {
         this.id_solicitud = id_solicitud;
         this.fecha = fecha;
         this.titulo = titulo;
@@ -25,6 +26,7 @@ public class TodasSolicitudes {
         this.id_servicio = id_servicio;
         this.estado_solicitud = estado_solicitud;
         this.descripcion_estado = descripcion_estado;
+        this.servicio_nombre = servicio_nombre;
     }
 
     public Integer getId_solicitud() {
@@ -97,5 +99,13 @@ public class TodasSolicitudes {
 
     public void setDescripcion_estado(String descripcion_estado) {
         this.descripcion_estado = descripcion_estado;
+    }
+
+    public String getServicio_nombre() {
+        return servicio_nombre;
+    }
+
+    public void setServicio_nombre(String servicio_nombre) {
+        this.servicio_nombre = servicio_nombre;
     }
 }

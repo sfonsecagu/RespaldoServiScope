@@ -139,8 +139,6 @@ public class MisServiciosActivity extends AppCompatActivity {
                         @Override
                         public void onClick(View view) {
                             progressBar.setVisibility(View.VISIBLE);
-
-
                             //Toast.makeText(getApplicationContext(),"Seleccionó: "+listaMisServicios.get(rvListaS.getChildAdapterPosition(view)).getId_tecnico(),Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(getApplicationContext(), PerfilServiciosActivity.class);
                             intent.putExtra("email",correo);

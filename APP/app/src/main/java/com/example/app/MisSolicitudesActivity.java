@@ -133,7 +133,8 @@ public class MisSolicitudesActivity extends AppCompatActivity {
 
                     for (int i = 0; i < jsonArray.length(); i++) {
                         JSONObject jsonObject1 = jsonArray.getJSONObject(i);
-                        listaMisSolicitudes.add(new MiSolicitud(jsonObject1.getInt("id_solicitud"),
+                        listaMisSolicitudes.add(new MiSolicitud(
+                                jsonObject1.getInt("id_solicitud"),
                                 jsonObject1.getInt("id_usuario"),
                                 jsonObject1.getInt("id_tecnico"),
                                 jsonObject1.getString("fecha"),
@@ -146,14 +147,15 @@ public class MisSolicitudesActivity extends AppCompatActivity {
                                 jsonObject1.getInt("id_servicio"),
                                 jsonObject1.getInt("estado_solicitud"),
                                 jsonObject1.getInt("valoracion"),
-                                jsonObject1.getString("imagen"),
                                 jsonObject1.getInt("id_estado_solicitud"),
-                                jsonObject1.getString("descripcion_estado")));
+                                jsonObject1.getString("descripcion_estado"),
+                                jsonObject1.getString("servicio_nombre")));
                         Y++;
                     }
                     if (listaMisSolicitudes.isEmpty()){
                         txtNull.setVisibility(View.VISIBLE);
                     }
+
 
                     adaptador = new AdaptadorMisSolicitudes(MisSolicitudesActivity.this, listaMisSolicitudes);
                     adaptador.setOnClickListener(new View.OnClickListener() {

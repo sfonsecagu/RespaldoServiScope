@@ -5,7 +5,10 @@ include 'conexion.php';
 $id_usuario=$_POST['id_tecnico'];
 //$id_usuario='104';
 
-$sql = "SELECT * FROM solicitud INNER JOIN estado_solicitud ON solicitud.estado_solicitud = estado_solicitud.id_estado_solicitud WHERE id_tecnico = '".$id_usuario."' ORDER BY fecha desc";
+$sql = "SELECT solicitud.* , servicio.servicio_nombre, estado_solicitud.*
+FROM ((solicitud INNER JOIN estado_solicitud ON solicitud.estado_solicitud = estado_solicitud.id_estado_solicitud )
+INNER JOIN servicio on solicitud.id_servicio = servicio.id_servicio)
+WHERE id_tecnico = '".$id_usuario."' ORDER BY fecha desc";
 
 $query = $conexion->query($sql);
 

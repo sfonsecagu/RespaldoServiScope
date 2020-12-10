@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<style>
+table
+	{
+	border: 4px solid black;
+	background-color: purple;
+	}
+
+input[type=text], input[type=password]
+{
+	width: 100%;
+	padding: 8px 20px;
+	border: 2px solid grey;
+	box-sizing: border-box;
+}
+label
+{
+	font-size: 14px;
+	font-weight: bold;
+	font-family: calibri;
+	color: white;
+}
+
+input[type=submit]
+{
+	background-color: #57175F;
+	color: white;
+	padding: 8px 10px;
+	margin: 8px 0px;
+	border: solid;
+	cursor: pointer;
+	width: 40%;
+}
+
+</style>
+
+<head>
+	<title>ServiScope</title>
+</head>
+<body>
+	<center>
+		<form method="post" action="login.php">
+			<table>
+				<tr><td colspan="2" style="background-color: #57175F; padding-bottom: 5px; padding-top: 5px;"><label>Serviscope</label></td></tr>
+				<tr><td><label>Nombre usuario</label></td></tr>
+				<tr><td><input type="text" name="edtUsuario"/></td></tr>
+				<tr><td><label>Password</label></td></tr>
+				<tr><td><input type="Password" name="edtContrasena"/> </td></tr>
+				<tr><td><input type="submit" value="Ingresar" name="btnIngresar" /></td></tr>
+
+			</table>
+
+
+		</form>
+	</center>
+</body>
+</html>

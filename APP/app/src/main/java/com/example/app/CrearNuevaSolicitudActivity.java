@@ -74,8 +74,11 @@ import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 public class CrearNuevaSolicitudActivity extends AppCompatActivity {
 
     EditText edtTitulo, edtDescripcion, edtDireccion;
+
     Spinner spnCategoria, spnComuna, spnRegion;
-    Button btnPublicar;
+
+    Button btnPublicar, btnInicio;
+
     TextView txtComuna, txtCategoria, txtEmail, txtComuna2, txtCategoria2, txtEmail2, txtRegion;
     CheckBox checkBox;
     AsyncHttpClient cliente1, cliente2;
@@ -531,13 +534,13 @@ public class CrearNuevaSolicitudActivity extends AppCompatActivity {
         }
     }
 
-    private void llenarSpinnerCategoria(){
-        //Ruta Seba
+
+    private void llenarSpinnerCategoria() {
+
+
         String url = "http://192.168.64.2/ServiScope/listar_servicios.php";
 
 
-        //Ruta Diego
-        //String url = "http://192.168.1.98/ServiScope/listar_regiones.php";
 
         cliente1.post(url, new AsyncHttpResponseHandler() {
             @Override

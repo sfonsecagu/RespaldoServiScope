@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,11 +22,16 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class VerSolicitudes2Activity extends AppCompatActivity {
 
-    TextView txtId_solicitud, txtTitulo, txtDescripcion, txtCategoria, txtEstado, txtPropietario, txtFecha, txtRegion, txtComuna;
+
+    TextView txtPrueba, txtId_solicitud, txtTitulo, txtDescripcion, txtCategoria, txtEstado, txtPropietario, txtFecha, txtRegion, txtComuna;
+
     String email, titulo, id_solicitud, id_usuario, id_tecnico, id_tecnicoSOL, fecha, descripcion, id_region, id_comuna, direccion, valor, id_servicio, estado_solicitud, valoracion, imagen;
     String categoria, nombres, descripcion_estado, ccid_usuario;
-    ImageButton btnInicio;
-    Button btnPostular, btnChat, btnEliminar;
+
+    Button btnPostular, btnChat, btnFinalizar;
+
+
+
     RequestQueue requestQueue;
 
     String dato;
@@ -43,19 +47,18 @@ public class VerSolicitudes2Activity extends AppCompatActivity {
         txtTitulo = (TextView) findViewById(R.id.txtTitulo);
         txtDescripcion = (TextView) findViewById(R.id.txtDescripcion);
         btnPostular = (Button) findViewById(R.id.btnPostular);
-        btnEliminar = (Button) findViewById(R.id.btnEliminar);
+        btnFinalizar = findViewById(R.id.btnConcluir);
+
+
+
+
+
         btnChat = findViewById(R.id.btnChat);
         txtCategoria = (TextView) findViewById(R.id.txtCategoria);
         txtEstado = (TextView) findViewById(R.id.txtEstadoSol);
         txtFecha = findViewById(R.id.txtFecha);
         txtRegion = (TextView) findViewById(R.id.txtRegion);
         txtComuna = (TextView) findViewById(R.id.txtComuna);
-
-        btnEliminar.setVisibility(View.INVISIBLE);
-
-
-
-
 
         btnChat.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,29 +70,11 @@ public class VerSolicitudes2Activity extends AppCompatActivity {
                 intent.putExtra("ccid_usuario", ccid_usuario+"");
                 intent.putExtra("id_usuario", id_usuario+"");
                 intent.putExtra("dato", dato);
+                intent.putExtra("id_tecnico", id_tecnico);
                 startActivity(intent);
                 finish();
             }
         });
-
-
-        btnInicio.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (dato.equals("PRUEBA")){
-                    Intent intent = new Intent(getApplicationContext(), MenuEspecialistaActivity.class);
-                    intent.putExtra("email",email);
-                    startActivity(intent);
-                    finish();
-                }else{
-                    Intent intent = new Intent(getApplicationContext(), MenuUsuarioActivity.class);
-                    intent.putExtra("email",email);
-                    startActivity(intent);
-                    finish();
-                }
-            }
-        });
-
 
         btnPostular.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -104,6 +89,7 @@ public class VerSolicitudes2Activity extends AppCompatActivity {
                 finish();
             }
         });
+
         recibirDatos();
 
 
@@ -141,14 +127,30 @@ public class VerSolicitudes2Activity extends AppCompatActivity {
                         txtEstado.setText(descripcion_estado);
 
 
+
                         if (!id_tecnicoSOL.equals("1")){
                             //Toast.makeText(getApplicationContext(),id_tecnicoSOL,Toast.LENGTH_SHORT).show();
                             btnPostular.setVisibility(View.INVISIBLE);
+
+
+                            btnFinalizar.setVisibility(View.VISIBLE);
+
+
+                            //Toast.makeText(getApplicationContext(),txtEstado.getText().toString(),Toast.LENGTH_SHORT).show();
+                        }
+                        if (txtEstado.getText().toString().equals("Resuelto")){
+                            btnPostular.setVisibility(View.INVISIBLE);
+                            btnFinalizar.setVisibility(View.INVISIBLE);
+                           // Toast.makeText(getApplicationContext(),txtEstado.getText().toString(),Toast.LENGTH_SHORT).show();
+
+
                         }else{
                             btnPostular.setVisibility(View.VISIBLE);
+
                         }
 
                         buscarCategoria("http://192.168.64.2/ServiScope/buscaServicioDosDos.php?id_servicio="+id_servicio+"");
+
 
                     } catch (JSONException e) {
                         Toast.makeText(getApplicationContext(),"No se encuentra comuna", Toast.LENGTH_SHORT).show();
@@ -238,7 +240,7 @@ public class VerSolicitudes2Activity extends AppCompatActivity {
         txtId_solicitud.setText(id_solicitud);
         txtTitulo.setText(titulo);
 
-        //Toast.makeText(getApplicationContext(),dato,Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApplicationContext(),id_tecnico,Toast.LENGTH_SHORT).show();
 
         buscarUsuario("http://192.168.64.2/ServiScope/cargar_perfil.php?email="+email+"");
         buscarSolicitud("http://192.168.64.2/ServiScope/buscaSolicitud.php?id_solicitud="+id_solicitud+"");
@@ -247,7 +249,7 @@ public class VerSolicitudes2Activity extends AppCompatActivity {
     }
 
     public void onBackPressed() {
-        if (dato.equals(PRUEBA)){
+        if (dato.equals("PRUEBA")){
             Intent intent = new Intent(getApplicationContext(), MenuEspecialistaActivity.class);
             Toast.makeText(getApplicationContext(),dato,Toast.LENGTH_SHORT).show();
             intent.putExtra("email",email);

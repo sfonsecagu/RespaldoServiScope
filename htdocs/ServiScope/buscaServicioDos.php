@@ -14,7 +14,7 @@ while($fila=$resultado->fetch_assoc()){
 	$usuario[]=$fila;
 }
 
-echo json_encode($usuario, JSON_UNESCAPED_UNICODE);
+echo json_encode($usuario);
 
 $resultado->close();
  ?>

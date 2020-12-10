@@ -34,86 +34,122 @@
             android:orientation="vertical">
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="140dp"
-                android:gravity="center"
-                android:orientation="horizontal">
+            android:layout_width="match_parent"
+            android:layout_height="160dp"
+            android:gravity="center"
+            android:orientation="horizontal"
+                android:layout_marginTop="50dp">
 
-                <LinearLayout
-                    android:layout_width="150dp"
-                    android:layout_height="120dp"
-                    android:layout_marginEnd="10dp"
-                    android:layout_marginStart="10dp"
-                    android:background="@drawable/borde"
-                    android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="180dp"
+                android:layout_height="150dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginStart="10dp"
+                android:background="@drawable/borde"
+                android:orientation="vertical">
 
-                    <TextView
-                        android:id="@+id/textView86"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:text="Servicio Activos" />
+                <TextView
+                    android:id="@+id/textView86"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="Servicio Activos"
+                    android:textSize="20dp"/>
 
-                    <TextView
-                        android:id="@+id/txtNSERV"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:text="X"
-                        android:textSize="50dp" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="150dp"
-                    android:layout_height="120dp"
-                    android:layout_marginEnd="10dp"
-                    android:layout_marginStart="10dp"
-                    android:background="@drawable/borde"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/textView73"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:text="Chats Activos" />
-
-                    <TextView
-                        android:id="@+id/txtNChat"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:text="X"
-                        android:textSize="50dp" />
-                </LinearLayout>
+                <TextView
+                    android:id="@+id/txtNSERV"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="X"
+                    android:textSize="60dp"
+                    android:layout_marginTop="10dp"/>
             </LinearLayout>
 
             <LinearLayout
+                android:layout_width="180dp"
+                android:layout_height="150dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginStart="10dp"
+                android:background="@drawable/borde"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/textView73"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="Chats Activos"
+                    android:textSize="20dp"/>
+
+                <TextView
+                    android:id="@+id/txtNChat"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="X"
+                    android:textSize="60dp"
+                    android:layout_marginTop="10dp"/>
+            </LinearLayout>
+        </LinearLayout>
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="140dp"
+                android:layout_height="200dp"
                 android:gravity="center"
                 android:orientation="horizontal">
 
                 <LinearLayout
-                    android:layout_width="150dp"
-                    android:layout_height="120dp"
+                    android:layout_width="180dp"
+                    android:layout_height="150dp"
                     android:layout_marginEnd="10dp"
                     android:layout_marginStart="10dp"
-                    android:layout_marginTop="10dp"
                     android:background="@drawable/borde"
                     android:orientation="vertical">
 
+                    <TextView
+                        android:id="@+id/textView87"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="Solicitudes Concluidas"
+                        android:textSize="20dp" />
+
+                    <TextView
+                        android:id="@+id/txtZ"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="X"
+                        android:textSize="60dp" />
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_width="150dp"
-                    android:layout_height="120dp"
+                    android:layout_width="180dp"
+                    android:layout_height="150dp"
                     android:layout_marginEnd="10dp"
                     android:layout_marginStart="10dp"
-                    android:layout_marginTop="10dp"
                     android:background="@drawable/borde"
-                    android:orientation="vertical"></LinearLayout>
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/textView790"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="Solicitudes Gesitonadas"
+                        android:textSize="19dp"/>
+
+                    <TextView
+                        android:id="@+id/txtW"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="X"
+                        android:textSize="60dp" />
+                </LinearLayout>
             </LinearLayout>
+
+
         </LinearLayout>
 
     </LinearLayout>

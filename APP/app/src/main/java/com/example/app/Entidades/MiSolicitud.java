@@ -17,14 +17,14 @@ public class MiSolicitud implements Serializable {
     private int id_servicio;
     private int estado_solicitud;
     private int valoracion;
-    private String imagen;
     private int id_estado_solicitud;
     private String descripcion_estado;
+    private String servicio_nombre;
 
     public MiSolicitud() {
     }
 
-    public MiSolicitud(int id_solicitud, int id_usuario, int id_tecnico, String fecha, String titulo, String descripcion, int id_region, int id_comuna, String direccion, int valor, int id_servicio, int estado_solicitud, int valoracion, String imagen, int id_estado_solicitud, String descripcion_estado) {
+    public MiSolicitud(int id_solicitud, int id_usuario, int id_tecnico, String fecha, String titulo, String descripcion, int id_region, int id_comuna, String direccion, int valor, int id_servicio, int estado_solicitud, int valoracion, int id_estado_solicitud, String descripcion_estado, String servicio_nombre) {
         this.id_solicitud = id_solicitud;
         this.id_usuario = id_usuario;
         this.id_tecnico = id_tecnico;
@@ -38,9 +38,9 @@ public class MiSolicitud implements Serializable {
         this.id_servicio = id_servicio;
         this.estado_solicitud = estado_solicitud;
         this.valoracion = valoracion;
-        this.imagen = imagen;
         this.id_estado_solicitud = id_estado_solicitud;
         this.descripcion_estado = descripcion_estado;
+        this.servicio_nombre = servicio_nombre;
     }
 
     public int getId_solicitud() {
@@ -147,14 +147,6 @@ public class MiSolicitud implements Serializable {
         this.valoracion = valoracion;
     }
 
-    public String getImagen() {
-        return imagen;
-    }
-
-    public void setImagen(String imagen) {
-        this.imagen = imagen;
-    }
-
     public int getId_estado_solicitud() {
         return id_estado_solicitud;
     }
@@ -169,5 +161,13 @@ public class MiSolicitud implements Serializable {
 
     public void setDescripcion_estado(String descripcion_estado) {
         this.descripcion_estado = descripcion_estado;
+    }
+
+    public String getServicio_nombre() {
+        return servicio_nombre;
+    }
+
+    public void setServicio_nombre(String servicio_nombre) {
+        this.servicio_nombre = servicio_nombre;
     }
 }

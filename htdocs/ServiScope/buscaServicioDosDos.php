@@ -3,7 +3,7 @@
 include 'conexion.php';
 
 $usu_rut=$_GET['id_servicio'];
-//$usu_rut="1151";
+//$usu_rut="1200";
 
 $consulta=$conexion->prepare(" SELECT so.id_solicitud, s.id_servicio, s.servicio_nombre, r.region_nombre, c.comuna_nombre
 FROM (((solicitud so inner join servicio s on so.id_servicio = s.id_servicio )

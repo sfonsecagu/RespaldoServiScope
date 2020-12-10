@@ -15,6 +15,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.app.Adaptadores.AdaptadorMisServicios;
 import com.example.app.Entidades.MiSolicitud;
 import com.example.app.Entidades.MisServicios;
 
@@ -33,11 +34,18 @@ import androidx.appcompat.app.AppCompatActivity;
 public class MetricasEspecialistaActivity extends AppCompatActivity {
 
     String correo, id_usuario;
-    TextView txtNChat, txtNSERV;
+    TextView txtNChat, txtNSERV, txtZ, txtW;
+
+
+    AdaptadorMisServicios adaptador;
+
+
     List<MisServicios> listaMisServicios;
     List<MiSolicitud> listaMisSolicitudes;
     Integer Y =0;
     Integer X=0;
+    Integer Z=0;
+    Integer W=0;
     ProgressBar progressBar;
 
     @Override
@@ -46,12 +54,137 @@ public class MetricasEspecialistaActivity extends AppCompatActivity {
         setContentView(R.layout.activity_metricasespecialista);
         txtNChat = (TextView) findViewById(R.id.txtNChat);
         txtNSERV = findViewById(R.id.txtNSERV);
+        txtZ = findViewById(R.id.txtZ);
+        txtW = findViewById(R.id.txtW);
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
 
         listaMisSolicitudes = new ArrayList<>();
         listaMisServicios = new ArrayList<>();
 
         recibirDatos();
+
+    }
+
+    public void obtenerSolicitudesGestionadas(){
+        RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, getResources().getString(R.string.URL_SOLICITUDESGESTIONADAS_METRICAS), new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+
+                try {
+                    JSONObject jsonObject = new JSONObject(response);
+                    JSONArray jsonArray = jsonObject.getJSONArray("MisSolicitudes");
+
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        JSONObject jsonObject1 = jsonArray.getJSONObject(i);
+                        listaMisSolicitudes.add(new MiSolicitud(
+                                jsonObject1.getInt("id_solicitud"),
+                                jsonObject1.getInt("id_usuario"),
+                                jsonObject1.getInt("id_tecnico"),
+                                jsonObject1.getString("fecha"),
+                                jsonObject1.getString("titulo"),
+                                jsonObject1.getString("descripcion"),
+                                jsonObject1.getInt("id_region"),
+                                jsonObject1.getInt("id_comuna"),
+                                jsonObject1.getString("direccion"),
+                                jsonObject1.getInt("valor"),
+                                jsonObject1.getInt("id_servicio"),
+                                jsonObject1.getInt("estado_solicitud"),
+                                jsonObject1.getInt("valoracion"),
+                                jsonObject1.getInt("id_estado_solicitud"),
+                                jsonObject1.getString("descripcion_estado"),
+                                jsonObject1.getString("servicio_nombre")));
+                        W++;
+                    }
+                    txtW.setText(""+W);
+                    progressBar.setVisibility(View.INVISIBLE);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                error.printStackTrace();
+            }
+        })
+
+        {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> datos_usuario=new HashMap<>();
+                datos_usuario.put("id_usuario",id_usuario);
+                return datos_usuario;
+            }
+        };
+
+        requestQueue.add(stringRequest);
+
+    }
+
+
+    public void obtenerSolicitudesFinalizadas() {
+        RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, getResources().getString(R.string.URL_SOLICITUDESFINALIZADAS_METRICAS), new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+
+                try {
+                    JSONObject jsonObject = new JSONObject(response);
+                    JSONArray jsonArray = jsonObject.getJSONArray("MisSolicitudes");
+
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        JSONObject jsonObject1 = jsonArray.getJSONObject(i);
+                        listaMisSolicitudes.add(new MiSolicitud(
+                                jsonObject1.getInt("id_solicitud"),
+                                jsonObject1.getInt("id_usuario"),
+                                jsonObject1.getInt("id_tecnico"),
+                                jsonObject1.getString("fecha"),
+                                jsonObject1.getString("titulo"),
+                                jsonObject1.getString("descripcion"),
+                                jsonObject1.getInt("id_region"),
+                                jsonObject1.getInt("id_comuna"),
+                                jsonObject1.getString("direccion"),
+                                jsonObject1.getInt("valor"),
+                                jsonObject1.getInt("id_servicio"),
+                                jsonObject1.getInt("estado_solicitud"),
+                                jsonObject1.getInt("valoracion"),
+                                jsonObject1.getInt("id_estado_solicitud"),
+                                jsonObject1.getString("descripcion_estado"),
+                                jsonObject1.getString("servicio_nombre")));
+                        Z++;
+                    }
+                    txtZ.setText(""+Z);
+                    progressBar.setVisibility(View.INVISIBLE);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                error.printStackTrace();
+            }
+        })
+
+        {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> datos_usuario=new HashMap<>();
+                datos_usuario.put("id_usuario",id_usuario);
+                return datos_usuario;
+            }
+        };
+
+        requestQueue.add(stringRequest);
+
+
     }
 
     private void buscarUsuario(String URL){
@@ -67,6 +200,8 @@ public class MetricasEspecialistaActivity extends AppCompatActivity {
                         //Toast.makeText(getApplicationContext(),"Usuario: "+id_usuario,Toast.LENGTH_SHORT).show();
                         obtenerMisSolicitudes();
                         obtenerServicios();
+                        obtenerSolicitudesFinalizadas();
+                        obtenerSolicitudesGestionadas();
 
                     } catch (JSONException e) {
                         Toast.makeText(getApplicationContext(),"Error 1", Toast.LENGTH_SHORT).show();
@@ -163,9 +298,9 @@ public class MetricasEspecialistaActivity extends AppCompatActivity {
                                 jsonObject1.getInt("id_servicio"),
                                 jsonObject1.getInt("estado_solicitud"),
                                 jsonObject1.getInt("valoracion"),
-                                jsonObject1.getString("imagen"),
                                 jsonObject1.getInt("id_estado_solicitud"),
-                                jsonObject1.getString("descripcion_estado")));
+                                jsonObject1.getString("descripcion_estado"),
+                                jsonObject1.getString("servicio_nombre")));
                         Y++;
                     }
                     txtNChat.setText(""+Y);

@@ -31,6 +31,8 @@
     <string name="URL_MISSOLICITUDES_METRICAS">http://192.168.64.2/ServiScope/listar_missolicitudes_metricas.php</string>
     <string name="URL_HISTORIAL">http://192.168.64.2/ServiScope/listar_prueba_historial.php</string>
     <string name="URL_MISSERVICIOS">http://192.168.64.2/ServiScope/listar_misservicios.php</string>
+    <string name="URL_SOLICITUDESFINALIZADAS_METRICAS">http://192.168.64.2/ServiScope/listar_solicitudesfinalizadas_metricas.php</string>
+    <string name="URL_SOLICITUDESGESTIONADAS_METRICAS">http://192.168.64.2/ServiScope/listar_solicitudesgestionadas_metricas.php</string>
 
 
 </resources>

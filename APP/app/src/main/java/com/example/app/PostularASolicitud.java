@@ -55,6 +55,7 @@ public class PostularASolicitud extends AppCompatActivity {
     }
 
 
+
     public void actualizarHistorial(String URL){
         StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
             @Override
@@ -102,6 +103,7 @@ public class PostularASolicitud extends AppCompatActivity {
         Toast.makeText(getApplicationContext(),id_tecnico,Toast.LENGTH_SHORT).show();
 
     }
+
     public void onBackPressed() {
         Intent intent = new Intent(getApplicationContext(), VerSolicitudes2Activity.class);
         x=1;
@@ -112,4 +114,5 @@ public class PostularASolicitud extends AppCompatActivity {
         startActivity(intent);
         finish();
     }
+
 }

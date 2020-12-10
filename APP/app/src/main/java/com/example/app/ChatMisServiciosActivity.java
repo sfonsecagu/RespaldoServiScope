@@ -39,13 +39,11 @@ public class ChatMisServiciosActivity extends AppCompatActivity {
     AdaptadorMisServicios adaptador;
     List<MisServicios> listaMisServicios;
     String correo, id_usuario;
-    Integer servicio;
+    Integer servicio, id_tecnico;
     Button btnAgregar;
     ProgressBar progressBar;
     TextView txtServicio;
     String dato;
-
-
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -91,7 +89,7 @@ public class ChatMisServiciosActivity extends AppCompatActivity {
                         jsonObject = response.getJSONObject(i);
                         correo = jsonObject.getString("email");
                         id_usuario = jsonObject.getString("id_usuario");
-                        //Toast.makeText(getApplicationContext(),"Usuario: "+id_usuario,Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(),"Usuario: "+id_usuario,Toast.LENGTH_SHORT).show();
                         obtenerServicios();
 
                     } catch (JSONException e) {
@@ -139,24 +137,28 @@ public class ChatMisServiciosActivity extends AppCompatActivity {
                     }
 
                     adaptador = new AdaptadorMisServicios(getApplicationContext(), listaMisServicios);
-                        adaptador.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
 
-                                    progressBar.setVisibility(View.VISIBLE);
-                                    servicio = listaMisServicios.get(rvListaS.getChildAdapterPosition(view)).getId_tecnico();
-                                    Intent intent = new Intent(getApplicationContext(), MisSolicitudesEspecialistaActivity.class);
-                                    intent.putExtra("email", correo);
-                                    intent.putExtra("id", servicio + "");
-                                    intent.putExtra("dato", dato);
-                                    startActivity(intent);
-                                    finish();
 
-                                    progressBar.setVisibility(View.INVISIBLE);
+                    adaptador.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            progressBar.setVisibility(View.VISIBLE);
+                            servicio = listaMisServicios.get(rvListaS.getChildAdapterPosition(view)).getId_tecnico();
+                            id_tecnico = listaMisServicios.get(rvListaS.getChildAdapterPosition(view)).getId_tecnico();
 
-                            }
-                        });
 
+                            //Toast.makeText(getApplicationContext(),"Seleccionó: "+listaMisServicios.get(rvListaS.getChildAdapterPosition(view)).getId_tecnico(),Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(getApplicationContext(), MisSolicitudesEspecialistaActivity.class);
+                            intent.putExtra("email",correo);
+                            intent.putExtra("id", servicio +"");
+                            intent.putExtra("id_tecnico", id_tecnico+"");
+                            intent.putExtra("dato",dato);
+                            startActivity(intent);
+                            finish();
+
+                            progressBar.setVisibility(View.INVISIBLE);
+                        }
+                    });
                     rvListaS.setAdapter(adaptador);
                     progressBar.setVisibility(View.INVISIBLE);
 
@@ -190,9 +192,11 @@ public class ChatMisServiciosActivity extends AppCompatActivity {
         Bundle u;
         u = getIntent().getExtras();
         correo = u.getString("email");
+
         dato = u.getString("dato");
 
         Toast.makeText(getApplicationContext(),dato,Toast.LENGTH_SHORT).show();
+
 
 
 

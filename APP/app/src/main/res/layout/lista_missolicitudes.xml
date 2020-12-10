@@ -16,9 +16,13 @@
 
         <ImageView
             android:id="@+id/imagen_solicitudMi"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:src="@drawable/ic_business_cente"/>
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:src="@drawable/ic_business_cente"
+            android:layout_marginTop="5dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginBottom="5dp"/>
 
         <TextView
             android:id="@+id/txtFechaMi"

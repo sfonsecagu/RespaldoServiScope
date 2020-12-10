@@ -26,6 +26,7 @@
             android:layout_height="30dp"
             android:text="Nuevo"
             android:textSize="10dp"
+            android:visibility="invisible"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
     </LinearLayout>
@@ -54,7 +55,7 @@
             android:id="@+id/recyclerViewS"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="80dp">
+            android:layout_marginTop="40dp">
 
         </androidx.recyclerview.widget.RecyclerView>
 

@@ -34,7 +34,7 @@ import androidx.recyclerview.widget.RecyclerView;
 public class ChatActivity extends AppCompatActivity {
 
 
-    String email, id_solicitud, id_usuario, ccid_usuario,T;
+    String email, id_solicitud, id_usuario, ccid_usuario,T, id_tecnico2;
     Integer id_usuario_solicitud, id_tecnico;
     EditText edtComentario;
     ImageButton  btnComentar;
@@ -210,8 +210,9 @@ public class ChatActivity extends AppCompatActivity {
         dato = u.getString("dato");
         ccid_usuario = u.getString("ccid_usuario");
         id_usuario = u.getString("id_usuario");
+        id_tecnico2 = u.getString("id_tecnico");
 
-        //Toast.makeText(getApplicationContext(),"Id consultor "+ccid_usuario+" - id solicitud"+ id_usuario,Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApplicationContext(),dato,Toast.LENGTH_SHORT).show();
 
         obtenerHistorial();
 
@@ -224,6 +225,7 @@ public class ChatActivity extends AppCompatActivity {
             intent.putExtra("email",email);
             intent.putExtra("id_solicitud", id_solicitud);
             intent.putExtra("dato",dato);
+            intent.putExtra("id_tecnico", id_tecnico2);
             startActivity(intent);
             finish();
         }else{
@@ -231,6 +233,7 @@ public class ChatActivity extends AppCompatActivity {
             intent.putExtra("email",email);
             intent.putExtra("id_solicitud", id_solicitud);
             intent.putExtra("dato",dato);
+            intent.putExtra("id_tecnico", id_tecnico2);
             startActivity(intent);
             finish();
         }

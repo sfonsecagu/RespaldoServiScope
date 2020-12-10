@@ -33,7 +33,6 @@ public class MenuEspecialistaActivity extends AppCompatActivity {
         btnChat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 Intent intent = new Intent(getApplicationContext(), ChatMisServiciosActivity.class);
                 intent.putExtra("email",correo);
                 intent.putExtra("dato",dato);

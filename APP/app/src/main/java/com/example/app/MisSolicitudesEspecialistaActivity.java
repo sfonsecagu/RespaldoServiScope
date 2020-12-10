@@ -122,9 +122,9 @@ public class MisSolicitudesEspecialistaActivity extends AppCompatActivity {
                                 jsonObject1.getInt("id_servicio"),
                                 jsonObject1.getInt("estado_solicitud"),
                                 jsonObject1.getInt("valoracion"),
-                                jsonObject1.getString("imagen"),
                                 jsonObject1.getInt("id_estado_solicitud"),
-                                jsonObject1.getString("descripcion_estado")));
+                                jsonObject1.getString("descripcion_estado"),
+                                jsonObject1.getString("servicio_nombre")));
                         Y++;
                     }
 
@@ -141,7 +141,7 @@ public class MisSolicitudesEspecialistaActivity extends AppCompatActivity {
                             intent.putExtra("email",correo);
                             intent.putExtra("id_solicitud",id_solicitud+"");
                             intent.putExtra("titulo",titulo);
-                            intent.putExtra("dato",dato);
+                            intent.putExtra("dato",dato+"");
 
 
                             startActivity(intent);
@@ -151,7 +151,7 @@ public class MisSolicitudesEspecialistaActivity extends AppCompatActivity {
                     rvListaMi.setAdapter(adaptador);
                     rvListaMi.setVisibility(View.VISIBLE);
                     progressBar.setVisibility(View.INVISIBLE);
-                    txtPrueba.setText("Hola"+Y);
+
 
                 } catch (JSONException e) {
                     e.printStackTrace();
