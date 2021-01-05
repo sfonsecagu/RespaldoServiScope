@@ -1,9 +1,18 @@
 package com.example.app;
 
 import android.Manifest;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.media.MediaScannerConnection;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.text.SpannableString;
 import android.text.style.UnderlineSpan;
 import android.view.View;
@@ -12,6 +21,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -29,18 +39,24 @@ import com.example.app.Entidades.Comuna;
 import com.example.app.Entidades.Region;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.Base64;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.core.content.FileProvider;
 import cz.msebera.android.httpclient.Header;
 
 public class RegistrarEspecialistaDos extends AppCompatActivity {
@@ -54,12 +70,27 @@ public class RegistrarEspecialistaDos extends AppCompatActivity {
     CheckBox checkBox;
     RequestQueue requestQueue;
     ProgressBar progressBar;
+    ImageView ivFoto;
+    Button btnTomarFoto, btnSeleccionarImagen;
+    Byte f=0;
 
+    Uri imagenUri;
+
+    int TOMAR_FOTO=11;
+    int SELEC_IMAGEN=200;
+
+    String CARPETA_RAIZ = "MisFotosApp";
+    String CARPETAS_IMAGENES = "imagenes";
+    String RUTA_IMAGEN = CARPETA_RAIZ+CARPETAS_IMAGENES;
+    String path;
+
+    Bitmap bitmap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registrarespecialistados);
+
         txtEmail = (TextView) findViewById(R.id.txtCorreo);
         txtNombre = (TextView) findViewById(R.id.txtNombre);
         txtGPS = (TextView) findViewById(R.id.txtGPS2);
@@ -69,24 +100,36 @@ public class RegistrarEspecialistaDos extends AppCompatActivity {
         edtOrganizacion = (EditText) findViewById(R.id.edtOrganizacion);
         spnRegion = (Spinner) findViewById(R.id.spnRegion);
         spnComuna = (Spinner) findViewById(R.id.spnComuna);
-
         txtCategoria = (TextView) findViewById(R.id.txtCategoria);
         txtCategoriaid = (TextView) findViewById(R.id.txtCategoriaid);
         txtRegion = (TextView) findViewById(R.id.txtRegion);
         txtComuna = (TextView) findViewById(R.id.txtComuna);
         txtComunaid = (TextView) findViewById(R.id.txtComunaid);
-
         textoRegion = (TextView) findViewById(R.id.textoRegion);
         textoComuna = (TextView) findViewById(R.id.textoComuna);
         textoDireccion = (TextView) findViewById(R.id.textoDireccion);
-
         btnRegistrar = (Button) findViewById(R.id.btnRegistrar);
         checkBox = (CheckBox) findViewById(R.id.checkBox);
         progressBar = findViewById(R.id.progressBar);
+
         cliente = new AsyncHttpClient();
 
-        edtUbicacion.setEnabled(false);
+        ivFoto = findViewById(R.id.ivFoto);
+        btnTomarFoto = findViewById(R.id.btnTomarFoto);
+        btnSeleccionarImagen = findViewById(R.id.btnSeleccionarImagen);
 
+        if (ContextCompat.checkSelfPermission(RegistrarEspecialistaDos.this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED){
+            ActivityCompat.requestPermissions(RegistrarEspecialistaDos.this, new String[]{Manifest.permission.CAMERA,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE},0);
+        }
+
+        btnTomarFoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mostrarDialogOpciones();
+            }
+        });
+        edtUbicacion.setEnabled(false);
         edtUbicacion.setVisibility(View.INVISIBLE);
         spnComuna.setVisibility(View.INVISIBLE);
         spnRegion.setVisibility(View.INVISIBLE);
@@ -94,13 +137,8 @@ public class RegistrarEspecialistaDos extends AppCompatActivity {
         textoComuna.setVisibility(View.INVISIBLE);
         textoDireccion.setVisibility(View.INVISIBLE);
         progressBar.setVisibility(View.INVISIBLE);
-
-
         txtComuna.setVisibility(View.VISIBLE);
         txtCategoria.setVisibility(View.VISIBLE);
-
-
-
 
         //Permisos Ubicación GPS
         {
@@ -147,10 +185,6 @@ public class RegistrarEspecialistaDos extends AppCompatActivity {
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }
-
-
-
-
                         }
 
                         public void onStatusChanged(String provider, int status, Bundle extras) {
@@ -190,8 +224,6 @@ public class RegistrarEspecialistaDos extends AppCompatActivity {
 
             }
         }
-
-
 
         spnRegion.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -249,28 +281,21 @@ public class RegistrarEspecialistaDos extends AppCompatActivity {
                     nombreespecialidad = txtCategoria.getText().toString();
                     Organizacion = edtOrganizacion.getText().toString();
 
-
                     //especialidad=txtidEspecialidad.getText().toString();
-
                     //Ruta seba
                     buscarComuna("http://192.168.64.2/ServiScope/buscaComuna.php?nombre=" + nombrecomuna + "");
                     buscarEspecialidad("http://192.168.64.2/ServiScope/buscaServicio.php?nombre=" + nombreespecialidad + "");
-
-
                     //Ruta diego
                     // buscarComuna("http://192.168.1.98/ServiScope/buscaRegion.php?nombre="+txtComunainvisible.getText()+"");
                     // buscarEspecialidad("http://192.168.1.98/ServiScope/buscaServicio.php?nombre="+txtEspecialidadinvisible.getText().toString()+"");
-
                     //buscarComuna("http://192.168.0.10/ServiScope/buscaRegion.php?nombre="+txtComunainvisible.getText()+"");
                     //buscarEspecialidad("http://192.168.0.10/ServiScope/buscaServicio.php?nombre="+txtEspecialidadinvisible.getText().toString()+"");
                 } else {
                     Toast.makeText(getApplicationContext(), "Favor complete los datos", Toast.LENGTH_SHORT).show();
                 }
 
-
             }
         });
-
 
         btnRegistrar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -278,26 +303,125 @@ public class RegistrarEspecialistaDos extends AppCompatActivity {
 
                 if (checkBox.isChecked() == true) {
                     if (!nombrecomuna.isEmpty() && !direccion.isEmpty() && !nombreespecialidad.isEmpty() && !Organizacion.isEmpty()) {
-                        validarNombreOrganizacion("http://192.168.64.2/ServiScope/validar_organizacion_existente.php");
-
+                        if (f==1){
+                            validarNombreOrganizacion("http://192.168.64.2/ServiScope/validar_organizacion_existente.php");
+                        }else{
+                            Toast.makeText(getApplicationContext(),"Favor cargar una imagen", Toast.LENGTH_SHORT).show();
+                            checkBox.setChecked(false);
+                        }
                     } else {
                         Toast.makeText(getApplicationContext(), "Favor complete los datos", Toast.LENGTH_SHORT).show();
                     }
                 } else {
                     Toast.makeText(getApplicationContext(), "Favor confirmar los datos", Toast.LENGTH_SHORT).show();
                 }
-
             }
         });
-
 
         recibirDatos();
         llenarSpinnerRegion();
         llenarSpinnerComuna();
         llenarSpinnerCategoria();
+    }
 
+    private void mostrarDialogOpciones() {
+
+        final CharSequence[] opciones = {"Tomar Foto", "Cargar Foto", "Cancelar"};
+        final AlertDialog.Builder alertOpciones = new AlertDialog.Builder(RegistrarEspecialistaDos.this);
+        alertOpciones.setTitle("Seleccione una opción");
+        alertOpciones.setItems(opciones, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+                if (opciones[i].equals("Tomar Foto")) {
+                    tomarFoto();
+
+                } else {
+                    if (opciones[i].equals("Cargar Foto")) {
+                        seleccionarImagen();
+                    } else {
+                        dialogInterface.dismiss();
+                    }
+                }
+            }
+        });
+        alertOpciones.show();
+    }
+
+    public void tomarFoto(){
+        String nombreImagen="";
+        File fileImagen = new File(Environment.getExternalStorageDirectory(),RUTA_IMAGEN);
+        boolean isCreada = fileImagen.exists();
+
+        if (isCreada == false){
+            isCreada = fileImagen.mkdirs();
+        }
+        if (isCreada == true){
+            nombreImagen = (System.currentTimeMillis()/1000) + ".jpg";
+        }
+
+        path = Environment.getExternalStorageDirectory()+File.separator+RUTA_IMAGEN+File.separator+nombreImagen;
+        File imagen = new File(path);
+
+        Intent intent = null;
+        intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N){
+            String authorities = this.getPackageName()+".provider";
+            Uri imageUri = FileProvider.getUriForFile(this, authorities, imagen);
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
+        }else {
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(imagen));
+        }
+
+        startActivityForResult(intent, TOMAR_FOTO);
+    }
+
+    public void seleccionarImagen(){
+        Intent galeria = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI);
+        startActivityForResult(galeria, SELEC_IMAGEN);
 
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == RESULT_OK && requestCode == SELEC_IMAGEN){
+            imagenUri = data.getData();
+            ivFoto.setImageURI(imagenUri);
+
+            try {
+                bitmap = MediaStore.Images.Media.getBitmap(RegistrarEspecialistaDos.this.getContentResolver(), imagenUri);
+                ivFoto.setImageBitmap(bitmap);
+                f=1;
+
+            } catch (IOException e) {
+                e.printStackTrace();
+                f=0;
+            }
+        }else if (resultCode == RESULT_OK && requestCode == TOMAR_FOTO){
+            MediaScannerConnection.scanFile(RegistrarEspecialistaDos.this, new String[]{path}, null, new MediaScannerConnection.OnScanCompletedListener() {
+                @Override
+                public void onScanCompleted(String s, Uri uri) {
+
+                }
+            });
+
+            bitmap  = BitmapFactory.decodeFile(path);
+            ivFoto.setImageBitmap(bitmap);
+            f=1;
+        }
+    }
+
+    private String convertirImgString(Bitmap bitmap) {
+        ByteArrayOutputStream array = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, array);
+        byte[] imagenByte = array.toByteArray();
+        String imagenString = Base64.encodeToString(imagenByte, Base64.DEFAULT);
+        return imagenString;
+    }
+
 
     private void recibirDatos() {
         Bundle u;
@@ -427,8 +551,6 @@ public class RegistrarEspecialistaDos extends AppCompatActivity {
     private void llenarSpinnerCategoria(){
         //Ruta Seba
         String url = "http://192.168.64.2/ServiScope/listar_servicios.php";
-
-
         //Ruta Diego
         //String url = "http://192.168.1.98/ServiScope/listar_regiones.php";
 
@@ -600,7 +722,6 @@ public class RegistrarEspecialistaDos extends AppCompatActivity {
         requestQueue.add(jsonArrayRequest);
     }
 
-
     private void registrarEspecialista(String URL){
         StringRequest stringRequest=new StringRequest(Request.Method.POST, URL, new Response.Listener<String>(){
 
@@ -621,6 +742,7 @@ public class RegistrarEspecialistaDos extends AppCompatActivity {
         }){
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
+                String imagen = convertirImgString(bitmap);
                 Map<String, String> datos_usuario=new HashMap<>();
                 datos_usuario.put("id_usuario",id_usuario);
                 datos_usuario.put("id_region",txtRegion.getText().toString());
@@ -629,6 +751,7 @@ public class RegistrarEspecialistaDos extends AppCompatActivity {
                 datos_usuario.put("direccion", direccion);
                 datos_usuario.put("id_servicio", txtCategoriaid.getText().toString());
                 datos_usuario.put("descripcion", edtExperiencia.getText().toString());
+                datos_usuario.put("imagen",imagen);
                 return datos_usuario;
             }
         };

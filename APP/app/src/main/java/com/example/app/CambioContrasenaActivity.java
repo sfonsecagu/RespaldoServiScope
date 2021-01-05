@@ -34,6 +34,7 @@ public class CambioContrasenaActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_recuperarcontrasena);
         edtCodigo=(EditText)findViewById(R.id.edtCodigo);
         edtContrasena=(EditText)findViewById(R.id.edtContrasena);
@@ -59,8 +60,6 @@ public class CambioContrasenaActivity extends AppCompatActivity {
                     if (contrasena.equals(contrasena2)) {
                         //Ruta seba
                         validarUsuario("http://192.168.64.2/ServiScope/validar_codigo.php");
-
-
                         //Ruta Diego
                         //validarUsuario("http://192.168.1.98/ServiScope/validar_codigo.php");
                         //validarUsuario("http://192.168.0.10/ServiScope/validar_codigo.php");
@@ -70,11 +69,8 @@ public class CambioContrasenaActivity extends AppCompatActivity {
                 }else{
                     Toast.makeText(CambioContrasenaActivity.this,"Favor de completar los datos", Toast.LENGTH_SHORT).show();
                 }
-
-
             }
         });
-
     }
 
     private void recibirDatos() {
@@ -86,8 +82,8 @@ public class CambioContrasenaActivity extends AppCompatActivity {
         txtCorreo = (TextView) findViewById(R.id.txtCorreo);
         txtNombres.setText(d1+""+d2);
         txtCorreo.setText(d3);
-
     }
+
     private void validarUsuario(String URL){
         StringRequest stringRequest=new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
             @Override
@@ -95,17 +91,12 @@ public class CambioContrasenaActivity extends AppCompatActivity {
                 if (!response.isEmpty()){
                     //Ruta seba
                     cambiarContrasena("http://192.168.64.2/ServiScope/cambiar_contrasena.php");
-
-
                     //Ruta Diego
                     //cambiarContrasena("http://192.168.1.98/ServiScope/cambiar_contrasena.php");
                     //cambiarContrasena("http://192.168.0.10/ServiScope/cambiar_contrasena.php");
-
                 }else{
                     Toast.makeText(CambioContrasenaActivity.this,"Código erróneo", Toast.LENGTH_SHORT).show();
-
                 }
-
             }
         }, new Response.ErrorListener() {
             @Override
@@ -121,11 +112,10 @@ public class CambioContrasenaActivity extends AppCompatActivity {
                 return parametros;
             }
         };
-
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(stringRequest);
-
     }
+
     private void cambiarContrasena(String URL){
         StringRequest stringRequest=new StringRequest(Request.Method.POST, URL, new Response.Listener<String>(){
             public void onResponse(String response) {
@@ -139,7 +129,6 @@ public class CambioContrasenaActivity extends AppCompatActivity {
             public void onErrorResponse(VolleyError error) {
                 Toast.makeText(getApplicationContext(),error.toString(),Toast.LENGTH_SHORT).show();
             }
-
         }){
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
@@ -150,19 +139,14 @@ public class CambioContrasenaActivity extends AppCompatActivity {
                 return datos_usuario;
             }
         };
-
         RequestQueue requestQueue= Volley.newRequestQueue(this);
         requestQueue.add(stringRequest);
     }
-
     @Override
     public void onBackPressed() {
-
         Intent intent = new Intent(getApplicationContext(), RecuperarContrasenaActivity.class);
         startActivity(intent);
         finish();
 
     }
-
-
 }

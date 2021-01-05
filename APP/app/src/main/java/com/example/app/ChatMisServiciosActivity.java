@@ -55,14 +55,10 @@ public class ChatMisServiciosActivity extends AppCompatActivity {
         rvListaS.setLayoutManager(new GridLayoutManager(this, 1));
         listaMisServicios = new ArrayList<>();
         txtServicio = (TextView) findViewById(R.id.txtServicio);
-
-
-
+        btnAgregar = (Button) findViewById(R.id.btnAgregar);
 
         adaptador = new AdaptadorMisServicios(getApplicationContext(), listaMisServicios);
         rvListaS.setAdapter(adaptador);
-
-        btnAgregar = (Button) findViewById(R.id.btnAgregar);
 
         btnAgregar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -71,7 +67,6 @@ public class ChatMisServiciosActivity extends AppCompatActivity {
                 intent.putExtra("email",correo);
                 startActivity(intent);
                 finish();
-
             }
         });
 
@@ -89,7 +84,7 @@ public class ChatMisServiciosActivity extends AppCompatActivity {
                         jsonObject = response.getJSONObject(i);
                         correo = jsonObject.getString("email");
                         id_usuario = jsonObject.getString("id_usuario");
-                        Toast.makeText(getApplicationContext(),"Usuario: "+id_usuario,Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(getApplicationContext(),"Usuario: "+id_usuario,Toast.LENGTH_SHORT).show();
                         obtenerServicios();
 
                     } catch (JSONException e) {
@@ -108,10 +103,8 @@ public class ChatMisServiciosActivity extends AppCompatActivity {
         requestQueue.add(jsonArrayRequest);
     }
 
-
     public void obtenerServicios(){
         RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
-
         StringRequest stringRequest = new StringRequest(Request.Method.POST, getResources().getString(R.string.URL_MISSERVICIOS), new Response.Listener<String>(){
 
             @Override
@@ -137,16 +130,12 @@ public class ChatMisServiciosActivity extends AppCompatActivity {
                     }
 
                     adaptador = new AdaptadorMisServicios(getApplicationContext(), listaMisServicios);
-
-
                     adaptador.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
                             progressBar.setVisibility(View.VISIBLE);
                             servicio = listaMisServicios.get(rvListaS.getChildAdapterPosition(view)).getId_tecnico();
                             id_tecnico = listaMisServicios.get(rvListaS.getChildAdapterPosition(view)).getId_tecnico();
-
-
                             //Toast.makeText(getApplicationContext(),"Seleccionó: "+listaMisServicios.get(rvListaS.getChildAdapterPosition(view)).getId_tecnico(),Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(getApplicationContext(), MisSolicitudesEspecialistaActivity.class);
                             intent.putExtra("email",correo);
@@ -155,14 +144,11 @@ public class ChatMisServiciosActivity extends AppCompatActivity {
                             intent.putExtra("dato",dato);
                             startActivity(intent);
                             finish();
-
                             progressBar.setVisibility(View.INVISIBLE);
                         }
                     });
                     rvListaS.setAdapter(adaptador);
                     progressBar.setVisibility(View.INVISIBLE);
-
-
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -184,29 +170,20 @@ public class ChatMisServiciosActivity extends AppCompatActivity {
             }
         };
         requestQueue.add(stringRequest);
-
     }
-
 
     private void recibirDatos() {
         Bundle u;
         u = getIntent().getExtras();
         correo = u.getString("email");
-
         dato = u.getString("dato");
-
-        Toast.makeText(getApplicationContext(),dato,Toast.LENGTH_SHORT).show();
-
-
-
-
+        //Toast.makeText(getApplicationContext(),dato,Toast.LENGTH_SHORT).show();
         progressBar.setVisibility(View.VISIBLE);
+
         //Ruta seba
         buscarUsuario("http://192.168.64.2/ServiScope/cargar_perfil.php?email="+correo+"");
-
         //ruta diego
         //buscarUsuario("http://192.168.1.98/ServiScope/cargar_perfil.php?email="+correo+"");
-
 
     }
 
@@ -215,8 +192,5 @@ public class ChatMisServiciosActivity extends AppCompatActivity {
         intent.putExtra("email",correo);
         startActivity(intent);
         finish();
-
     }
-
-
 }

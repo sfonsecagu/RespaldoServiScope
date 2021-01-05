@@ -173,13 +173,13 @@
                     android:paddingTop="10dp">
 
                     <ImageView
-                        android:id="@+id/imagenId"
+                        android:id="@+id/ivFoto"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
                         android:src="@drawable/ic_add" />
 
                     <Button
-                        android:id="@+id/btnCargarImg"
+                        android:id="@+id/btnTomarFoto"
                         android:layout_width="wrap_content"
                         android:layout_height="40dp"
                         android:layout_alignParentLeft="true"
@@ -187,7 +187,8 @@
                         android:layout_marginStart="10dp"
                         android:background="@color/colorAccent"
                         android:onClick="onclickfoto"
-                        android:text="Seleccionar imagen" />
+                        android:text="Seleccionar" />
+
 
                 </LinearLayout>
 

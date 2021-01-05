@@ -8,7 +8,6 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -44,18 +43,12 @@ public class MisSolicitudesEspecialistaActivity extends AppCompatActivity {
     Integer id_solicitud ;
     ProgressBar progressBar;
     TextView txtPrueba;
-
     String dato;
-
     Integer Y=0;
-
-
-
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_listarmisolicitud);
 
         edtBuscador = findViewById(R.id.edtBuscarMi);
@@ -67,12 +60,10 @@ public class MisSolicitudesEspecialistaActivity extends AppCompatActivity {
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
             }
-
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
             }
-
             @Override
             public void afterTextChanged(Editable editable) {
                 filtrar(editable.toString());
@@ -82,27 +73,18 @@ public class MisSolicitudesEspecialistaActivity extends AppCompatActivity {
         rvListaMi = findViewById(R.id.recyclerViewMi);
         rvListaMi.setLayoutManager(new GridLayoutManager(this,1));
         listaMisSolicitudes = new ArrayList<>();
-
-
-
         adaptador = new AdaptadorMisSolicitudes(MisSolicitudesEspecialistaActivity.this, listaMisSolicitudes);
         rvListaMi.setAdapter(adaptador);
 
         recibirDatos();
-
     }
-
-
-
-
 
     public void obtenerMisSolicitudes() {
         RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
-
         StringRequest stringRequest = new StringRequest(Request.Method.POST, getResources().getString(R.string.URL_MISSOLICITUDESESPECIALISTA), new Response.Listener<String>() {
+
             @Override
             public void onResponse(String response) {
-
                 try {
                     JSONObject jsonObject = new JSONObject(response);
                     JSONArray jsonArray = jsonObject.getJSONArray("MisSolicitudes");
@@ -128,7 +110,6 @@ public class MisSolicitudesEspecialistaActivity extends AppCompatActivity {
                         Y++;
                     }
 
-
                     adaptador = new AdaptadorMisSolicitudes(MisSolicitudesEspecialistaActivity.this, listaMisSolicitudes);
                     adaptador.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -143,7 +124,6 @@ public class MisSolicitudesEspecialistaActivity extends AppCompatActivity {
                             intent.putExtra("titulo",titulo);
                             intent.putExtra("dato",dato+"");
 
-
                             startActivity(intent);
                             finish();
                         }
@@ -151,7 +131,6 @@ public class MisSolicitudesEspecialistaActivity extends AppCompatActivity {
                     rvListaMi.setAdapter(adaptador);
                     rvListaMi.setVisibility(View.VISIBLE);
                     progressBar.setVisibility(View.INVISIBLE);
-
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -195,7 +174,7 @@ public class MisSolicitudesEspecialistaActivity extends AppCompatActivity {
         correo = u.getString("email");
         id_tecnico = u.getString("id");
         dato = u.getString("dato");
-        Toast.makeText(getApplicationContext(),dato,Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getApplicationContext(),dato,Toast.LENGTH_SHORT).show();
         obtenerMisSolicitudes();
 
     }
@@ -204,13 +183,13 @@ public class MisSolicitudesEspecialistaActivity extends AppCompatActivity {
 
         if (dato.equals("PRUEBA")){
             Intent intent = new Intent(getApplicationContext(), MenuEspecialistaActivity.class);
-            Toast.makeText(getApplicationContext(),dato,Toast.LENGTH_SHORT).show();
+            //Toast.makeText(getApplicationContext(),dato,Toast.LENGTH_SHORT).show();
             intent.putExtra("email",correo);
             startActivity(intent);
             finish();
         }else{
             Intent intent = new Intent(getApplicationContext(), MenuUsuarioActivity.class);
-            Toast.makeText(getApplicationContext(),dato,Toast.LENGTH_SHORT).show();
+            //Toast.makeText(getApplicationContext(),dato,Toast.LENGTH_SHORT).show();
             intent.putExtra("email",correo);
             startActivity(intent);
             finish();

@@ -1,7 +1,10 @@
 package com.example.app;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -10,6 +13,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
+import com.loopj.android.http.Base64;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -22,9 +26,12 @@ public class PerfilUsuarios extends AppCompatActivity {
 
     TextView txtTitulo, txtNombre, txtFecha, txtCiudad, txtDireccion, txtEmail;
     String email, id_solicitud, dato, TITULO, id_usuario;
-    String correo, nombres, apellidos, telefono, registro, fecha, comuna, comuna_nombre, direccion;
+    String correo, nombres, apellidos, telefono, fecha, comuna, comuna_nombre, direccion;
     RequestQueue requestQueue;
 
+    String imagen;
+    ImageView imageView;
+    Bitmap imagen2;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -37,7 +44,7 @@ public class PerfilUsuarios extends AppCompatActivity {
         txtCiudad = findViewById(R.id.txtCiudad);
         txtDireccion = findViewById(R.id.txtDireccion);
         txtEmail = findViewById(R.id.txtEmail);
-
+        imageView = findViewById(R.id.imageView);
 
         recibirDatos();
     }
@@ -54,12 +61,17 @@ public class PerfilUsuarios extends AppCompatActivity {
                         nombres = jsonObject.getString("nombres");
                         apellidos = jsonObject.getString("apellidos");
                         telefono = jsonObject.getString("telefono");
-                        registro = jsonObject.getString("fecha_registro");
                         id_usuario = jsonObject.getString("id_usuario");
                         fecha = jsonObject.getString("fecha_registro");
                         comuna = jsonObject.getString("comuna");
                         direccion = jsonObject.getString("direccion");
+                        imagen = jsonObject.getString("imagen");
 
+                        if (!imagen.equals("")){
+                            byte[] byteCode = Base64.decode(imagen, Base64.DEFAULT);
+                            imagen2= BitmapFactory.decodeByteArray(byteCode,0,byteCode.length);
+                            imageView.setImageBitmap(imagen2);
+                        }
 
                         txtNombre.setText(nombres+" "+apellidos);
                         txtFecha.setText(fecha);
@@ -67,9 +79,6 @@ public class PerfilUsuarios extends AppCompatActivity {
                         txtDireccion.setText(direccion);
 
                         buscarComuna("http://192.168.64.2/ServiScope/buscaComuna2.php?nombre="+comuna+"");
-
-
-
 
                     } catch (JSONException e) {
                         Toast.makeText(getApplicationContext(),"No se encuentran registros con su rut", Toast.LENGTH_SHORT).show();
@@ -122,14 +131,9 @@ public class PerfilUsuarios extends AppCompatActivity {
         TITULO = u.getString("titulo");
         id_usuario = u.getString("id_usuario");
 
-
-        Toast.makeText(getApplicationContext(),id_usuario,Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getApplicationContext(),id_usuario,Toast.LENGTH_SHORT).show();
         txtTitulo.setText(TITULO);
-
         buscarUsuario("http://192.168.64.2/ServiScope/cargar_perfildos.php?id_usuario="+id_usuario+"");
-
-
-
     }
 
     @Override

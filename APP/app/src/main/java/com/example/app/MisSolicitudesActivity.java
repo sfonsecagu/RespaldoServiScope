@@ -45,11 +45,8 @@ public class MisSolicitudesActivity extends AppCompatActivity {
     Integer id_solicitud ;
     ProgressBar progressBar;
     TextView txtPrueba, txtNull;
-
     String dato;
-
     Integer Y=0;
-
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -64,12 +61,10 @@ public class MisSolicitudesActivity extends AppCompatActivity {
         edtBuscador.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
             }
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
             }
 
             @Override
@@ -81,9 +76,6 @@ public class MisSolicitudesActivity extends AppCompatActivity {
         rvListaMi = findViewById(R.id.recyclerViewMi);
         rvListaMi.setLayoutManager(new GridLayoutManager(this,1));
         listaMisSolicitudes = new ArrayList<>();
-
-
-
         adaptador = new AdaptadorMisSolicitudes(MisSolicitudesActivity.this, listaMisSolicitudes);
         rvListaMi.setAdapter(adaptador);
 
@@ -122,8 +114,8 @@ public class MisSolicitudesActivity extends AppCompatActivity {
 
     public void obtenerMisSolicitudes() {
         RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
-
         StringRequest stringRequest = new StringRequest(Request.Method.POST, getResources().getString(R.string.URL_MISSOLICITUDES), new Response.Listener<String>() {
+
             @Override
             public void onResponse(String response) {
 
@@ -155,7 +147,6 @@ public class MisSolicitudesActivity extends AppCompatActivity {
                     if (listaMisSolicitudes.isEmpty()){
                         txtNull.setVisibility(View.VISIBLE);
                     }
-
 
                     adaptador = new AdaptadorMisSolicitudes(MisSolicitudesActivity.this, listaMisSolicitudes);
                     adaptador.setOnClickListener(new View.OnClickListener() {
@@ -201,7 +192,6 @@ public class MisSolicitudesActivity extends AppCompatActivity {
         };
 
         requestQueue.add(stringRequest);
-
     }
 
     public void filtrar(String texto){
@@ -221,12 +211,8 @@ public class MisSolicitudesActivity extends AppCompatActivity {
         correo = u.getString("email");
         dato = u.getString("dato");
         //Ruta seba
-
         //Toast.makeText(getApplicationContext(),dato,Toast.LENGTH_SHORT).show();
-
         buscarUsuario("http://192.168.64.2/ServiScope/cargar_perfil.php?email="+correo+"");
-
-
         //buscarUsuario("http://192.168.1.98/ServiScope/cargar_perfil.php?email="+correo+"");
     }
 

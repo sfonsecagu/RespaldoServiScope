@@ -10,6 +10,14 @@ $organizacion=$_POST['organizacion'];
 $direccion=$_POST['direccion'];
 $id_servicio=$_POST['id_servicio'];
 $descripcion=$_POST['descripcion'];
+$imagen=$_POST['imagen'];
+
+$path = "imagenes/$nombre.jpg";
+
+$url = "http://$_hostname_localhost/ServiScope/$path";
+
+file_put_contents($path,base64_decode($imagen));
+$bytesArchivo=file_get_contents($path);
 
 
 /*
@@ -26,7 +34,7 @@ $descripcion='2392039jnkn';
 //$descripcion=utf8_decode($descripcion);
 
 $consulta="INSERT INTO `tecnicos` (`id_tecnico`, `id_usuario`, `id_region`, `id_comuna`, `organizacion`,`direccion`, `id_servicio_tecnico`, `descripcion_tecnico`, `valoracion`, `imagen_cert`, `eliminado_tecnico`, `fecha_eliminado_tecnico`) 
-VALUES (NULL, '".$id_usuario."', '".$id_region."', '".$id_comuna."', '".$organizacion."', '".$direccion."', '".$id_servicio."', '".$descripcion."', '0', NULL, b'0', NULL)";
+VALUES (NULL, '".$id_usuario."', '".$id_region."', '".$id_comuna."', '".$organizacion."', '".$direccion."', '".$id_servicio."', '".$descripcion."', '0', '".$imagen."', b'0', NULL)";
 
 mysqli_query($conexion,$consulta) or die ("Problemas al insertar".mysqli_error($conexion));
 mysqli_close($conexion);

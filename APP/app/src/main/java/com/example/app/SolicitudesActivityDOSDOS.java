@@ -45,8 +45,6 @@ public class SolicitudesActivityDOSDOS extends AppCompatActivity {
     TextView txtServicio;
     String dato;
 
-
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,14 +56,10 @@ public class SolicitudesActivityDOSDOS extends AppCompatActivity {
         listaMisServicios = new ArrayList<>();
         txtServicio = (TextView) findViewById(R.id.txtServicio);
 
-
-
-
         adaptador = new AdaptadorMisServicios(getApplicationContext(), listaMisServicios);
         rvListaS.setAdapter(adaptador);
 
         btnAgregar = (Button) findViewById(R.id.btnAgregar);
-
         btnAgregar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -110,10 +104,8 @@ public class SolicitudesActivityDOSDOS extends AppCompatActivity {
         requestQueue.add(jsonArrayRequest);
     }
 
-
     public void obtenerServicios(){
         RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
-
         StringRequest stringRequest = new StringRequest(Request.Method.POST, getResources().getString(R.string.URL_MISSERVICIOS), new Response.Listener<String>(){
 
             @Override
@@ -155,8 +147,6 @@ public class SolicitudesActivityDOSDOS extends AppCompatActivity {
                                     startActivity(intent);
                                     finish();
 
-
-
                                     progressBar.setVisibility(View.INVISIBLE);
 
                             }
@@ -164,8 +154,6 @@ public class SolicitudesActivityDOSDOS extends AppCompatActivity {
 
                     rvListaS.setAdapter(adaptador);
                     progressBar.setVisibility(View.INVISIBLE);
-
-
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -190,7 +178,6 @@ public class SolicitudesActivityDOSDOS extends AppCompatActivity {
 
     }
 
-
     private void recibirDatos() {
         Bundle u;
         u = getIntent().getExtras();
@@ -198,14 +185,11 @@ public class SolicitudesActivityDOSDOS extends AppCompatActivity {
         dato = u.getString("dato");
         progressBar.setVisibility(View.VISIBLE);
 
-        Toast.makeText(getApplicationContext(),dato,Toast.LENGTH_SHORT).show();
-
+        //Toast.makeText(getApplicationContext(),dato,Toast.LENGTH_SHORT).show();
         //Ruta seba
         buscarUsuario("http://192.168.64.2/ServiScope/cargar_perfil.php?email="+correo+"");
-
         //ruta diego
         //buscarUsuario("http://192.168.1.98/ServiScope/cargar_perfil.php?email="+correo+"");
-
 
     }
 

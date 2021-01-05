@@ -5,10 +5,12 @@
 
     <dist:module dist:instant="true" />
 
-    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.hardware.Camera" android:required="true"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
@@ -24,43 +26,57 @@
         android:theme="@style/Theme.AppCompat.Light.NoActionBar"
         android:usesCleartextTraffic="true">
 
-        <activity android:name=".MenuUsuarioActivity" android:label="Menú"></activity>
+        <provider
+            android:authorities="${applicationId}.provider"
+            android:name="androidx.core.content.FileProvider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider_paths">
+
+            </meta-data>
+
+        </provider>
+
+        <activity android:name=".MenuUsuarioActivity" android:label="Menú"  android:theme="@style/ThemeSegundaActivity"></activity>
         <activity android:name=".Splashscreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity android:name=".MainActivity" android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
-        <activity android:name=".RegistrarActivity" />
-        <activity android:name=".RegistrarDosActivity" />
-        <activity android:name=".LoginActivity" />
-        <activity android:name=".RecuperarContrasenaActivity" />
-        <activity android:name=".CambioContrasenaActivity"/>
-        <activity android:name=".CrearNuevaSolicitudActivity"/>
-        <activity android:name=".PerfilActivity"/>
-        <activity android:name=".MenuCambiarContrasenaActivity"/>
-        <activity android:name=".RegistrarEspecialista"/>
-        <activity android:name=".RegistrarEspecialistaDos"/>
-        <activity android:name=".ConfiguracionCuentaActivity"/>
-        <activity android:name=".SolicitudesActivityDOS"/>
-        <activity android:name=".VerSolicitudesActivity"/>
-        <activity android:name=".VerSolicitudes2Activity"/>
-        <activity android:name=".MisSolicitudesActivity"/>
-        <activity android:name=".MenuEspecialistaActivity"/>
-        <activity android:name=".PostularASolicitud"/>
-        <activity android:name=".ChatActivity" />
-        <activity android:name=".EliminarCuentaActivity"/>
-        <activity android:name=".MetricasEspecialistaActivity"/>
-        <activity android:name=".MisServiciosActivity"/>
-        <activity android:name=".PerfilServiciosActivity"/>
-        <activity android:name=".MisSolicitudesEspecialistaActivity"/>
-        <activity android:name=".ChatMisServiciosActivity"/>
-        <activity android:name=".SolicitudesActivityDOSDOS"/>
-        <activity android:name=".PerfilUsuarios"/>
-        <activity android:name=".EncuestaActivity"/>
+        <activity android:name=".RegistrarActivity" android:theme="@style/ThemeSegundaActivity"/>
+        <activity android:name=".RegistrarDosActivity" android:theme="@style/ThemeSegundaActivity"/>
+        <activity android:name=".LoginActivity" android:theme="@style/ThemeSegundaActivity"/>
+        <activity android:name=".RecuperarContrasenaActivity" android:theme="@style/ThemeSegundaActivity"/>
+        <activity android:name=".CambioContrasenaActivity" android:theme="@style/ThemeSegundaActivity"/>
+        <activity android:name=".CrearNuevaSolicitudActivity" android:theme="@style/ThemeSegundaActivity"/>
+        <activity android:name=".PerfilActivity" android:configChanges="screenSize|orientation"
+            android:windowSoftInputMode="stateHidden" android:theme="@style/ThemeSegundaActivity"/>
+        <activity android:name=".MenuCambiarContrasenaActivity" android:theme="@style/ThemeSegundaActivity"/>
+        <activity android:name=".RegistrarEspecialista" android:theme="@style/ThemeSegundaActivity"/>
+        <activity android:name=".RegistrarEspecialistaDos" android:theme="@style/ThemeSegundaActivity"/>
+        <activity android:name=".ConfiguracionCuentaActivity" android:theme="@style/ThemeSegundaActivity"/>
+        <activity android:name=".SolicitudesActivityDOS" android:theme="@style/ThemeSegundaActivity"/>
+        <activity android:name=".VerSolicitudesActivity" android:theme="@style/ThemeSegundaActivity"/>
+        <activity android:name=".VerSolicitudes2Activity" android:theme="@style/ThemeSegundaActivity"/>
+        <activity android:name=".MisSolicitudesActivity" android:theme="@style/ThemeSegundaActivity"/>
+        <activity android:name=".MenuEspecialistaActivity" android:theme="@style/ThemeSegundaActivity"/>
+        <activity android:name=".PostularASolicitud" android:theme="@style/ThemeSegundaActivity"/>
+        <activity android:name=".ChatActivity"  android:theme="@style/ThemeSegundaActivity"/>
+        <activity android:name=".EliminarCuentaActivity" android:theme="@style/ThemeSegundaActivity"/>
+        <activity android:name=".MetricasEspecialistaActivity" android:theme="@style/ThemeSegundaActivity"/>
+        <activity android:name=".MisServiciosActivity" android:theme="@style/ThemeSegundaActivity"/>
+        <activity android:name=".PerfilServiciosActivity" android:theme="@style/ThemeSegundaActivity"/>
+        <activity android:name=".MisSolicitudesEspecialistaActivity" android:theme="@style/ThemeSegundaActivity"/>
+        <activity android:name=".ChatMisServiciosActivity" android:theme="@style/ThemeSegundaActivity"/>
+        <activity android:name=".SolicitudesActivityDOSDOS" android:theme="@style/ThemeSegundaActivity"/>
+        <activity android:name=".PerfilUsuarios" android:theme="@style/ThemeSegundaActivity"/>
+        <activity android:name=".EncuestaActivity" android:theme="@style/ThemeSegundaActivity"/>
 
 
 

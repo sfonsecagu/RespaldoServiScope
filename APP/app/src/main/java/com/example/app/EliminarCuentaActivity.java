@@ -33,20 +33,15 @@ public class EliminarCuentaActivity extends AppCompatActivity {
         edtContrasena = (EditText) findViewById(R.id.edtContrasena);
         btnEliminar = (Button) findViewById(R.id.btnEliminar);
 
-
         btnEliminar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 telefono = edtTelefono.getText().toString();
                 contrasena = edtContrasena.getText().toString();
 
                 if (!telefono.isEmpty() && !contrasena.isEmpty()){
                     //Ruta seba
-
                     validarUsuario("http://192.168.64.2/ServiScope/verificar_usuario.php");
-
-
                     //Ruta diego
                     //eliminarusuario("http://192.168.1.98/ServiScope/eliminarusuario.php");
                 }
@@ -56,7 +51,6 @@ public class EliminarCuentaActivity extends AppCompatActivity {
 
             }
         });
-
         recibirDatos();
 
     }
@@ -66,13 +60,11 @@ public class EliminarCuentaActivity extends AppCompatActivity {
             @Override
             public void onResponse(String response) {
                 if (!response.isEmpty()) {
-
                     eliminarusuario("http://192.168.64.2/ServiScope/eliminarusuario.php");
 
                 } else {
                     Toast.makeText(getApplicationContext(), "Telefono o contraseña incorrecto, reintente", Toast.LENGTH_SHORT).show();
                 }
-
             }
         }, new Response.ErrorListener() {
             @Override
@@ -86,18 +78,13 @@ public class EliminarCuentaActivity extends AppCompatActivity {
                 parametros.put("id_usuario", id_usuario);
                 parametros.put("contrasena", contrasena);
                 parametros.put("telefono", telefono);
-
                 return parametros;
             }
         };
-
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(stringRequest);
 
     }
-
-
-
 
     private void eliminarusuario(String URL){
         StringRequest stringRequest=new StringRequest(Request.Method.POST, URL, new Response.Listener<String>(){
@@ -125,14 +112,11 @@ public class EliminarCuentaActivity extends AppCompatActivity {
         requestQueue.add(stringRequest);
     }
 
-
     private void recibirDatos() {
-
         Bundle u;
         u = getIntent().getExtras();
         correo = u.getString("email");
         id_usuario= u.getString("id_usuario");
-
         //Toast.makeText(getApplicationContext(),"Recibiendo "+id_usuario, Toast.LENGTH_SHORT).show();
     }
 

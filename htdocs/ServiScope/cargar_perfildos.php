@@ -6,7 +6,7 @@ $d=mt_rand(1000,9999);
 $usu_email=$_GET['id_usuario'];
 //$usu_rut=198562440;
 
-$consulta=$conexion->prepare(" SELECT * FROM usuario WHERE id_usuario=? ");
+$consulta=$conexion->prepare(" SELECT email, nombres,apellidos,telefono,id_usuario,fecha_registro,comuna,direccion,imagen FROM usuario WHERE id_usuario=? ");
 $consulta->bind_param('s', $usu_email);
 $consulta->execute();
 $resultado = $consulta->get_result();

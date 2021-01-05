@@ -36,9 +36,7 @@ public class MetricasEspecialistaActivity extends AppCompatActivity {
     String correo, id_usuario;
     TextView txtNChat, txtNSERV, txtZ, txtW;
 
-
     AdaptadorMisServicios adaptador;
-
 
     List<MisServicios> listaMisServicios;
     List<MiSolicitud> listaMisSolicitudes;
@@ -71,7 +69,6 @@ public class MetricasEspecialistaActivity extends AppCompatActivity {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, getResources().getString(R.string.URL_SOLICITUDESGESTIONADAS_METRICAS), new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-
                 try {
                     JSONObject jsonObject = new JSONObject(response);
                     JSONArray jsonArray = jsonObject.getJSONArray("MisSolicitudes");
@@ -99,12 +96,10 @@ public class MetricasEspecialistaActivity extends AppCompatActivity {
                     }
                     txtW.setText(""+W);
                     progressBar.setVisibility(View.INVISIBLE);
-
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
             }
-
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
@@ -122,21 +117,18 @@ public class MetricasEspecialistaActivity extends AppCompatActivity {
         };
 
         requestQueue.add(stringRequest);
-
     }
 
 
     public void obtenerSolicitudesFinalizadas() {
         RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
-
         StringRequest stringRequest = new StringRequest(Request.Method.POST, getResources().getString(R.string.URL_SOLICITUDESFINALIZADAS_METRICAS), new Response.Listener<String>() {
+
             @Override
             public void onResponse(String response) {
-
                 try {
                     JSONObject jsonObject = new JSONObject(response);
                     JSONArray jsonArray = jsonObject.getJSONArray("MisSolicitudes");
-
                     for (int i = 0; i < jsonArray.length(); i++) {
                         JSONObject jsonObject1 = jsonArray.getJSONObject(i);
                         listaMisSolicitudes.add(new MiSolicitud(
@@ -160,7 +152,6 @@ public class MetricasEspecialistaActivity extends AppCompatActivity {
                     }
                     txtZ.setText(""+Z);
                     progressBar.setVisibility(View.INVISIBLE);
-
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -172,7 +163,6 @@ public class MetricasEspecialistaActivity extends AppCompatActivity {
                 error.printStackTrace();
             }
         })
-
         {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
@@ -183,8 +173,6 @@ public class MetricasEspecialistaActivity extends AppCompatActivity {
         };
 
         requestQueue.add(stringRequest);
-
-
     }
 
     private void buscarUsuario(String URL){
@@ -222,7 +210,6 @@ public class MetricasEspecialistaActivity extends AppCompatActivity {
 
     public void obtenerServicios(){
         RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
-
         StringRequest stringRequest = new StringRequest(Request.Method.POST, getResources().getString(R.string.URL_MISSERVICIOS), new Response.Listener<String>(){
 
             @Override
@@ -274,8 +261,8 @@ public class MetricasEspecialistaActivity extends AppCompatActivity {
 
     public void obtenerMisSolicitudes() {
         RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
-
         StringRequest stringRequest = new StringRequest(Request.Method.POST, getResources().getString(R.string.URL_MISSOLICITUDES_METRICAS), new Response.Listener<String>() {
+
             @Override
             public void onResponse(String response) {
 
@@ -317,7 +304,6 @@ public class MetricasEspecialistaActivity extends AppCompatActivity {
                 error.printStackTrace();
             }
         })
-
         {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
@@ -328,7 +314,6 @@ public class MetricasEspecialistaActivity extends AppCompatActivity {
         };
 
         requestQueue.add(stringRequest);
-
     }
 
 
@@ -342,7 +327,6 @@ public class MetricasEspecialistaActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-
         Intent intent = new Intent(getApplicationContext(), MenuEspecialistaActivity.class);
         intent.putExtra("email",correo);
         startActivity(intent);

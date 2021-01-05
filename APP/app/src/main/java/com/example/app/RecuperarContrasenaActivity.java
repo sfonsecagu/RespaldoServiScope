@@ -2,6 +2,7 @@ package com.example.app;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.StrictMode;
@@ -36,8 +37,6 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
 import androidx.appcompat.app.AppCompatActivity;
-
-import static com.example.app.R.color.colorAccent;
 
 public class RecuperarContrasenaActivity extends AppCompatActivity {
     EditText edtRut;
@@ -101,7 +100,6 @@ public class RecuperarContrasenaActivity extends AppCompatActivity {
         filters[0] = new InputFilter.LengthFilter(9);
         resrut.setFilters(filters);
 
-
         btnConsulta.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -112,10 +110,7 @@ public class RecuperarContrasenaActivity extends AppCompatActivity {
                     formatear(rut);
                     validar(format);
                     progressBar.setVisibility(View.VISIBLE);
-
-
                     char ultimo = edtRut.getText().toString().charAt(edtRut.getText().toString().length() - 1);
-
 
                     if (ultimo == '0') {
                         EditText resrut = (EditText) findViewById(R.id.edtRut);
@@ -125,12 +120,10 @@ public class RecuperarContrasenaActivity extends AppCompatActivity {
                         format2 = format.substring(0, format.length() - 1);
 
                          if (dvT.equals("K")) {
-
                              edtRut.setEnabled(false);
                              edtRut.setText(format2 + "K");
                              //Ruta Seba
                              buscarUsuario("http://192.168.64.2/ServiScope/recuperar_contrasena.php?rut=" + edtRut.getText() + "");
-
                              //Ruta Diego
                              // buscarUsuario("http://192.168.1.98/ServiScope/recuperar_contrasena.php?rut="+edtRut.getText()+"");
                              //buscarUsuario("http://192.168.0.10/ServiScope/recuperar_contrasena.php?rut="+edtRut.getText()+"");
@@ -138,23 +131,18 @@ public class RecuperarContrasenaActivity extends AppCompatActivity {
                          }else if (dvR.equals(dvT)) {
                              edtRut.setText(format);
                              //edtRut.setEnabled(false);
-
-
                              //Ruta Seba
                              buscarUsuario("http://192.168.64.2/ServiScope/recuperar_contrasena.php?rut=" + edtRut.getText() + "");
-
                              //Ruta Diego
                              // buscarUsuario("http://192.168.1.98/ServiScope/recuperar_contrasena.php?rut="+edtRut.getText()+"");
                              //buscarUsuario("http://192.168.0.10/ServiScope/recuperar_contrasena.php?rut="+edtRut.getText()+"");
-                         }
 
+                         }
                          else{
                              progressBar.setVisibility(View.INVISIBLE);
                              Toast.makeText(getApplicationContext(),"Rut no es correcto, favor verificar", Toast.LENGTH_SHORT).show();
 
                          }
-
-
                     }else if (dvR.equals(dvT)) {
                             EditText resrut = (EditText) findViewById(R.id.edtRut);
                             InputFilter[] filters = new InputFilter[1];
@@ -162,29 +150,22 @@ public class RecuperarContrasenaActivity extends AppCompatActivity {
                             resrut.setFilters(filters);
                             edtRut.setText(format);
                             edtRut.setEnabled(false);
-
-
                             //Ruta Seba
                             buscarUsuario("http://192.168.64.2/ServiScope/recuperar_contrasena.php?rut=" + edtRut.getText() + "");
-
                             //Ruta Diego
                             // buscarUsuario("http://192.168.1.98/ServiScope/recuperar_contrasena.php?rut="+edtRut.getText()+"");
                             //buscarUsuario("http://192.168.0.10/ServiScope/recuperar_contrasena.php?rut="+edtRut.getText()+"");
-                        }
 
+                        }
                         else{
                             progressBar.setVisibility(View.INVISIBLE);
                             Toast.makeText(getApplicationContext(),"Rut no es correcto, favor verificar", Toast.LENGTH_SHORT).show();
 
                         }
-
-
-
                     }else{
                     progressBar.setVisibility(View.INVISIBLE);
                         Toast.makeText(RecuperarContrasenaActivity.this,"Favor de completar los datos", Toast.LENGTH_SHORT).show();
                     }
-
             }
 
         });
@@ -198,12 +179,7 @@ public class RecuperarContrasenaActivity extends AppCompatActivity {
             }
         });
 
-
-
     }
-
-
-
 
     public String formatear(String rut){
             int cont=0;
@@ -334,7 +310,7 @@ public class RecuperarContrasenaActivity extends AppCompatActivity {
 
                         btnConsulta.setVisibility(View.INVISIBLE);
                         btnCorreo.setVisibility(View.VISIBLE);
-                        edtRut.setTextColor(colorAccent);
+                        edtRut.setTextColor(Color.parseColor("#000000"));
                         progressBar.setVisibility(View.INVISIBLE);
 
                     } catch (JSONException e) {
@@ -365,7 +341,6 @@ public class RecuperarContrasenaActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-
         Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
         startActivity(intent);
         finish();

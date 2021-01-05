@@ -2,9 +2,12 @@ package com.example.app;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -16,6 +19,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.loopj.android.http.Base64;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -31,16 +35,15 @@ import androidx.appcompat.app.AppCompatActivity;
 public class VerSolicitudesActivity extends AppCompatActivity {
 
 
-    TextView txtPropietario, txtId_solicitud, txtTitulo, txtDescripcion, txtCategoria, txtEstado, txtFecha, txtRegion, txtComuna, txtOTRO;
-    String email, titulo, id_solicitud, id_usuario, id_tecnico, fecha, descripcion, id_region, id_comuna, direccion, valor, id_servicio, estado_solicitud, valoracion, imagen;
+    TextView txtPropietario, txtId_solicitud, txtTitulo, txtDescripcion, txtCategoria, txtEstado, txtFecha, txtRegion, txtComuna, txtOTRO, txtWeas;
+    String email, titulo, id_solicitud, id_usuario, id_tecnico, fecha, descripcion, id_region, id_comuna, direccion, valor, id_servicio, estado_solicitud, valoracion;
     String categoria, nombres, apellidos, nombres_usuarioCorreo,apellidos_usuarioCorreo, descripcion_estado, ccid_usuario, id_usuario_consulta;
     Button btnPostular, btnChat, btnEliminarSol, btnConcluir;
-
-
     RequestQueue requestQueue;
-
-
     String dato;
+    ImageView imageView;
+    Bitmap imagen2;
+    String imagen;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -61,7 +64,7 @@ public class VerSolicitudesActivity extends AppCompatActivity {
         txtRegion = (TextView) findViewById(R.id.txtRegion);
         txtComuna = (TextView) findViewById(R.id.txtComuna);
         txtOTRO = findViewById(R.id.txtOTRO);
-
+        imageView = findViewById(R.id.imageView);
 
         btnChat.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,8 +81,6 @@ public class VerSolicitudesActivity extends AppCompatActivity {
             }
         });
 
-
-
         btnPostular.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -91,8 +92,6 @@ public class VerSolicitudesActivity extends AppCompatActivity {
                 finish();
             }
         });
-
-
 
         btnConcluir.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -117,9 +116,6 @@ public class VerSolicitudesActivity extends AppCompatActivity {
 
     }
 
-
-
-
     private void mostrarDialogOpciones() {
 
             final CharSequence[] opciones = {"Eliminar", "Cancelar"};
@@ -138,8 +134,6 @@ public class VerSolicitudesActivity extends AppCompatActivity {
                 }
             });
             alertOpciones.show();
-
-
     }
     private void eliminarSolicitud(String URL){
         StringRequest stringRequest=new StringRequest(Request.Method.POST, URL, new Response.Listener<String>(){
@@ -168,10 +162,6 @@ public class VerSolicitudesActivity extends AppCompatActivity {
         RequestQueue requestQueue= Volley.newRequestQueue(this);
         requestQueue.add(stringRequest);
     }
-
-
-
-
     private void buscarUsuario(String URL){
         JsonArrayRequest jsonArrayRequest=new JsonArrayRequest(URL, new Response.Listener<JSONArray>() {
             @Override
@@ -185,7 +175,6 @@ public class VerSolicitudesActivity extends AppCompatActivity {
                         apellidos_usuarioCorreo = jsonObject.getString("apellidos");
                         ccid_usuario = jsonObject.getString("id_usuario");
                         //Toast.makeText(getApplicationContext(),"id usuario consultor "+ccid_usuario,Toast.LENGTH_SHORT).show();
-
 
                     } catch (JSONException e) {
                         Toast.makeText(getApplicationContext(),"No se encuentran registros con su rut", Toast.LENGTH_SHORT).show();
@@ -226,6 +215,13 @@ public class VerSolicitudesActivity extends AppCompatActivity {
                         apellidos = jsonObject.getString("apellidos");
                         descripcion_estado = jsonObject.getString("descripcion_estado");
 
+                        imagen = jsonObject.getString("imagen");
+
+                        if (!imagen.equals("")){
+                            byte[] byteCode = Base64.decode(imagen, Base64.DEFAULT);
+                            imagen2= BitmapFactory.decodeByteArray(byteCode,0,byteCode.length);
+                            imageView.setImageBitmap(imagen2);
+                        }
                         txtOTRO.setText(id_usuario);
                         txtDescripcion.setText(descripcion);
                         txtTitulo.setText(titulo);
@@ -233,11 +229,11 @@ public class VerSolicitudesActivity extends AppCompatActivity {
                         txtEstado.setText(descripcion_estado);
                         txtPropietario.setText(nombres+" "+ apellidos);
 
+
                         if (!id_tecnico.equals(1)){
                             btnPostular.setVisibility(View.INVISIBLE);
                             btnConcluir.setVisibility(View.VISIBLE);
                             btnEliminarSol.setVisibility(View.VISIBLE);
-
 
                         buscarCategoria("http://192.168.64.2/ServiScope/buscaServicioDosDos.php?id_servicio="+id_solicitud+"");
 
@@ -258,14 +254,8 @@ public class VerSolicitudesActivity extends AppCompatActivity {
 
                         }else{
                             btnPostular.setVisibility(View.INVISIBLE);
-
-
-
-
                         }
                         buscarCategoria("http://192.168.64.2/ServiScope/buscaServicioDosDos.php?id_servicio="+id_solicitud+"");
-
-
 
                     } catch (JSONException e) {
                         Toast.makeText(VerSolicitudesActivity.this,"No se encuentra comuna 1", Toast.LENGTH_SHORT).show();
@@ -297,7 +287,6 @@ public class VerSolicitudesActivity extends AppCompatActivity {
                         txtRegion.setText(jsonObject.getString("region_nombre"));
                         txtComuna.setText(jsonObject.getString("comuna_nombre"));
 
-
                     } catch (JSONException e) {
                         Toast.makeText(VerSolicitudesActivity.this," 3", Toast.LENGTH_SHORT).show();
                     }
@@ -314,7 +303,6 @@ public class VerSolicitudesActivity extends AppCompatActivity {
         requestQueue.add(jsonArrayRequest);
     }
 
-
     private void recibirDatos() {
         Bundle u;
         u = getIntent().getExtras();
@@ -322,11 +310,10 @@ public class VerSolicitudesActivity extends AppCompatActivity {
         id_solicitud = u.getString("id_solicitud");
         dato = u.getString("dato");
         //Toast.makeText(getApplicationContext(),id_solicitud, Toast.LENGTH_SHORT).show();
-
         txtId_solicitud.setText(id_solicitud);
         buscarUsuario("http://192.168.64.2/ServiScope/cargar_perfil.php?email="+email+"");
         buscarSolicitud("http://192.168.64.2/ServiScope/buscaSolicitud.php?id_solicitud="+id_solicitud+"");
-
+        
     }
 
     public void onBackPressed() {
@@ -336,8 +323,9 @@ public class VerSolicitudesActivity extends AppCompatActivity {
             startActivity(intent);
             finish();
         }else{
-            Intent intent = new Intent(getApplicationContext(), MenuUsuarioActivity.class);
+            Intent intent = new Intent(getApplicationContext(), MisSolicitudesActivity.class);
             intent.putExtra("email",email);
+            intent.putExtra("dato", dato);
             startActivity(intent);
             finish();
         }

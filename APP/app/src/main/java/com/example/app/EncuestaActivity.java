@@ -21,26 +21,20 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class EncuestaActivity extends AppCompatActivity {
-
-
     String email, id_solicitud, dato;
     Button btnFinalizar;
-
 
     protected void onCreate(@Nullable Bundle savedInstateState){
         super.onCreate(savedInstateState);
         setContentView(R.layout.activity_encuesta);
 
         btnFinalizar = findViewById(R.id.btnEnviar);
-
-
         btnFinalizar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 eliminarSolicitud("http://192.168.64.2/ServiScope/finalizar_solicitud.php");
             }
         });
-
         recibirDatos();
     }
 
@@ -88,8 +82,7 @@ public class EncuestaActivity extends AppCompatActivity {
         email = u.getString("email");
         id_solicitud = u.getString("id_solicitud");
         dato = u.getString("dato");
-
-        Toast.makeText(getApplicationContext(),dato, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getApplicationContext(),dato, Toast.LENGTH_SHORT).show();
     }
 
     @Override

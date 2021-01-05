@@ -15,44 +15,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class RecyclerViewAdaptor extends RecyclerView.Adapter<RecyclerViewAdaptor.ViewHolder> {
 
-    //Funcional
-    /*
-    public static class ViewHolder extends RecyclerView.ViewHolder {
-        private TextView txtTitulo, txtFecha;
-        private Context mCtx;
-
-        public ViewHolder(View itemView){
-            super(itemView);
-            txtTitulo = (TextView) itemView.findViewById(R.id.txtTitulo);
-        }
-    }
-
-    public List<Solicitud>solicitudLista;
-
-    public RecyclerViewAdaptor(List<Solicitud> solisitudLista) {
-        this.solicitudLista = solisitudLista;
-    }
-
-    @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.lista_solicitudes,parent,false);
-        ViewHolder viewHolder = new ViewHolder(view);
-        return viewHolder;
-    }
-
-    @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.txtTitulo.setText(solicitudLista.get(position).getTitulo());
-    }
-
-    @Override
-    public int getItemCount() {
-        return solicitudLista.size();
-    }
-}
-*/
-
-
     private Context mCtx;
     private List<Solicitud> ListaSolicitud;
 
@@ -77,7 +39,6 @@ public class RecyclerViewAdaptor extends RecyclerView.Adapter<RecyclerViewAdapto
         holder.txtTitulo.setText(solicitud.getTitulo());
         holder.txtFecha.setText((CharSequence) solicitud.getDescripcion());
         holder.txtIdSolicitud.setText(solicitud.getId_solicitud());
-
 
     }
 

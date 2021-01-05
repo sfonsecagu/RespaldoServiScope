@@ -18,15 +18,14 @@ import androidx.recyclerview.widget.RecyclerView;
 public class AdaptadorMisServicios extends RecyclerView.Adapter<AdaptadorMisServicios.MisServiciosViewHolder> implements View.OnClickListener {
 
     Context context;
-    List<MisServicios> listaMisServicios;
     String servicio;
+    List<MisServicios> listaMisServicios;
     private View.OnClickListener listener;
 
     public AdaptadorMisServicios(Context context, List<MisServicios> listaMisServicios){
         this.context = context;
         this.listaMisServicios = listaMisServicios;
     }
-
 
     @NonNull
     @Override
@@ -124,9 +123,6 @@ public class AdaptadorMisServicios extends RecyclerView.Adapter<AdaptadorMisServ
         if (servicio.equals("Bienestar")){
             holder.imagen_servicio.setImageResource(R.drawable.ic_bienestar);
         }
-
-
-
 
     }
 

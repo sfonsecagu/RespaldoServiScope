@@ -59,7 +59,6 @@ public class MisServiciosActivity extends AppCompatActivity {
         rvListaS.setAdapter(adaptador);
 
         btnAgregar = (Button) findViewById(R.id.btnAgregar);
-
         btnAgregar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -67,7 +66,6 @@ public class MisServiciosActivity extends AppCompatActivity {
                 intent.putExtra("email",correo);
                 startActivity(intent);
                 finish();
-
             }
         });
 
@@ -104,11 +102,8 @@ public class MisServiciosActivity extends AppCompatActivity {
         requestQueue.add(jsonArrayRequest);
     }
 
-
-
     public void obtenerServicios(){
         RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
-
         StringRequest stringRequest = new StringRequest(Request.Method.POST, getResources().getString(R.string.URL_MISSERVICIOS), new Response.Listener<String>(){
 
             @Override
@@ -134,7 +129,6 @@ public class MisServiciosActivity extends AppCompatActivity {
                     }
 
                     adaptador = new AdaptadorMisServicios(getApplicationContext(), listaMisServicios);
-
                     adaptador.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
@@ -147,14 +141,10 @@ public class MisServiciosActivity extends AppCompatActivity {
                             finish();
 
                             progressBar.setVisibility(View.INVISIBLE);
-
-
                         }
                     });
                     rvListaS.setAdapter(adaptador);
                     progressBar.setVisibility(View.INVISIBLE);
-
-
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -179,7 +169,6 @@ public class MisServiciosActivity extends AppCompatActivity {
 
     }
 
-
     private void recibirDatos() {
         Bundle u;
         u = getIntent().getExtras();
@@ -187,11 +176,9 @@ public class MisServiciosActivity extends AppCompatActivity {
         dato = u.getString("dato");
         progressBar.setVisibility(View.VISIBLE);
 
-        Toast.makeText(getApplicationContext(),dato,Toast.LENGTH_SHORT).show();
-
+        //Toast.makeText(getApplicationContext(),dato,Toast.LENGTH_SHORT).show();
         //Ruta seba
         buscarUsuario("http://192.168.64.2/ServiScope/cargar_perfil.php?email="+correo+"");
-
         //ruta diego
         //buscarUsuario("http://192.168.1.98/ServiScope/cargar_perfil.php?email="+correo+"");
 
@@ -203,8 +190,5 @@ public class MisServiciosActivity extends AppCompatActivity {
         intent.putExtra("email",correo);
         startActivity(intent);
         finish();
-
     }
-
-
 }

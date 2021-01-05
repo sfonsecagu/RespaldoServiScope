@@ -253,6 +253,50 @@
                     app:layout_constraintHorizontal_bias="0.044"
                     app:layout_constraintStart_toStartOf="parent" />
 
+                <TextView
+                    android:id="@+id/textView39"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="15dp"
+                    android:text="Foto de Perfil" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:paddingTop="10dp">
+
+
+                    <Button
+                        android:id="@+id/btnTomarFoto"
+                        android:layout_width="180dp"
+                        android:layout_height="40dp"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:layout_marginStart="10dp"
+                        android:text="Agregar" />
+                    <ImageView
+                        android:id="@+id/ivFoto"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp" />
+
+                    <Button
+                        android:id="@+id/btnSeleccionarImagen"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:layout_marginStart="10dp"
+                        android:text="Cargar"
+                        android:visibility="invisible" />
+
+
+
+
+                </LinearLayout>
+
                 <Button
                     android:id="@+id/btnAgregar"
                     android:layout_width="204dp"

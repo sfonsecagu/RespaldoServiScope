@@ -23,11 +23,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class PostularASolicitud extends AppCompatActivity {
 
-    String email, id_solicitud, titulo, id_tecnico;
+    String email, id_solicitud, titulo, id_tecnico, dato;
     TextView txtId_Solicitud, txtCorreo, txtTitulo, txtComentarios;
     Button btnPostular;
     RequestQueue requestQueue;
-
     Byte x;
 
     @Override
@@ -41,7 +40,6 @@ public class PostularASolicitud extends AppCompatActivity {
         txtComentarios = (TextView) findViewById(R.id.txtComentarios);
         btnPostular = (Button) findViewById(R.id.btnPostular);
 
-
         btnPostular.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -51,10 +49,7 @@ public class PostularASolicitud extends AppCompatActivity {
 
         recibirDatos();
 
-
     }
-
-
 
     public void actualizarHistorial(String URL){
         StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
@@ -95,22 +90,19 @@ public class PostularASolicitud extends AppCompatActivity {
         id_solicitud = u.getString("id_solicitud");
         id_tecnico = u.getString("id_tecnico");
         titulo = u.getString("titulo");
-        x = u.getByte("x");
+        dato = u.getString("dato");
 
         txtId_Solicitud.setText(id_solicitud);
         txtTitulo.setText(titulo);
-
-        Toast.makeText(getApplicationContext(),id_tecnico,Toast.LENGTH_SHORT).show();
-
+        //Toast.makeText(getApplicationContext(),email+" "+id_solicitud+" "+id_tecnico+" "+titulo+" "+dato,Toast.LENGTH_SHORT).show();
     }
 
     public void onBackPressed() {
         Intent intent = new Intent(getApplicationContext(), VerSolicitudes2Activity.class);
-        x=1;
         intent.putExtra("email",email);
         intent.putExtra("id_solicitud", id_solicitud);
         intent.putExtra("id_tecnico", id_tecnico);
-        intent.putExtra("x",x);
+        intent.putExtra("dato",dato);
         startActivity(intent);
         finish();
     }

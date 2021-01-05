@@ -1,13 +1,25 @@
 package com.example.app;
 
+import android.Manifest;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.media.MediaScannerConnection;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.text.InputFilter;
 import android.text.SpannableString;
 import android.text.style.UnderlineSpan;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,11 +30,19 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.loopj.android.http.Base64;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.core.content.FileProvider;
 
 public class RegistrarActivity extends AppCompatActivity {
 
@@ -30,9 +50,22 @@ public class RegistrarActivity extends AppCompatActivity {
     String nombres, apellidos, rut, email, telefono, contrasena, contrasena2;
     Button btnAgregar;
     TextView txtLogin;
-
     String format, format2, format3;
     String dvR,dvT;
+    //----
+    ImageView ivFoto;
+    Button btnTomarFoto, btnSeleccionarImagen;
+    Uri imagenUri;
+    Byte f=0;
+    int TOMAR_FOTO=11;
+    int SELEC_IMAGEN=200;
+
+    String CARPETA_RAIZ = "MisFotosApp";
+    String CARPETAS_IMAGENES = "imagenes";
+    String RUTA_IMAGEN = CARPETA_RAIZ+CARPETAS_IMAGENES;
+    String path;
+
+    Bitmap bitmap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +81,22 @@ public class RegistrarActivity extends AppCompatActivity {
         edtContrasena2=(EditText)findViewById(R.id.edtContrasena2);
         btnAgregar=(Button) findViewById(R.id.btnAgregar);
         txtLogin=(TextView) findViewById(R.id.txtLogin);
+
+        ivFoto = findViewById(R.id.ivFoto);
+        btnTomarFoto = findViewById(R.id.btnTomarFoto);
+        btnSeleccionarImagen = findViewById(R.id.btnSeleccionarImagen);
+
+        if (ContextCompat.checkSelfPermission(RegistrarActivity.this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED){
+            ActivityCompat.requestPermissions(RegistrarActivity.this, new String[]{Manifest.permission.CAMERA,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE},0);
+        }
+
+        btnTomarFoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mostrarDialogOpciones();
+            }
+        });
 
         //Limitar a 9 caracteres el ingreso en el rut y telefono
         EditText resrut = (EditText) findViewById(R.id.edtRut);
@@ -69,8 +118,6 @@ public class RegistrarActivity extends AppCompatActivity {
                 finish();
             }
         });
-
-
 
         btnAgregar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -101,13 +148,18 @@ public class RegistrarActivity extends AppCompatActivity {
                             format3 = edtRut.getText().toString();
                             if(!nombres.isEmpty() && !apellidos.isEmpty() && !rut.isEmpty() && !telefono.isEmpty() && !contrasena.isEmpty() && !contrasena2.isEmpty()){
                                 if (contrasena.equals(contrasena2)) {
-                                    //Ruta Seba
+                                    if (f==1){
+                                        //Ruta Seba
 
-                                    validarUsuario("http://192.168.64.2/ServiScope/validar_usuario_existente.php");
+                                        validarUsuario("http://192.168.64.2/ServiScope/validar_usuario_existente.php");
 
-                                    //Ruta Diego
-                                    // validarUsuario("http://192.168.1.98/ServiScope/validar_usuario_existente.php");
-                                    //validarUsuario("http://192.168.0.10/ServiScope/validar_usuario_existente.php");
+                                        //Ruta Diego
+                                        // validarUsuario("http://192.168.1.98/ServiScope/validar_usuario_existente.php");
+                                        //validarUsuario("http://192.168.0.10/ServiScope/validar_usuario_existente.php");
+
+                                    }else{
+                                        Toast.makeText(getApplicationContext(),"Favor cargar una imagen", Toast.LENGTH_SHORT).show();
+                                    }
 
                                 }else {
                                     Toast.makeText(RegistrarActivity.this,"Las contraseñas no coinciden", Toast.LENGTH_SHORT).show();
@@ -121,13 +173,18 @@ public class RegistrarActivity extends AppCompatActivity {
                             format3 = edtRut.getText().toString();
                             if(!nombres.isEmpty() && !apellidos.isEmpty() && !rut.isEmpty() && !telefono.isEmpty() && !contrasena.isEmpty() && !contrasena2.isEmpty()){
                                 if (contrasena.equals(contrasena2)) {
-                                    //Ruta Seba
+                                    if (f==1){
+                                        //Ruta Seba
 
-                                    validarUsuario("http://192.168.64.2/ServiScope/validar_usuario_existente.php");
+                                        validarUsuario("http://192.168.64.2/ServiScope/validar_usuario_existente.php");
 
-                                    //Ruta Diego
-                                    // validarUsuario("http://192.168.1.98/ServiScope/validar_usuario_existente.php");
-                                    //validarUsuario("http://192.168.0.10/ServiScope/validar_usuario_existente.php");
+                                        //Ruta Diego
+                                        // validarUsuario("http://192.168.1.98/ServiScope/validar_usuario_existente.php");
+                                        //validarUsuario("http://192.168.0.10/ServiScope/validar_usuario_existente.php");
+
+                                    }else{
+                                        Toast.makeText(getApplicationContext(),"Favor cargar una imagen", Toast.LENGTH_SHORT).show();
+                                    }
 
                                 }else {
                                     Toast.makeText(RegistrarActivity.this,"Las contraseñas no coinciden", Toast.LENGTH_SHORT).show();
@@ -152,13 +209,18 @@ public class RegistrarActivity extends AppCompatActivity {
                         format3 = edtRut.getText().toString();
                         if(!nombres.isEmpty() && !apellidos.isEmpty() && !rut.isEmpty() && !telefono.isEmpty() && !contrasena.isEmpty() && !contrasena2.isEmpty()){
                             if (contrasena.equals(contrasena2)) {
-                                //Ruta Seba
+                                if (f==1){
+                                    //Ruta Seba
 
-                                validarUsuario("http://192.168.64.2/ServiScope/validar_usuario_existente.php");
+                                    validarUsuario("http://192.168.64.2/ServiScope/validar_usuario_existente.php");
 
-                                //Ruta Diego
-                                // validarUsuario("http://192.168.1.98/ServiScope/validar_usuario_existente.php");
-                                //validarUsuario("http://192.168.0.10/ServiScope/validar_usuario_existente.php");
+                                    //Ruta Diego
+                                    // validarUsuario("http://192.168.1.98/ServiScope/validar_usuario_existente.php");
+                                    //validarUsuario("http://192.168.0.10/ServiScope/validar_usuario_existente.php");
+
+                                }else{
+                                    Toast.makeText(getApplicationContext(),"Favor cargar una imagen", Toast.LENGTH_SHORT).show();
+                                }
 
                             }else {
                                 Toast.makeText(RegistrarActivity.this,"Las contraseñas no coinciden", Toast.LENGTH_SHORT).show();
@@ -176,15 +238,107 @@ public class RegistrarActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(),"Favor ingresar Rut", Toast.LENGTH_SHORT).show();
                 }
 
-
-
-
-
-
-
             }
         });
 
+    }
+
+    private void mostrarDialogOpciones() {
+
+        final CharSequence[] opciones = {"Tomar Foto", "Cargar Foto", "Cancelar"};
+        final AlertDialog.Builder alertOpciones = new AlertDialog.Builder(RegistrarActivity.this);
+        alertOpciones.setTitle("Seleccione una opción");
+        alertOpciones.setItems(opciones, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+                if (opciones[i].equals("Tomar Foto")) {
+                    tomarFoto();
+
+                } else {
+                    if (opciones[i].equals("Cargar Foto")) {
+                        seleccionarImagen();
+                    } else {
+                        dialogInterface.dismiss();
+                    }
+                }
+            }
+        });
+        alertOpciones.show();
+    }
+
+    public void tomarFoto(){
+        String nombreImagen="";
+        File fileImagen = new File(Environment.getExternalStorageDirectory(),RUTA_IMAGEN);
+        boolean isCreada = fileImagen.exists();
+
+        if (isCreada == false){
+            isCreada = fileImagen.mkdirs();
+        }
+        if (isCreada == true){
+            nombreImagen = (System.currentTimeMillis()/1000) + ".jpg";
+        }
+
+        path = Environment.getExternalStorageDirectory()+File.separator+RUTA_IMAGEN+File.separator+nombreImagen;
+        File imagen = new File(path);
+
+        Intent intent = null;
+        intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N){
+            String authorities = this.getPackageName()+".provider";
+            Uri imageUri = FileProvider.getUriForFile(this, authorities, imagen);
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
+        }else {
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(imagen));
+        }
+
+        startActivityForResult(intent, TOMAR_FOTO);
+    }
+
+    public void seleccionarImagen(){
+        Intent galeria = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI);
+        startActivityForResult(galeria, SELEC_IMAGEN);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == RESULT_OK && requestCode == SELEC_IMAGEN){
+            imagenUri = data.getData();
+            ivFoto.setImageURI(imagenUri);
+
+
+            try {
+                bitmap = MediaStore.Images.Media.getBitmap(RegistrarActivity.this.getContentResolver(), imagenUri);
+                ivFoto.setImageBitmap(bitmap);
+                f=1;
+
+            } catch (IOException e) {
+                e.printStackTrace();
+                f=0;
+            }
+        }else if (resultCode == RESULT_OK && requestCode == TOMAR_FOTO){
+            MediaScannerConnection.scanFile(RegistrarActivity.this, new String[]{path}, null, new MediaScannerConnection.OnScanCompletedListener() {
+                @Override
+                public void onScanCompleted(String s, Uri uri) {
+
+                }
+            });
+
+            bitmap  = BitmapFactory.decodeFile(path);
+            ivFoto.setImageBitmap(bitmap);
+            f=1;
+        }
+    }
+
+    private String convertirImgString(Bitmap bitmap) {
+        ByteArrayOutputStream array = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, array);
+        byte[] imagenByte = array.toByteArray();
+        String imagenString = Base64.encodeToString(imagenByte, Base64.DEFAULT);
+        return imagenString;
     }
 
     public String formatear(String rut){
@@ -233,7 +387,6 @@ public class RegistrarActivity extends AppCompatActivity {
         }
     }
 
-
     private void validarUsuario(String URL){
         StringRequest stringRequest=new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
             @Override
@@ -254,7 +407,6 @@ public class RegistrarActivity extends AppCompatActivity {
                     //Ruta Diego
                     // registroUsuario("http://192.168.1.98/ServiScope/registro_usuario.php");
                     //registroUsuario("http://192.168.0.10/ServiScope/registro_usuario.php");
-
 
                     Intent intent = new Intent(getApplicationContext(), RegistrarDosActivity.class);
                     startActivity(intent);
@@ -303,6 +455,9 @@ public class RegistrarActivity extends AppCompatActivity {
         }){
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
+
+                String imagen = convertirImgString(bitmap);
+
                 Map<String, String> datos_usuario=new HashMap<>();
                 datos_usuario.put("nombres", edtNombres.getText().toString());
                 datos_usuario.put("apellidos", edtApellidos.getText().toString());
@@ -310,6 +465,8 @@ public class RegistrarActivity extends AppCompatActivity {
                 datos_usuario.put("email", edtEmail.getText().toString());
                 datos_usuario.put("telefono", edtTelefono.getText().toString());
                 datos_usuario.put("contrasena", edtContrasena.getText().toString());
+                datos_usuario.put("imagen", imagen);
+
                 return datos_usuario;
             }
         };

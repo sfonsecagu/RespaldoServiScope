@@ -22,8 +22,7 @@ public class MenuEspecialistaActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menuespecialista);
 
-        Toast.makeText(getApplicationContext(),dato,Toast.LENGTH_SHORT).show();
-
+        //Toast.makeText(getApplicationContext(),dato,Toast.LENGTH_SHORT).show();
         btnSolicitarServicio = (Button) findViewById(R.id.btnSolicitarServicio);
         btnSolicitudes = (Button) findViewById(R.id.btnSolicitudes);
         btnChat = (Button) findViewById(R.id.btnChat);
@@ -83,7 +82,6 @@ public class MenuEspecialistaActivity extends AppCompatActivity {
             }
         });
 
-
         recibirDatos();
     }
 
@@ -95,7 +93,6 @@ public class MenuEspecialistaActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-
         if (contador == 0){
             Toast.makeText(getApplicationContext(),"Presione nuevamente para salir", Toast.LENGTH_SHORT).show();
             contador++;

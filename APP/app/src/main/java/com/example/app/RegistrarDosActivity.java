@@ -53,8 +53,6 @@ public class RegistrarDosActivity extends AppCompatActivity {
     ProgressBar progressBar;
     int contador =0;
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,7 +70,6 @@ public class RegistrarDosActivity extends AppCompatActivity {
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
         checkBox = (CheckBox) findViewById(R.id.checkBox);
         cliente = new AsyncHttpClient();
-
 
         spnRegion.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -98,8 +95,6 @@ public class RegistrarDosActivity extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int i, long id) {
                 String comuna = spnComuna.getItemAtPosition(spnComuna.getSelectedItemPosition()).toString();
                 txtComuna.setText(comuna);
-
-
             }
 
             @Override
@@ -130,7 +125,6 @@ public class RegistrarDosActivity extends AppCompatActivity {
                     Toast.makeText(RegistrarDosActivity.this, "Favor confirmar los datos", Toast.LENGTH_SHORT).show();
                 }
 
-
             }
         });
 
@@ -142,7 +136,6 @@ public class RegistrarDosActivity extends AppCompatActivity {
 
                     //Ruta seba
                     buscarComuna("http://192.168.64.2/ServiScope/buscaComuna.php?nombre=" + txtComuna.getText() + "");
-
                     //Ruta diego
                     // buscarComuna("http://192.168.1.98/ServiScope/buscaRegion.php?nombre="+txtComuna.getText()+"");
                     //buscarComuna("http://192.168.0.10/ServiScope/buscaRegion.php?nombre="+txtComuna.getText()+"");
@@ -223,7 +216,6 @@ public class RegistrarDosActivity extends AppCompatActivity {
         recibirDatos();
     }
 
-
     private void recibirDatos() {
         Bundle u = getIntent().getExtras();
         String d1 = u.getString("nombre");
@@ -236,13 +228,9 @@ public class RegistrarDosActivity extends AppCompatActivity {
 
     }
 
-
-
     private void llenarSpinnerRegion(){
         //Ruta Seba
         String url = "http://192.168.64.2/ServiScope/listar_regiones.php";
-
-
         //Ruta Diego
         // String url = "http://192.168.1.98/ServiScope/listar_regiones.php";
         //String url = "http://192.168.0.10/ServiScope/listar_regiones.php";
@@ -254,7 +242,6 @@ public class RegistrarDosActivity extends AppCompatActivity {
                     cargarSpinnerR(new String(responseBody));
                 }
             }
-
             @Override
             public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
 
@@ -270,7 +257,6 @@ public class RegistrarDosActivity extends AppCompatActivity {
                 Region r = new Region();
                 r.setNombre(jsonArreglo.getJSONObject(i). getString("region_nombre"));
                 lista.add(r);
-
             }
             ArrayAdapter <Region> a = new ArrayAdapter<Region>(this, android.R.layout.simple_dropdown_item_1line, lista);
             spnRegion.setAdapter(a);
@@ -321,9 +307,6 @@ public class RegistrarDosActivity extends AppCompatActivity {
             e.printStackTrace();
         }
     }
-
-
-
 
     private void buscarComuna(String URL){
         final JsonArrayRequest jsonArrayRequest=new JsonArrayRequest(URL, new Response.Listener<JSONArray>() {

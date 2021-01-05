@@ -15,7 +15,6 @@ public class ConfiguracionCuentaActivity extends AppCompatActivity {
     TextView txtEmail;
     Button btnCContrasena, btnSerEspecialista, btnEliminarCuenta;
 
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,7 +32,6 @@ public class ConfiguracionCuentaActivity extends AppCompatActivity {
                 intent.putExtra("email",correo);
                 startActivity(intent);
                 finish();
-
             }
         });
 
@@ -44,7 +42,6 @@ public class ConfiguracionCuentaActivity extends AppCompatActivity {
                 intent.putExtra("email",correo);
                 startActivity(intent);
                 finish();
-
             }
         });
 
@@ -56,13 +53,8 @@ public class ConfiguracionCuentaActivity extends AppCompatActivity {
                 intent.putExtra("id_usuario",id_usuario);
                 startActivity(intent);
                 finish();
-
             }
         });
-
-
-
-
 
         recibirDatos();
     }
@@ -73,7 +65,6 @@ public class ConfiguracionCuentaActivity extends AppCompatActivity {
         correo = u.getString("email");
         txtEmail.setText(correo);
         id_usuario= u.getString("id_usuario");
-
         //Toast.makeText(PerfilActivity.this,"Recibiendo usuario "+correo, Toast.LENGTH_SHORT).show();
     }
 

@@ -55,8 +55,6 @@ public class LoginActivity extends AppCompatActivity {
         recuperarPreferencias();
         verificarConexión("http://192.168.64.2/ServiScope/validar_conexion.php");
 
-
-
         btnEntrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -65,12 +63,9 @@ public class LoginActivity extends AppCompatActivity {
                     email = edtEmail.getText().toString();
                     contrasena = edtContrasena.getText().toString();
                     if (!email.isEmpty() && !contrasena.isEmpty()) {
-
                         //Ruta Seba
                         progressBar.setVisibility(View.VISIBLE);
                         validarUsuario("http://192.168.64.2/ServiScope/validar_usuario.php");
-
-
                         //Ruta Diego
                         //validarUsuario("http://192.168.1.98/ServiScope/validar_usuario.php");
                         //validarUsuario("http://192.168.0.10/ServiScope/validar_usuario.php");
@@ -85,10 +80,8 @@ public class LoginActivity extends AppCompatActivity {
                     txtServicio.setVisibility(View.VISIBLE);
                     verificarConexión("http://192.168.64.2/ServiScope/validar_conexion.php");
                 }
-
             }
         });
-
 
         //Hipervinculo Recuperar contraseña
         SpannableString content = new SpannableString(txtOlvido.getText());
@@ -107,7 +100,6 @@ public class LoginActivity extends AppCompatActivity {
                     txtServicio.setVisibility(View.VISIBLE);
                     verificarConexión("http://192.168.64.2/ServiScope/validar_conexion.php");
                 }
-
             }
         });
 
@@ -128,7 +120,6 @@ public class LoginActivity extends AppCompatActivity {
                     txtServicio.setVisibility(View.VISIBLE);
                     verificarConexión("http://192.168.64.2/ServiScope/validar_conexion.php");
                 }
-
             }
         });
 
@@ -149,16 +140,8 @@ public class LoginActivity extends AppCompatActivity {
                     txtServicio.setVisibility(View.VISIBLE);
                     verificarConexión("http://192.168.64.2/ServiScope/validar_conexion.php");
                 }
-
             }
         });
-
-
-
-
-
-
-
     }
 
     @Override
@@ -195,7 +178,6 @@ public class LoginActivity extends AppCompatActivity {
                     intent.putExtra("email",email);
                     startActivity(intent);
                     finish();
-
 
                 } else {
                     progressBar.setVisibility(View.INVISIBLE);

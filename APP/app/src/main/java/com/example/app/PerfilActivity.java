@@ -1,12 +1,16 @@
 package com.example.app;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Base64;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,11 +29,15 @@ import androidx.appcompat.app.AppCompatActivity;
 public class PerfilActivity extends AppCompatActivity {
     TextView txtEmail, txtNombre, txtApellido;
     EditText edtMiembrodesde, edtCorreo, edtContrasena, edtTelefono, edtTipo_usuario;
-    String correo, nombres, apellidos, telefono, registro, tipo, id_usuario_tecnico, id_usuario;
+    String correo, nombres, apellidos, telefono, registro, tipo, id_usuario_tecnico, id_usuario, imagen;
     RequestQueue requestQueue;
     Button btnMenuEspecialista;
     ImageButton  btnConfiguracion;
+    ImageView imageView;
     public static int espera=2000;
+
+    String dato;
+    Bitmap imagen2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +54,7 @@ public class PerfilActivity extends AppCompatActivity {
         btnConfiguracion = (ImageButton) findViewById(R.id.btnConfiguracion);
         btnMenuEspecialista = (Button) findViewById(R.id.btnMenuEspecialista);
         btnMenuEspecialista.setVisibility(View.INVISIBLE);
+        imageView = findViewById(R.id.imageView);
 
         btnConfiguracion.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -71,9 +80,8 @@ public class PerfilActivity extends AppCompatActivity {
         recibirDatos();
     }
 
-
     private void buscarUsuario(String URL){
-        esperayejecuta(espera);
+
         JsonArrayRequest jsonArrayRequest=new JsonArrayRequest(URL, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
@@ -88,7 +96,13 @@ public class PerfilActivity extends AppCompatActivity {
                         registro = jsonObject.getString("fecha_registro");
                         tipo = jsonObject.getString("tipo_usuario");
                         id_usuario = jsonObject.getString("id_usuario");
+                        imagen = jsonObject.getString("imagen");
 
+                        if (!imagen.equals("")){
+                            byte[] byteCode = Base64.decode(imagen, Base64.DEFAULT);
+                            imagen2= BitmapFactory.decodeByteArray(byteCode,0,byteCode.length);
+                            imageView.setImageBitmap(imagen2);
+                        }
 
                         txtNombre.setText(nombres+" "+ apellidos);
                         edtMiembrodesde.setText(registro);
@@ -98,7 +112,7 @@ public class PerfilActivity extends AppCompatActivity {
                         if (tipo.equals("0"))edtTipo_usuario.setText("Visita");
                         if (tipo.equals("1"))edtTipo_usuario.setText("Cliente");
                         if (tipo.equals("2"))edtTipo_usuario.setText("Técnico");
-
+                        esperayejecuta(espera);
 
                     } catch (JSONException e) {
                         Toast.makeText(PerfilActivity.this,"No se encuentran registros con su rut", Toast.LENGTH_SHORT).show();
@@ -172,7 +186,6 @@ public class PerfilActivity extends AppCompatActivity {
 
         //Ruta seba
         buscarUsuario("http://192.168.64.2/ServiScope/cargar_perfil.php?email="+correo+"");
-
         //Ruta diego
         // buscarUsuario("http://192.168.1.98/ServiScope/cargar_perfil.php?email="+txtEmail.getText()+"");
         //buscarUsuario("http://192.168.0.10/ServiScope/cargar_perfil.php?email="+txtEmail.getText()+"");

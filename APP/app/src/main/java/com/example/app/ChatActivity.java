@@ -52,18 +52,13 @@ public class ChatActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
 
-
         btnComentar = (ImageButton) findViewById(R.id.btnComentar);
         edtComentario = (EditText) findViewById(R.id.edtComentario);
-
-
         rvChat = findViewById(R.id.recyclerViewHistorial);
         rvChat.setLayoutManager(new GridLayoutManager(this,1));
         listaHistorial = new ArrayList<>();
-
         adaptador = new AdaptadorHistorial(ChatActivity.this, listaHistorial);
         rvChat.setAdapter(adaptador);
-
 
         btnComentar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -73,13 +68,10 @@ public class ChatActivity extends AppCompatActivity {
         });
 
         recibirDatos();
-
-
     }
 
     public void obtenerHistorial(){
         RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
-
         StringRequest stringRequest = new StringRequest(Request.Method.POST, getResources().getString(R.string.URL_HISTORIAL), new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -100,14 +92,12 @@ public class ChatActivity extends AppCompatActivity {
                                 jsonObject1.getString("nombres"),
                                 jsonObject1.getString("apellidos")));
                     }
-
                     adaptador = new AdaptadorHistorial(getApplicationContext(), listaHistorial);
                     adaptador.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
                             id_tecnico = listaHistorial.get(rvChat.getChildAdapterPosition(view)).getId_tecnico();
                             id_usuario_solicitud = listaHistorial.get(rvChat.getChildAdapterPosition(view)).getId_usuario();
-
 
                             if (!id_usuario_solicitud.equals(i)){
                                 T = "Perfil del Usuario";
@@ -121,8 +111,6 @@ public class ChatActivity extends AppCompatActivity {
                                 intent.putExtra("id_usuario",id_usuario);
                                 startActivity(intent);
                                 finish();
-
-
                             }else{
                                 T = "Perfil del Tecnico";
                                // Toast.makeText(getApplicationContext(),ccid_usuario,Toast.LENGTH_SHORT).show();
@@ -135,15 +123,9 @@ public class ChatActivity extends AppCompatActivity {
                                 intent.putExtra("id_usuario",ccid_usuario);
                                 startActivity(intent);
                                 finish();
-
-
-
                             }
-
-
                         }
                     });
-
                     rvChat.setAdapter(adaptador);
 
                 } catch (JSONException e) {
@@ -164,10 +146,7 @@ public class ChatActivity extends AppCompatActivity {
             }
         };
         requestQueue.add(stringRequest);
-
-
     }
-
 
     public void actualizarHistorial(String URL){
         StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
@@ -212,8 +191,7 @@ public class ChatActivity extends AppCompatActivity {
         id_usuario = u.getString("id_usuario");
         id_tecnico2 = u.getString("id_tecnico");
 
-        Toast.makeText(getApplicationContext(),dato,Toast.LENGTH_SHORT).show();
-
+        //Toast.makeText(getApplicationContext(),dato,Toast.LENGTH_SHORT).show();
         obtenerHistorial();
 
     }

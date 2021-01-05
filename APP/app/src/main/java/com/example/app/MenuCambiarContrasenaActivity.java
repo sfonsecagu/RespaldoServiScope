@@ -38,9 +38,6 @@ public class MenuCambiarContrasenaActivity extends AppCompatActivity {
         edtContrasena1 = (EditText) findViewById(R.id.edtContrasena1);
         edtContrasena2 = (EditText) findViewById(R.id.edtContrasena2);
 
-
-
-
         btnCambiar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -69,13 +66,8 @@ public class MenuCambiarContrasenaActivity extends AppCompatActivity {
                 }else{
                     Toast.makeText(MenuCambiarContrasenaActivity.this,"Favor de completar los datos", Toast.LENGTH_SHORT).show();
                 }
-
-
             }
         });
-
-
-
         recibirDatos();
 
     }
@@ -95,7 +87,6 @@ public class MenuCambiarContrasenaActivity extends AppCompatActivity {
                 }else{
                     Toast.makeText(getApplicationContext(), "Contraseña Incorrecta, reintente", Toast.LENGTH_SHORT).show();
                 }
-
             }
         }, new Response.ErrorListener() {
             @Override

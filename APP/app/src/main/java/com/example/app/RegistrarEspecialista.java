@@ -14,7 +14,6 @@ public class RegistrarEspecialista extends AppCompatActivity {
     String correo;
     TextView txtEmail, txtRegistro;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,8 +32,6 @@ public class RegistrarEspecialista extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
-
 
         recibirDatos();
     }

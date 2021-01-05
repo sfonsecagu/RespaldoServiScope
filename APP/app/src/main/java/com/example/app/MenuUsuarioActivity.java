@@ -30,14 +30,12 @@ public class MenuUsuarioActivity extends AppCompatActivity {
 
     RequestQueue requestQueue;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
 
         //Toast.makeText(getApplicationContext(),dato,Toast.LENGTH_SHORT).show();
-
         btnNuevaSolicitud = (Button) findViewById(R.id.btnNuevaSolicitud);
         btnMisSolicitudes = (Button) findViewById(R.id.btnMisSolicitudes);
         btnSolicitudes = (Button) findViewById(R.id.btnSolicitudes);
@@ -77,10 +75,6 @@ public class MenuUsuarioActivity extends AppCompatActivity {
             }
         });
 
-
-
-
-
         recibirDatos();
 
     }
@@ -95,7 +89,6 @@ public class MenuUsuarioActivity extends AppCompatActivity {
                         jsonObject = response.getJSONObject(i);
 
                         nombres = jsonObject.getString("nombres");
-
                         txtNombre.setText(nombres);
 
                     } catch (JSONException e) {
@@ -114,10 +107,8 @@ public class MenuUsuarioActivity extends AppCompatActivity {
         requestQueue.add(jsonArrayRequest);
     }
 
-
     @Override
     public void onBackPressed() {
-
         if (contador == 0){
             Toast.makeText(getApplicationContext(),"Presione nuevamente para salir", Toast.LENGTH_SHORT).show();
             contador++;

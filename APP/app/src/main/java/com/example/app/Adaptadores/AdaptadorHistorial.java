@@ -32,7 +32,6 @@ public class AdaptadorHistorial extends RecyclerView.Adapter<AdaptadorHistorial.
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.lista_historial, parent, false);
 
         v.setOnClickListener(this);
-
         return new HistorialViewHolder(v);
     }
 
@@ -41,8 +40,8 @@ public class AdaptadorHistorial extends RecyclerView.Adapter<AdaptadorHistorial.
         holder.txtNombre.setText(listaHistorial.get(i).getNombres());
         holder.txtFecha.setText(listaHistorial.get(i).getFecha_modificacion());
         holder.txtDescripcion.setText(listaHistorial.get(i).getComentarios());
-
     }
+
 
     @Override
     public int getItemCount() {

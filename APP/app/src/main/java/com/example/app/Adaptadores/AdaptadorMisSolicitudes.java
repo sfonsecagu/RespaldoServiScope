@@ -120,7 +120,6 @@ public class AdaptadorMisSolicitudes  extends RecyclerView.Adapter<AdaptadorMisS
         if (servicio.equals("Tapicerp")){
             holder.imagen_servicio.setImageResource(R.drawable.ic_tapicero);
         }
-
     }
 
     @Override
@@ -154,7 +153,6 @@ public class AdaptadorMisSolicitudes  extends RecyclerView.Adapter<AdaptadorMisS
             txtFechaMi = (TextView) itemView.findViewById(R.id.txtFechaMi);
             txtId_UsuarioMI = (TextView) itemView.findViewById(R.id.txtId_UsuarioMI);
             imagen_servicio = (ImageView) itemView.findViewById(R.id.imagen_solicitudMi);
-
 
         }
     }

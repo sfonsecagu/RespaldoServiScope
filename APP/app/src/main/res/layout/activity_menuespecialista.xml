@@ -46,7 +46,7 @@
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_marginStart="-60dp"
-                app:srcCompat="@drawable/ic_usr" />
+                app:srcCompat="@drawable/ic_chat" />
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
@@ -71,32 +71,7 @@
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_marginStart="-60dp"
-                app:srcCompat="@drawable/ic_usr" />
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="10dp"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="20dp"
-            android:background="@drawable/borde"
-            android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/button4"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Pagos"
-                android:layout_marginEnd="60dp"
-                android:backgroundTint="#FFFFFF"
-                android:textColor="#000000"/>
-
-            <ImageView
-                android:id="@+id/imageView3"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_marginStart="-60dp"
-                app:srcCompat="@drawable/ic_usr" />
+                app:srcCompat="@drawable/ic_solicitudes_esp" />
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
@@ -121,7 +96,7 @@
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_marginStart="-60dp"
-                app:srcCompat="@drawable/ic_usr" />
+                app:srcCompat="@drawable/ic_solicitudes" />
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
@@ -153,11 +128,15 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:gravity="bottom">
+            android:gravity="bottom"
+            android:layout_marginBottom="15dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:layout_marginStart="10dp"
+                android:background="@drawable/borde"
                 android:gravity="bottom|center"
                 android:orientation="horizontal">
 
@@ -166,8 +145,15 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Métricas"
+                    android:layout_marginEnd="60dp"
                     android:backgroundTint="#FFFFFF"
                     android:textColor="#000000"/>
+                <ImageView
+                    android:id="@+id/imageView90"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginStart="-60dp"
+                    app:srcCompat="@drawable/ic_metricas" />
             </LinearLayout>
 
         </LinearLayout>

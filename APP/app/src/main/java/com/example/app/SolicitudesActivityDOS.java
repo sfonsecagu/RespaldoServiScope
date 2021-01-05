@@ -7,7 +7,6 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -45,7 +44,6 @@ public class SolicitudesActivityDOS extends AppCompatActivity {
 
     String dato;
 
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,14 +70,10 @@ public class SolicitudesActivityDOS extends AppCompatActivity {
         rvListaDOS.setLayoutManager(new GridLayoutManager(this, 1));
         listaTodasSolicitudes = new ArrayList<TodasSolicitudes>();
 
-
-
         adaptador = new AdaptadorTodasSolicitudes(SolicitudesActivityDOS.this, listaTodasSolicitudes);
         rvListaDOS.setAdapter(adaptador);
 
-
         recibirDatos();
-
 
     }
 
@@ -129,9 +123,6 @@ public class SolicitudesActivityDOS extends AppCompatActivity {
                             finish();
                             progressBar.setVisibility(View.INVISIBLE);
 
-
-                            
-
                         }
                     });
                     rvListaDOS.setAdapter(adaptador);
@@ -176,8 +167,7 @@ public class SolicitudesActivityDOS extends AppCompatActivity {
         dato = u.getString("dato");
         id_servicio = u.getString("id_servicio");
         id_tecnico = u.getString("id_tecnico");
-        Toast.makeText(getApplicationContext(),dato,Toast.LENGTH_SHORT).show();
-
+        //Toast.makeText(getApplicationContext(),dato,Toast.LENGTH_SHORT).show();
         obtenerSolicitudes();
     }
 
